@@ -6,12 +6,12 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return null; // DB 설정이 따로 있다면 여기에 추가
+        return new Class[] { ThymeleafConfig.class };// DB 설정이 따로 있다면 여기에 추가 기타 컨픽도 추가
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] { AppConfig.class }; // 위 AppConfig 등록
+        return new Class[] { WebMvcConfig.class }; // 위 AppConfig 등록
     }
 
     @Override

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layouts/layout-admin :: layout(~{::main})}">
+<body>
+<main id="main" class="main">
+
+    <!-- ✅ 페이지 타이틀 -->
+    <div class="pagetitle">
+        <h1>입고관리</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">입고관리</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- ✅ 본문 컨텐츠 -->
+    <section class="section dashboard">
+        <div class="row mb-3">
+            <div class="col-auto">
+                <button class="btn btn-primary">대기중인 요청 보기</button>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-success">요청 승인</button>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">반려</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">입고 요청 리스트</h5>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>요청ID</th>
+                            <th>화주ID</th>
+                            <th>제품명</th>
+                            <th>수량</th>
+                            <th>요청일</th>
+                            <th>추천구역</th>
+                            <th>상태</th>
+                            <th>체크</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>#103</td>
+                            <td>김00</td>
+                            <td>냉동만두</td>
+                            <td>100</td>
+                            <td>2025-04-14</td>
+                            <td>서울1창고 - A-1</td>
+                            <td><span class="badge bg-warning text-dark">대기</span></td>
+                            <td><input class="form-check-input" type="checkbox"/></td>
+                        </tr>
+                        <!-- 반복 데이터는 이후 타임리프로 구현 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ✅ 반려 모달 -->
+    <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rejectModalLabel">반려 사유 입력</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <textarea class="form-control" rows="4" placeholder="반려 사유를 입력하세요..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-danger">반려 확정</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

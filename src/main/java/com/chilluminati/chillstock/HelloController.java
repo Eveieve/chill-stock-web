@@ -10,6 +10,12 @@ public class HelloController {
     @GetMapping("/hellotymeleaf")
     public String hello(Model model) {
         model.addAttribute("message", "Hello, ChillStock!");
-        return "hello"; // → /WEB-INF/views/hello.html 로 매핑
+        return "admin/dashboard"; // → /WEB-INF/views/hello.html 로 매핑
+    }
+
+    @GetMapping("/hellotymeleafuser")
+    public String helloUser(Model model) {
+        model.addAttribute("message", "Hello, ChillStock!");
+        return "user/dashboard"; // → /WEB-INF/views/hello.html 로 매핑
     }
 }

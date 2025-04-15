@@ -58,6 +58,4 @@ public class AppConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("/static/");
     }
-
-
 }

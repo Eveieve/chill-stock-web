@@ -8,7 +8,6 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -16,7 +15,7 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.chilluminati.chillstock")
-public class AppConfig implements WebMvcConfigurer {
+public class WebMvcConfig implements WebMvcConfigurer {
 
 //    @Bean
 //    public InternalResourceViewResolver viewResolver() {
@@ -26,30 +25,7 @@ public class AppConfig implements WebMvcConfigurer {
 //        return resolver;
 //    }
 
-    @Bean
-    public SpringResourceTemplateResolver templateResolver() {
-        SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
-        resolver.setPrefix("/WEB-INF/views/");
-        resolver.setSuffix(".html");
-        resolver.setTemplateMode("HTML");
-        resolver.setCharacterEncoding("UTF-8");
-        return resolver;
-    }
 
-    @Bean
-    public SpringTemplateEngine templateEngine() {
-        SpringTemplateEngine engine = new SpringTemplateEngine();
-        engine.setTemplateResolver(templateResolver());
-        return engine;
-    }
-
-    @Bean
-    public ViewResolver viewResolver() {
-        ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-        resolver.setTemplateEngine(templateEngine());
-        resolver.setCharacterEncoding("UTF-8");
-        return resolver;
-    }
 
 
     //리소스 핸들러

@@ -11,9 +11,8 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@WebAppConfiguration
-@ContextConfiguration(classes = AppConfig.class)
-class AppConfigTest {
+@ContextConfiguration(classes = ThymeleafConfig.class)
+class WebMvcConfigTest {
     @Autowired
     private SpringTemplateEngine templateEngine;
 

@@ -33,6 +33,12 @@ dependencies {
 
     implementation 'org.slf4j:slf4j-api:2.0.9'
     implementation 'ch.qos.logback:logback-classic:1.4.14'
+
+    // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf 타임리프
+    implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
+    //타임리프 연결 모듈
+    // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5
+    implementation("org.thymeleaf:thymeleaf-spring5:3.1.2.RELEASE")
 }
 
 test {

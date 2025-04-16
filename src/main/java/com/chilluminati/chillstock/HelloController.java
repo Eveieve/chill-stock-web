@@ -1,11 +1,14 @@
 package com.chilluminati.chillstock;
 
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HelloController {
+
 
     @GetMapping("/hellotymeleaf")
     public String hello(Model model) {

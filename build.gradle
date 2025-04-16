@@ -24,15 +24,25 @@ tasks.withType(JavaCompile) {
 dependencies {
     compileOnly('javax.servlet:javax.servlet-api:4.0.1')
 
+    // 테스트
+    testImplementation 'javax.servlet:javax.servlet-api:4.0.1'
+
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 
     implementation 'org.springframework:spring-webmvc:5.3.36'
     implementation 'javax.servlet:jstl:1.2'
 
+    testImplementation 'org.springframework:spring-test:5.3.36'
 
     implementation 'org.slf4j:slf4j-api:2.0.9'
     implementation 'ch.qos.logback:logback-classic:1.4.14'
+
+    // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf 타임리프
+    implementation("org.thymeleaf:thymeleaf:3.1.2.RELEASE")
+    //타임리프 연결 모듈
+    // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5
+    implementation("org.thymeleaf:thymeleaf-spring5:3.1.2.RELEASE")
 }
 
 test {

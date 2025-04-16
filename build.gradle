@@ -43,6 +43,10 @@ dependencies {
     //타임리프 연결 모듈
     // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5
     implementation("org.thymeleaf:thymeleaf-spring5:3.1.2.RELEASE")
+
+    implementation 'com.zaxxer:HikariCP:5.0.1'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+
 }
 
 test {

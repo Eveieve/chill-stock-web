@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Info</title>
+</head>
+<body>
+
+<h2>User Info</h2>
+
+<p>Username: <span th:text="${userDto.username}"></span></p>
+<p>Password: <span th:text="${userDto.password}"></span></p>
+<p>Grant User: <span th:text="${userDto.grantUser}"></span></p>
+
+<br>
+
+<a href="/example/list">
+    <button type="button">리스트 화면으로 이동</button>
+</a>
+<br>
+<form action="/example/delete" method="post">
+    <input type="hidden" name="username" th:value="${userDto.username}" />
+    <button type="submit">해당 유저 삭제</button>
+</form>
+</body>
+</html>

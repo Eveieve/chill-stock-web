@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+</head>
+<body>
+
+<h2>User List</h2>
+
+<form id="userForm" method="get" action="/example/userById">
+    <table border="1">
+        <thead>
+        <tr>
+            <th>선택</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Grant User</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${userList}">
+            <td>
+                <input type="checkbox"
+                       name="username"
+                       th:value="${user.username}"
+                       onchange="submitIfChecked(this)">
+            </td>
+            <td th:text="${user.username}">Username</td>
+            <td th:text="${user.password}">Password</td>
+            <td th:text="${user.grantUser}">Grant User</td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+<a href="/example">
+    <button type="button">사용자 등록</button>
+</a>
+
+
+<script>
+    function submitIfChecked(checkbox) {
+        if (checkbox.checked) {
+            // 체크된 다른 박스들 해제
+            document.querySelectorAll("input[type='checkbox']").forEach(cb => {
+                if (cb !== checkbox) cb.checked = false;
+            });
+
+            // 폼 전송
+            document.getElementById("userForm").submit();
+        }
+    }
+</script>
+
+</body>
+</html>

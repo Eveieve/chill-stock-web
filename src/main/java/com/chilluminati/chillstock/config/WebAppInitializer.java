@@ -9,7 +9,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new Class[] {
                 ThymeleafConfig.class,
                 HikariCPConfig.class,
-                MybatisConfig.class};// DB 설정이 따로 있다면 여기에 추가 기타 컨픽도 추가
+                MybatisConfig.class,
+                AppConfig.class};// DB 설정이 따로 있다면 여기에 추가 기타 컨픽도 추가
     }
 
     @Override

@@ -1,12 +1,10 @@
 package com.chilluminati.chillstock.example.controller;
 
-import com.chilluminati.chillstock.example.dto.UserDto;
+import com.chilluminati.chillstock.example.dto.UserDtoExam;
 import com.chilluminati.chillstock.example.service.ExampleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -21,7 +19,7 @@ public class UserController {
     }
 
     @PostMapping("/example")
-    public String ExamplePost(UserDto userDto) {
+    public String ExamplePost(UserDtoExam userDto) {
         exampleService.register(userDto);
         return "redirect:/example/list";
     }

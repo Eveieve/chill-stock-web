@@ -3,7 +3,7 @@ package com.chilluminati.chillstock.example.service;
 import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
 import com.chilluminati.chillstock.config.MybatisConfig;
-import com.chilluminati.chillstock.example.dto.UserDto;
+import com.chilluminati.chillstock.example.dto.UserDtoExam;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,8 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @ContextConfiguration(classes = {
@@ -29,7 +27,7 @@ class ExampleServiceImpTest {
     @Test
     void registerTest() {
         // given
-        UserDto user = UserDto.builder()
+        UserDtoExam user = UserDtoExam.builder()
                 .username("john")
                 .password("john")
                 .grantUser("admin")
@@ -41,7 +39,7 @@ class ExampleServiceImpTest {
     @Test
     void getByUserIdTest() {
         //given
-        UserDto userDto = new UserDto();
+        UserDtoExam userDto = new UserDtoExam();
         //when
         userDto = exampleService.getByUserId("john1");
         //then
@@ -50,7 +48,7 @@ class ExampleServiceImpTest {
     @Test
     void getAllUsersTest() {
         //given
-        List<UserDto> users;
+        List<UserDtoExam> users;
         //when
         users = exampleService.getAllUsers();
         //then

@@ -1,14 +1,14 @@
 package com.chilluminati.chillstock.example.repository;
 
 
-import com.chilluminati.chillstock.example.dto.UserDto;
+import com.chilluminati.chillstock.example.dto.UserDtoExam;
 
 import java.util.List;
 
 
 public interface ExampleRepository {
-    void insert(UserDto user);
-    UserDto getByUserId(String userId);
-    List<UserDto> getAll();
+    void insert(UserDtoExam user);
+    UserDtoExam getByUserId(String userId);
+    List<UserDtoExam> getAll();
     void deleteByUserId(String userId);
 }

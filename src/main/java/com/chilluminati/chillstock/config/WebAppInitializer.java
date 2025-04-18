@@ -10,12 +10,14 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
                 ThymeleafConfig.class,
                 HikariCPConfig.class,
                 MybatisConfig.class,
+                SecurityConfig.class,
                 AppConfig.class};// DB 설정이 따로 있다면 여기에 추가 기타 컨픽도 추가
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] { WebMvcConfig.class }; // 위 AppConfig 등록
+        return new Class[] {
+                WebMvcConfig.class }; // 위 AppConfig 등록
     }
 
     @Override

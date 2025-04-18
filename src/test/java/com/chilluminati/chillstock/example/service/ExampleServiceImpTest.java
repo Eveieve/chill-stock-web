@@ -30,7 +30,7 @@ class ExampleServiceImpTest {
     void registerTest() {
         // given
         UserDto user = UserDto.builder()
-                .username("john")
+                .username("john1")
                 .password("john")
                 .grantUser("admin")
                 .build();

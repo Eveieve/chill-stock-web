@@ -13,6 +13,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @ContextConfiguration(classes = {
         AppConfig.class,

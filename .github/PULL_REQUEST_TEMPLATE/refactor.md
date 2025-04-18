@@ -1,0 +1,21 @@
+---
+name: 🔨 Refactor
+about: 코드 리팩터링을 위한 PR을 생성할 때 사용하는 템플릿입니다.
+title: "[Refactor] "
+labels: refactor
+assignees: ''
+---
+
+## 🔨 Refactor
+
+Issue Number: #
+
+### 리팩터 이유
+- 리팩터링이 필요한 이유 또는 동기
+
+### 변경 사항 요약
+- 어떤 부분을 어떻게 개선했는지 간단히 요약
+
+### 테스트 체크 리스트
+- [ ] 기존 테스트 통과
+- [ ] 새로 작성한 테스트 포함 여부

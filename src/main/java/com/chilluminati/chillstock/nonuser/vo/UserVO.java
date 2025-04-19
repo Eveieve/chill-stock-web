@@ -9,11 +9,14 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * 유저 테이블과 연결되는 VO
+ */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserVo {
+public class UserVO {
     private Integer userId;
     private String userLoginId;
     private String userEmail;

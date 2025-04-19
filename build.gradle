@@ -58,8 +58,12 @@ dependencies {
     implementation 'org.springframework.security:spring-security-web:5.7.10'
     implementation 'org.springframework.security:spring-security-config:5.7.10'
 
+    // 회원가입시 유효성 검사 라이브러리
     implementation 'javax.validation:validation-api:2.0.1.Final'
     implementation 'org.hibernate.validator:hibernate-validator:6.1.7.Final'
+
+    // modelMapper 라이브러리
+    implementation 'org.modelmapper:modelmapper:3.1.1'
 
 }
 

@@ -1,6 +1,7 @@
 package com.chilluminati.chillstock.nonuser.dto;
 
 import lombok.Data;
+import lombok.Getter;
 
 
 import javax.validation.constraints.Email;

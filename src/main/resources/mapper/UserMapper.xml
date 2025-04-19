@@ -49,7 +49,7 @@
         </association>
     </resultMap>
 
-    <select id="findByLoginId" resultMap="UserWithBizMap" parameterType="string">
+    <select id="findByLoginId" resultMap="UserWithBizMap" parameterType="String">
         SELECT
             u.user_id, u.user_login_id, u.user_name, u.user_email, u.user_password,
             u.user_phone, u.user_type, u.user_status, u.user_requested_at, u.user_approved_at,
@@ -60,6 +60,26 @@
         WHERE u.user_login_id = #{loginId}
     </select>
 
+    <select id="findByEmail" resultMap="UserWithBizMap" parameterType="String">
+        SELECT
+            u.user_id, u.user_login_id, u.user_name, u.user_email, u.user_password,
+            u.user_phone, u.user_type, u.user_status, u.user_requested_at, u.user_approved_at,
+            b.business_id, b.business_regist_num, b.business_name, b.business_address,
+            b.business_post
+        FROM user_table u
+                 LEFT JOIN business_table b ON u.user_id = b.user_id
+        WHERE u.user_email = #{userEmail}
+    </select>
 
+    <select id="findByUserId" resultMap="UserWithBizMap" parameterType="Integer">
+        SELECT
+            u.user_id, u.user_login_id, u.user_name, u.user_email, u.user_password,
+            u.user_phone, u.user_type, u.user_status, u.user_requested_at, u.user_approved_at,
+            b.business_id, b.business_regist_num, b.business_name, b.business_address,
+            b.business_post
+        FROM user_table u
+                 LEFT JOIN business_table b ON u.user_id = b.user_id
+        WHERE u.user_id = #{userId}
+    </select>
 
 </mapper>

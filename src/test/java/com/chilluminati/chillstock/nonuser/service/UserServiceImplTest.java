@@ -54,11 +54,13 @@ class UserServiceImplTest {
         String uniqueId = String.valueOf(System.currentTimeMillis());
         String loginId = "chillstock_" + uniqueId;
         String businessRegistNum = "555-" + uniqueId.substring(4, 6) + "-" + uniqueId.substring(6, 11);
+        String email = "test_" + System.currentTimeMillis() + "@example.com";
 
         SignUpDTO signupDto = SignUpDTO.builder()
                 .userLoginId(loginId)
                 .userPassword("chillstock1234")
-                .userEmail("chillstock04@example.com")
+                .userPasswordCheck("chillstock1234")
+                .userEmail(email)
                 .userName("칠스탁")
                 .userPhone("010-1234-5678")
                 .businessRegistNum(businessRegistNum)
@@ -82,5 +84,124 @@ class UserServiceImplTest {
         Assertions.assertEquals("서울특별시 강남구 칠스탁타운", savedBiz.getBusinessAddress());
         Assertions.assertEquals(savedUser.getUserId(), savedBiz.getUserId()); // 외래키로 연결되었는지 확인
     }
+
+    @Test
+    @DisplayName("이메일로 회원정보와 사업체정보를 함께 조회할 수 있다.")
+    void findByEmailTest() {
+        // given
+        String uniqueId = String.valueOf(System.currentTimeMillis());
+        String loginId = "chillstock_" + uniqueId;
+        String email = "findbyemail_" + uniqueId + "@example.com";
+        String businessRegistNum = "666-" + uniqueId.substring(4, 6) + "-" + uniqueId.substring(6, 11);
+
+        SignUpDTO signupDto = SignUpDTO.builder()
+                .userLoginId(loginId)
+                .userPassword("chillstock1234")
+                .userPasswordCheck("chillstock1234")
+                .userEmail(email)
+                .userName("이메일로찾기")
+                .userPhone("010-5678-1234")
+                .businessRegistNum(businessRegistNum)
+                .businessName("이메일상점")
+                .businessAddress("서울특별시 마포구 이메일거리")
+                .businessPost("04567")
+                .build();
+
+        userService.signUp(signupDto);
+
+        // when
+        UserVO result = userRepo.findByEmail(email);
+
+        // then
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(email, result.getUserEmail());
+        Assertions.assertEquals("이메일로찾기", result.getUserName());
+
+        BizVO biz = result.getBizVO();
+        Assertions.assertNotNull(biz, "사업체 정보가 null이면 안 됩니다.");
+        Assertions.assertEquals("이메일상점", biz.getBusinessName());
+        Assertions.assertEquals("서울특별시 마포구 이메일거리", biz.getBusinessAddress());
+    }
+
+    @Test
+    @DisplayName("userId로 회원정보와 사업체정보를 함께 조회할 수 있다.")
+    void findByUserIdTest() {
+        // given
+        String uniqueId = String.valueOf(System.currentTimeMillis());
+        String loginId = "chillstock_" + uniqueId;
+        String email = "findbyuserid_" + uniqueId + "@example.com";
+        String businessRegistNum = "777-" + uniqueId.substring(4, 6) + "-" + uniqueId.substring(6, 11);
+
+        SignUpDTO signupDto = SignUpDTO.builder()
+                .userLoginId(loginId)
+                .userPassword("chillstock1234")
+                .userPasswordCheck("chillstock1234")
+                .userEmail(email)
+                .userName("아이디로찾기")
+                .userPhone("010-7890-1234")
+                .businessRegistNum(businessRegistNum)
+                .businessName("아이디상점")
+                .businessAddress("서울특별시 종로구 아이디거리")
+                .businessPost("12345")
+                .build();
+
+        userService.signUp(signupDto);
+
+        // 먼저 로그인 아이디로 userId 조회 (간접 추출)
+        UserVO savedUser = userRepo.findByLoginId(loginId);
+        Integer userId = savedUser.getUserId();
+
+        // when
+        UserVO result = userRepo.findByUserId(userId);
+
+        // then
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(email, result.getUserEmail());
+        Assertions.assertEquals("아이디로찾기", result.getUserName());
+
+        BizVO biz = result.getBizVO();
+        Assertions.assertNotNull(biz, "사업체 정보가 null이면 안 됩니다.");
+        Assertions.assertEquals("아이디상점", biz.getBusinessName());
+        Assertions.assertEquals("서울특별시 종로구 아이디거리", biz.getBusinessAddress());
+    }
+
+    @Test
+    @DisplayName("loginId로 회원정보와 사업체정보를 함께 조회할 수 있다.")
+    void findByLoginIdTest() {
+        // given
+        String uniqueId = String.valueOf(System.currentTimeMillis());
+        String loginId = "findbyloginid_" + uniqueId;
+        String email = "loginid_" + uniqueId + "@example.com";
+        String businessRegistNum = "888-" + uniqueId.substring(4, 6) + "-" + uniqueId.substring(6, 11);
+
+        SignUpDTO signupDto = SignUpDTO.builder()
+                .userLoginId(loginId)
+                .userPassword("chillstock1234")
+                .userPasswordCheck("chillstock1234")
+                .userEmail(email)
+                .userName("로그인아이디찾기")
+                .userPhone("010-0000-1111")
+                .businessRegistNum(businessRegistNum)
+                .businessName("로그인아이디상점")
+                .businessAddress("서울특별시 송파구 로그인길")
+                .businessPost("06100")
+                .build();
+
+        userService.signUp(signupDto);
+
+        // when
+        UserVO result = userRepo.findByLoginId(loginId);
+
+        // then
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(email, result.getUserEmail());
+        Assertions.assertEquals("로그인아이디찾기", result.getUserName());
+
+        BizVO biz = result.getBizVO();
+        Assertions.assertNotNull(biz, "사업체 정보가 null이면 안 됩니다.");
+        Assertions.assertEquals("로그인아이디상점", biz.getBusinessName());
+        Assertions.assertEquals("서울특별시 송파구 로그인길", biz.getBusinessAddress());
+    }
+
 
 }

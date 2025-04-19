@@ -25,23 +25,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void signUp(SignUpDTO signupDto) {
-        // DTO → UserVO 변환
         UserVO userVo = modelMapper.map(signupDto, UserVO.class);
+        userRepo.insertUser(userVo); // DB에서 userId 생성됨
 
-        // 유저 저장 (user_id 생성됨)
-        userRepo.insertUser(userVo); // userId 자동 생성됨
-
-        // builder 기반 BizVO 생성
-        BizVO bizVo = BizVO.builder()
-                .businessRegistNum(signupDto.getBizNumber())
-                .businessName(signupDto.getBizName())
-                .businessAddress(signupDto.getBizAddress())
-                .userId(userVo.getUserId())
-                .build();
-
-        bizRepo.insertBiz(bizVo);
-
-        // 사업체 저장
-        bizRepo.insertBiz(bizVo);
+        // 생성된 userId를 DTO나 BizVO에 세팅해줘야 한다
+        BizVO bizVO = modelMapper.map(signupDto, BizVO.class);
+        bizVO.setUserId(userVo.getUserId());
+        bizRepo.insertBiz(bizVO);
     }
 }

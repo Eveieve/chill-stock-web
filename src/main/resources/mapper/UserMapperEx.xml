@@ -5,23 +5,23 @@
 
 <mapper namespace="com.chilluminati.chillstock.example.repository.ExampleRepository">
 
-    <insert id="insert" parameterType="com.chilluminati.chillstock.example.dto.UserDto">
+    <insert id="insert" parameterType="com.chilluminati.chillstock.example.dto.UserDtoExam">
         INSERT INTO user_tbl (username, password, grantUser)
         VALUES (#{username}, #{password}, #{grantUser})
     </insert>
 
-    <select id="getByUserId" parameterType="string" resultType="com.chilluminati.chillstock.example.dto.UserDto">
+    <select id="getByUserId" parameterType="string" resultType="com.chilluminati.chillstock.example.dto.UserDtoExam">
         SELECT username, password, grantUser
         FROM user_tbl
         WHERE username = #{userId}
     </select>
 
-    <select id="getAll" resultType="com.chilluminati.chillstock.example.dto.UserDto">
+    <select id="getAll" resultType="com.chilluminati.chillstock.example.dto.UserDtoExam">
         SELECT username, password, grantUser
         FROM user_tbl
     </select>
 
-    <select id = "deleteByUserId" parameterType="string" resultType="com.chilluminati.chillstock.example.dto.UserDto">
+    <select id = "deleteByUserId" parameterType="string" resultType="com.chilluminati.chillstock.example.dto.UserDtoExam">
         DELETE FROM user_tbl
         WHERE username = #{userId}
 

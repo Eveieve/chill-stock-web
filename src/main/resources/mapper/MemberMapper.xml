@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chilluminati.chillstock.admin.user.repository.UserRepository">
+
+    <!-- UserVo 매핑 -->
+    <resultMap id="UserResultMap" type="com.chilluminati.chillstock.admin.user.vo.UserVo" autoMapping="true">
+        <constructor>
+            <idArg column="user_id" javaType="int"/>
+            <arg column="user_login_id" javaType="string"/>
+            <arg column="user_email" javaType="string"/>
+            <arg column="user_name" javaType="string"/>
+            <arg column="user_password" javaType="string"/>
+            <arg column="user_phone" javaType="string"/>
+            <arg column="user_approved_at" javaType="java.time.LocalDate"/>
+            <arg column="user_type" javaType="com.chilluminati.chillstock.admin.user.common.UserType"/>
+            <arg column="user_status" javaType="com.chilluminati.chillstock.admin.user.common.UserStatus"/>
+            <arg column="user_requested_at" javaType="java.time.LocalDate"/>
+        </constructor>
+    </resultMap>
+    <!-- 이메일로 사용자 조회 -->
+    <select id="findByEmail" resultMap="UserResultMap" parameterType="string">
+        SELECT * FROM user_table WHERE user_email = #{email}
+    </select>
+
+</mapper>

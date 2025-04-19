@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>유저 정보 확인</title>
+</head>
+<body>
+
+<h2>로그인 유저 정보</h2>
+
+<ul>
+    <li><strong>이메일 (Login ID):</strong> <span th:text="${email}"></span></li>
+    <li><strong>회원 번호 (User ID):</strong> <span th:text="${userid}"></span></li>
+    <li><strong>권한 (Role):</strong> <span th:text="${role}"></span></li>
+</ul>
+
+</body>
+</html>

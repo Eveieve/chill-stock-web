@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chilluminati.chillstock.admin.inventory.repository.InventoryRepository">
+
+    <select id="selectInventoryHistory" resultType="com.chilluminati.chillstock.admin.inventory.vo.InventoryHistoryVO">
+        (
+            SELECT
+                p.product_name AS productName,
+                '입고' AS type,
+                i.inbound_amount AS amount,
+                r.revenue_amount AS currentStock,
+                w.warehouse_name AS warehouseName,
+                a.area_code AS areaCode,
+                i.inbound_date AS handledAt
+            FROM inbound_table i
+                     JOIN product p ON i.product_id = p.product_id
+                     JOIN revenue_table r ON i.product_id = r.product_id
+                     JOIN area_table a ON r.area_id = a.area_id
+                     JOIN warehouse_table w ON a.warehouse_id = w.warehouse_id
+        )
+        UNION ALL
+        (
+            SELECT
+                p.product_name AS productName,
+                '출고' AS type,
+                o.outbound_amount AS amount,
+                r.revenue_amount AS currentStock,
+                w.warehouse_name AS warehouseName,
+                a.area_code AS areaCode,
+                o.outbound_date AS handledAt
+            FROM outbound_table o
+                     JOIN product p ON o.product_id = p.product_id
+                     JOIN revenue_table r ON o.product_id = r.product_id
+                     JOIN area_table a ON r.area_id = a.area_id
+                     JOIN warehouse_table w ON a.warehouse_id = w.warehouse_id
+        )
+        ORDER BY handledAt DESC
+    </select>
+
+</mapper>

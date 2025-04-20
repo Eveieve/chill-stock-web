@@ -9,4 +9,6 @@ public interface BizRepo {
 
     BizVO findByUserId(Integer userId);
 
+    BizVO findByBusinessRegistNum(String businessRegistNum);
+
 }

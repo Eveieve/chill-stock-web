@@ -45,6 +45,11 @@ public class UserServiceImpl implements UserService {
             throw new SignUpException(SignUpErrorCode.DUPLICATE_EMAIL);
         }
 
+        // 4. 사업자 등록번호 중복 체크
+        if (bizRepo.findByBusinessRegistNum(signupDto.getBusinessRegistNum()) != null) {
+            throw new SignUpException(SignUpErrorCode.DUPLICATE_BUSINESS_REGIST_NUM);
+        }
+
         try {
 
             UserVO userVo = modelMapper.map(signupDto, UserVO.class);
@@ -63,17 +68,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void findByLoginId(String loginId) {
-
+    public UserVO findByLoginId(String loginId) {
+        UserVO user = userRepo.findByLoginId(loginId);
+        if (user == null) {
+            throw new SignUpException(SignUpErrorCode.USER_NOT_FOUND_BY_LOGIN_ID);
+        }
+        return user;
     }
 
     @Override
-    public void findByEmail(String email) {
-
+    public UserVO findByEmail(String email) {
+        UserVO user = userRepo.findByEmail(email);
+        if (user == null) {
+            throw new SignUpException(SignUpErrorCode.USER_NOT_FOUND_BY_EMAIL);
+        }
+        return user;
     }
 
     @Override
-    public void findByUserId(String userId) {
-
+    public UserVO findByUserId(Integer userId) {
+        UserVO user = userRepo.findByUserId(userId);
+        if (user == null) {
+            throw new SignUpException(SignUpErrorCode.USER_NOT_FOUND_BY_USER_ID);
+        }
+        return user;
     }
+
 }

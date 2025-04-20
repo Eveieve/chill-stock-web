@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
 
         UserVO user = userRepo.findByLoginId(passwordResetDto.getUserLoginId());
         if(user != null) {
-            userRepo.updatePassword(passwordResetDto.getPassword(), passwordResetDto.getUserLoginId());
+            userRepo.updatePassword(passwordResetDto.getNewPassword(), passwordResetDto.getUserLoginId());
         }
     }
 }

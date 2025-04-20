@@ -1,5 +1,6 @@
 package com.chilluminati.chillstock.nonuser.service;
 
+import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.exception.SignUpErrorCode;
 import com.chilluminati.chillstock.nonuser.exception.SignUpException;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.security.util.Password;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +31,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void signUp(SignUpDTO signupDto) {
+
+        modelMapper.typeMap(SignUpDTO.class, BizVO.class)
+                .addMappings(mapper -> mapper.skip(BizVO::setUserId));
 
         // 1. 비밀번호 확인 일치 여부
         if (!signupDto.getUserPassword().equals(signupDto.getUserPasswordCheck())) {
@@ -53,13 +58,12 @@ public class UserServiceImpl implements UserService {
         try {
 
             UserVO userVo = modelMapper.map(signupDto, UserVO.class);
-            userRepo.insertUser(userVo); // DB에서 userId 생성됨
+            userRepo.insertUser(userVo);  // 이때 userId가 생성됨
 
-            // 생성된 userId를 DTO나 BizVO에 세팅해줘야 한다
             BizVO bizVO = modelMapper.map(signupDto, BizVO.class);
-            bizVO.setUserId(userVo.getUserId());
-            bizRepo.insertBiz(bizVO);
-
+            bizVO.setUserId(userVo.getUserId());  // 명시적으로 userId 세팅
+            bizRepo.insertBiz(bizVO);  // 이제는 userId가 null이 아님
+            System.out.println(bizVO.getUserId());
         } catch (Exception e) {
             throw new SignUpException(SignUpErrorCode.DATABASE_ERROR);
         }
@@ -94,4 +98,16 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    /**
+     * 사용자 로그인 아이디를  입력 받고, 이메일이 디비에 있으면 새로운 비밀번호를 입력받아 비밀번호 재설정하기
+     * @param
+     */
+    @Override
+    public void resetPassword(PasswordResetDTO passwordResetDto) { // dto 를 파라미터로 받아야 하나?
+
+        UserVO user = userRepo.findByLoginId(passwordResetDto.getUserLoginId());
+        if(user != null) {
+            userRepo.updatePassword(passwordResetDto.getPassword(), passwordResetDto.getUserLoginId());
+        }
+    }
 }

@@ -46,6 +46,7 @@ public class UserServiceImplTest {
 
     @Autowired
     private ModelMapper modelMapper;
+
     @Test
     @DisplayName("회원가입 시 회원정보와 사업체정보가 함께 저장된다.")
     void signUpWithBusinessInfoTest() {
@@ -87,4 +88,8 @@ public class UserServiceImplTest {
 
         System.out.println("생성된 userId = " + savedUser.getUserId());
     }
+
+//@Test
+//    @DisplayName("비밀번호 재설정해야할 시, 로그인 아이디가 디비에 있는지 확인한후, 비밀번호가 재설정된다")
+//    void
 }

@@ -1,5 +1,6 @@
 package com.chilluminati.chillstock.nonuser.service;
 
+import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.vo.UserVO;
 
@@ -9,4 +10,6 @@ public interface UserService {
     UserVO findByEmail(String email);
     UserVO findByUserId(Integer userId);
 
+    // email 받아서 정보 있으면 비밀번호 리셋해주기
+    void resetPassword(PasswordResetDTO passwordResetDto);
 }

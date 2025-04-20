@@ -3,6 +3,7 @@ package com.chilluminati.chillstock.nonuser.controller;
 import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.exception.SignUpException;
+import com.chilluminati.chillstock.nonuser.exception.UserNotFoundException;
 import com.chilluminati.chillstock.nonuser.service.UserService;
 import com.chilluminati.chillstock.nonuser.vo.UserVO;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,16 @@ public class NonUserController {
             model.addAttribute("errorMessage", e.getErrorCode().getMessage());
             return "home/signup-form";
         }
+    }
+
+    /**
+     * 이메일을 이용해 로그인 아이디를 반환한다.
+     * @param email
+     * @return
+     */
+    @PostMapping("/find-login-id")
+    public String findLoginId(@RequestParam("email") String email) {
+        return userService.findLoginId(email); // 로그인 아이디만 문자열로 응답하기. 로그인 아이디는 모달로 알려줌.
     }
 
     /**

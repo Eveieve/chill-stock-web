@@ -4,6 +4,7 @@ import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.exception.SignUpErrorCode;
 import com.chilluminati.chillstock.nonuser.exception.SignUpException;
+import com.chilluminati.chillstock.nonuser.exception.UserNotFoundException;
 import com.chilluminati.chillstock.nonuser.repository.BizRepo;
 import com.chilluminati.chillstock.nonuser.repository.UserRepo;
 import com.chilluminati.chillstock.nonuser.vo.BizVO;
@@ -109,5 +110,19 @@ public class UserServiceImpl implements UserService {
         if(user != null) {
             userRepo.updatePassword(passwordResetDto.getNewPassword(), passwordResetDto.getUserLoginId());
         }
+    }
+
+    /**
+     * 이메일을 입력받아 로그인 아이디를 반환한다
+     * @param email
+     * @return
+     */
+    @Override
+    public String findLoginId(String email) {
+        String loginId = userRepo.findLoginId(email);
+        if (loginId == null) {
+            throw new UserNotFoundException("해당 이메일로 등록된 계정을 찾을 수 없습니다.");
+        }
+        return loginId;
     }
 }

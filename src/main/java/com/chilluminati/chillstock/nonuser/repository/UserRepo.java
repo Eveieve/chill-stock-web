@@ -28,4 +28,9 @@ public interface UserRepo {
     */
    void updatePassword(@Param("newPassword") String newPassword, @Param(("userLoginId")) String userLoginId);
 
+   /**
+    * 이메일로 아이디 찾기
+    * @param email
+    */
+   String findLoginId(@Param("email") String email);
 }

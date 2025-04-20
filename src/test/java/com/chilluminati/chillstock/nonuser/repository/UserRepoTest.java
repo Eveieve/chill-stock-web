@@ -155,5 +155,35 @@ class UserRepoTest {
 
     }
 
+@Test
+    @DisplayName("이메일로 로그인 아이디를 찾을 수 있다.")
+    void getLoginIdByEmailTest() {
 
+    // given
+    String uniqueId = String.valueOf(System.currentTimeMillis());
+    String loginId = "testuser_" + uniqueId;
+    String email = "findid_" + uniqueId + "@example.com";
+    String businessRegistNum = "123-" + uniqueId.substring(4, 6) + "-" + uniqueId.substring(6, 11);
+
+    SignUpDTO signUpDTO = SignUpDTO.builder()
+            .userLoginId(loginId)
+            .userPassword("chillstock123!")
+            .userPasswordCheck("chillstock123!")
+            .userEmail(email)
+            .userName("이메일조회")
+            .userPhone("010-2222-3333")
+            .businessRegistNum(businessRegistNum)
+            .businessName("이메일상점")
+            .businessAddress("서울시 테스트구")
+            .businessPost("12345")
+            .build();
+
+    userService.signUp(signUpDTO);
+
+    // when
+    String foundLoginId = userRepo.findLoginId(email);
+
+    // then
+    Assertions.assertEquals(loginId, foundLoginId);
+}
 }

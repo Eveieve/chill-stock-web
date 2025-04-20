@@ -12,4 +12,7 @@ public interface UserService {
 
     // email 받아서 정보 있으면 비밀번호 리셋해주기
     void resetPassword(PasswordResetDTO passwordResetDto);
+
+    // 이메일로 로그인 아이디 찾기
+    String findLoginId( String email);
 }

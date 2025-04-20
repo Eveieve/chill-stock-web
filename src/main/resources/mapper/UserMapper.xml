@@ -89,4 +89,10 @@
         WHERE user_login_id = #{userLoginId}
     </update>
 
+<!--    이메일로 로그인 아이디 겟 하기 -->
+    <select id="findLoginId" parameterType="String" resultType="String">
+        SELECT user_login_id
+        FROM user_table
+        WHERE user_email = #{email}
+    </select>
 </mapper>

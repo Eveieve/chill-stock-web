@@ -18,6 +18,11 @@
 # AWS User-specific
 .idea/**/aws.xml
 
+# IntelliJ DB 설정 무시
+.idea/dataSources.xml
+.idea/dataSources.local.xml
+.idea/dataSources/
+
 # Generated files
 .idea/**/contentModel.xml
 

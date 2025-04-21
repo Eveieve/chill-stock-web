@@ -4,6 +4,8 @@ import com.chilluminati.chillstock.admin.inventory.vo.InventoryHistoryVO;
 import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
 import com.chilluminati.chillstock.config.MybatisConfig;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +21,7 @@ import java.util.List;
         HikariCPConfig.class  // ← 필요하다면 추가
 })
 @ExtendWith(SpringExtension.class)
-
+@Slf4j
 class InventoryRepositoryTest {
 
     @Autowired
@@ -35,6 +37,6 @@ class InventoryRepositoryTest {
         Assertions.assertFalse(result.isEmpty(), "입출고 이력이 존재해야 합니다.");
 
         // 출력 로그
-        result.forEach(vo -> System.out.println("조회된 이력: " + vo));
+        result.forEach(vo -> log.info("조회된 이력: " + vo));
     }
 }

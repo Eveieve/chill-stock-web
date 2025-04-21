@@ -5,6 +5,7 @@ import com.chilluminati.chillstock.config.HikariCPConfig;
 import com.chilluminati.chillstock.config.MybatisConfig;
 import com.chilluminati.chillstock.member.mypage.dto.MypageUpdateDTO;
 import com.chilluminati.chillstock.member.mypage.dto.UserBizDTO;
+import com.chilluminati.chillstock.member.mypage.dto.UserPasswordDTO;
 import com.chilluminati.chillstock.member.mypage.service.MemberMypageService;
 
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
@@ -121,6 +122,51 @@ class MemberMypageRepoTest {
         // then
         UserVO deletedUser = userRepo.findByUserId(userId);
         Assertions.assertNull(deletedUser, "탈퇴한 회원은 더 이상 조회되지 않아야 한다");
+    }
+
+    @Test
+    @DisplayName("마이페이지에서 회원의 패스워드를 변경하면 변경이 된다.")
+    @Transactional
+    void updateMemberPasswordTest() {
+        //given Origin
+        EmailUserDetails emailUserDetails = getEmailUserDetails();
+        Integer userId = emailUserDetails.getUserId();
+
+        UserPasswordDTO passwordDTO = new UserPasswordDTO();
+        passwordDTO.setUserPassword("1234");
+        //when
+        memberMypageService.updateMemberPassword(passwordDTO);
+
+        //then
+        UserVO changedUser = userRepo.findByUserId(userId);
+        Assertions.assertEquals("1234", changedUser.getUserPassword());
+        Assertions.assertNotEquals("1234", emailUserDetails.getUserPassword());
+    }
+
+    @Test
+    @DisplayName("마이페이지에서 회원의 정보를 수정하면 수정이 된다.")
+    @Transactional
+    void updateMemberTest() {
+        //given
+        EmailUserDetails emailUserDetails = getEmailUserDetails();
+        Integer userId = emailUserDetails.getUserId();
+
+        MypageUpdateDTO mypageUpdateDTO = new MypageUpdateDTO();
+        mypageUpdateDTO.setUserName("hi");
+        mypageUpdateDTO.setUserPhone("01012341234");
+        mypageUpdateDTO.setUserEmail("test@test.com");
+
+        mypageUpdateDTO.setBusinessAddress("address");
+        mypageUpdateDTO.setBusinessPost("40404");
+        mypageUpdateDTO.setBusinessName("test");
+        mypageUpdateDTO.setBusinessRegistNum("23423");
+
+        //when
+        memberMypageService.updateMyInfo(mypageUpdateDTO);
+
+        //then
+        UserVO changedUser = userRepo.findByUserId(userId);
+        Assertions.assertEquals("hi", changedUser.getUserName());
     }
 
     /***

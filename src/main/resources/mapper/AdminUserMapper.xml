@@ -20,6 +20,21 @@
         </association>
     </resultMap>
 
+<!--    탈퇴회원 전체 조회 - UserBizBackupVO 를 위한 명시적 매핑-->
+    <resultMap id="UserBizBackupResultMap" type="com.chilluminati.chillstock.admin.user.vo.UserBizBackupVO">
+        <id property="backupId" column="backup_id"/>
+        <result property="userLoginId" column="user_login_id"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="userName" column="user_name"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="deletedAt" column="deleted_at"/>
+        <result property="approvedAt" column="approved_at"/>
+        <result property="requestedAt" column="requested_at"/>
+        <result property="businessRegistNum" column="business_regist_num"/>
+        <result property="businessName" column="business_name"/>
+        <result property="businessAddress" column="business_address"/>
+        <result property="businessPost" column="business_post"/>
+    </resultMap>
     <!-- 회원가입: 유저 정보 저장 -->
     <insert id="insertUser" parameterType="com.chilluminati.chillstock.nonuser.vo.UserVO" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO user_table (
@@ -70,6 +85,24 @@
                  LEFT JOIN business_table b ON u.user_id = b.user_id
         WHERE u.user_id = #{userId}
     </insert>
+
+    <select id="findAllDeletedUsers" resultMap="UserBizBackupResultMap">
+        SELECT
+            backup_id,
+            user_login_id,
+            user_email,
+            user_name,
+            user_phone,
+            deleted_at,
+            approved_at,
+            requested_at,
+            business_regist_num,
+            business_name,
+            business_address,
+            business_post
+        FROM user_backup_table
+        ORDER BY deleted_at DESC
+    </select>
 
     <!-- 회원 한 명 삭제 -->
     <delete id="deleteUserById">

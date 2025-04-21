@@ -3,6 +3,7 @@ package com.chilluminati.chillstock.admin.user.service;
 import com.chilluminati.chillstock.admin.user.exception.AdminUserErrorCode;
 import com.chilluminati.chillstock.admin.user.exception.AdminUserException;
 import com.chilluminati.chillstock.admin.user.repository.AdminUserRepo;
+import com.chilluminati.chillstock.admin.user.vo.UserBizBackupVO;
 import com.chilluminati.chillstock.admin.user.vo.UserVO;
 import com.chilluminati.chillstock.nonuser.exception.UserNotFoundException;
 import com.chilluminati.chillstock.nonuser.repository.UserRepo;
@@ -60,4 +61,9 @@ public class AdminUserServiceImpl implements AdminUserService {
 //    public List<UserDTO> getDeletedUsers() {
 //        return List.of();
 //    }
+
+    @Override
+    public List<UserBizBackupVO> getAllDeletedUsers() {
+        return adminUserRepo.findAllDeletedUsers();
+    }
 }

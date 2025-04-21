@@ -1,5 +1,6 @@
 package com.chilluminati.chillstock.admin.user.service;
 
+import com.chilluminati.chillstock.admin.user.vo.UserBizBackupVO;
 import com.chilluminati.chillstock.admin.user.vo.UserVO;
 
 import java.util.List;
@@ -38,4 +39,6 @@ public interface AdminUserService {
      * @return 탈퇴 회원의 DTO 리스트
      */
    // List<UserDTO> getDeletedUsers();
+
+    List<UserBizBackupVO> getAllDeletedUsers();
 }

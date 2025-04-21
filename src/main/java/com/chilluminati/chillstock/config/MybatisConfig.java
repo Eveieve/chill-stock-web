@@ -17,8 +17,8 @@ import javax.sql.DataSource;
         "com.chilluminati.chillstock.member.inbound.repository",
         "com.chilluminati.chillstock.member.product.repository",
         "com.chilluminati.chillstock.admin.inventory.repository",
-        "com.chilluminati.chillstock.admin.user.repository"
-
+        "com.chilluminati.chillstock.admin.user.repository",
+        "com.chilluminati.chillstock.admin.warehouse.repository"
 })
 
 public class MybatisConfig {

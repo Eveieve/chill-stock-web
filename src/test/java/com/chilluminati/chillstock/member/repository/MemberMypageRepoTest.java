@@ -23,6 +23,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -133,14 +135,19 @@ class MemberMypageRepoTest {
         Integer userId = emailUserDetails.getUserId();
 
         UserPasswordDTO passwordDTO = new UserPasswordDTO();
-        passwordDTO.setUserPassword("1234");
+        passwordDTO.setUserPassword("1234"); //비밀번호는 1234
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); // BCrypt 인코더 (암호화하거나 비교만 가능한 클래스)
+
         //when
-        memberMypageService.updateMemberPassword(passwordDTO);
+        memberMypageService.updateMemberPassword(passwordDTO); // 1234로 업데이트 (암호화되서 저장됨)
 
         //then
-        UserVO changedUser = userRepo.findByUserId(userId);
-        Assertions.assertEquals("1234", changedUser.getUserPassword());
-        Assertions.assertNotEquals("1234", emailUserDetails.getUserPassword());
+        UserVO changedUser = userRepo.findByUserId(userId); // user 찾기
+        String userPassword = changedUser.getUserPassword(); // 비번 찾기 (암호화된상태)
+
+        boolean matches = encoder.matches("1234", userPassword); // 인코더로 1234와 암호문을 대조함
+        Assertions.assertEquals(true, matches); // 결과값이 true여야 같다는 뜻이므로 true와 matches를 대조함
     }
 
     @Test

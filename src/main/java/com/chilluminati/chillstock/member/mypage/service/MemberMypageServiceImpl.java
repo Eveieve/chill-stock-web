@@ -8,10 +8,13 @@ import com.chilluminati.chillstock.member.mypage.vo.BizVO;
 import com.chilluminati.chillstock.member.mypage.vo.UserVO;
 import com.chilluminati.chillstock.security.EmailUserDetails;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberMypageServiceImpl implements MemberMypageService {
@@ -53,6 +56,14 @@ public class MemberMypageServiceImpl implements MemberMypageService {
      */
     @Override
     public void updateMemberPassword(UserPasswordDTO userPasswordDTO) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encryptPassword = encoder.encode(userPasswordDTO.getUserPassword());
+
+        userPasswordDTO.setUserPassword(encryptPassword);
+
+        log.debug("#########################");
+        log.debug("userPassword: {}", userPasswordDTO.getUserPassword());
+
         EmailUserDetails userDetails = getEmailUserDetails();
         Integer userId = userDetails.getUserId();
         // 1. userId를 기준으로 회원 비밀번호 수정

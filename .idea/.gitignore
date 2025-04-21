@@ -1,8 +1,14 @@
 # Default ignored files
 /shelf/
 /workspace.xml
-# Editor-based HTTP Client requests
+# Editor-based HgTTP Client requests
 /httpRequests/
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+
+
+# IntelliJ DB 설정 무시
+.idea/dataSources.xml
+.idea/dataSources.local.xml
+.idea/dataSources/

@@ -15,7 +15,7 @@ public class HikariCPConfig {
         HikariConfig config = new HikariConfig();
 
         config.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        config.setJdbcUrl("jdbc:mysql://localhost:3306/chillstockDB");
+        config.setJdbcUrl("jdbc:mysql://localhost:3306/chillstockDB?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Seoul");
         config.setUsername("chillstock");
         config.setPassword("chillstock1234");
 

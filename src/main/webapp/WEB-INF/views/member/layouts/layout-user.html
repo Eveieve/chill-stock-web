@@ -10,16 +10,16 @@
 <!-- ======= Sidebar ======= -->
 <div th:replace="~{member/fragments/fragment-sidebar :: sidebar}"></div>
 
-<main th:replace="${content}">
-<p>Contents</p>
-</main><!-- End #main -->
+<main>
+    <div th:replace="${content}"></div>
+</main>
 
 <!-- ======= Footer ======= -->
 <div th:replace="~{member/fragments/fragment-footer :: footer}"></div>
 
 <div th:replace="~{member/fragments/fragment-foot :: foot}"></div>
 
-<div th:replace="~{member/fragments/fragment-script-utill :: utill}"></div>
+
 
 
 </body>

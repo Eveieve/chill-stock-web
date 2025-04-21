@@ -20,6 +20,24 @@
             <result property="businessPost" column="business_post"/>
         </association>
     </resultMap>
+
+    <resultMap id="userResultMap" type="com.chilluminati.chillstock.member.mypage.vo.UserVO">
+        <id column="user_id" property="userId"/>
+        <result column="user_login_id" property="userLoginId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_phone" property="userPhone"/>
+        <result column="user_email" property="userEmail"/>
+        <result column="user_type" property="userType"/>
+    </resultMap>
+
+    <resultMap id="bizResultMap" type="com.chilluminati.chillstock.member.mypage.vo.BizVO">
+        <id property="businessId" column="business_id"/>
+        <result property="businessRegistNum" column="business_regist_num"/>
+        <result property="businessName" column="business_name"/>
+        <result property="businessAddress" column="business_address"/>
+        <result property="businessPost" column="business_post"/>
+        <result property="userId" column="user_id"/>
+    </resultMap>
     <!-- 기본키로 삭제하기 -->
     <delete id="deleteByUserId" parameterType="int">
         DELETE FROM user_table WHERE user_id = #{userId}
@@ -44,7 +62,7 @@
 
 
     <!-- 회원 정보 조회 -->
-    <select id="findUserById" resultType="com.chilluminati.chillstock.nonuser.vo.UserVO">
+    <select id="findUserById" resultMap="userResultMap">
         SELECT
             user_id,
             user_login_id,
@@ -57,7 +75,7 @@
     </select>
 
     <!-- 사업체 정보 조회 -->
-    <select id="findBizByUserId" resultType="com.chilluminati.chillstock.nonuser.vo.BizVO">
+    <select id="findBizByUserId" resultMap="bizResultMap">
         SELECT
             business_id,
             business_name,

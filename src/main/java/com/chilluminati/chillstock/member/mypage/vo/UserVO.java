@@ -21,14 +21,12 @@ import java.time.LocalDate;
 public class UserVO {
     private Integer userId;
     private String userLoginId;
-    private String userEmail;
     private String userName;
-    private String userPassword;
     private String userPhone;
-    private LocalDate userApprovedAt;
+    private String userEmail;
     private UserType userType;
-    private UserStatus userStatus;
-    private LocalDate userRequestedAt;
-
-    private BizVO bizVO;
+//    private String userPassword;
+//    private LocalDate userApprovedAt;
+//    private UserStatus userStatus;
+//    private LocalDate userRequestedAt;
 }

@@ -1,4 +1,4 @@
-package com.chilluminati.chillstock.admin.user.vo;
+package com.chilluminati.chillstock.admin.user.dto;
 
 import com.chilluminati.chillstock.admin.user.common.UserStatus;
 import com.chilluminati.chillstock.admin.user.common.UserType;
@@ -7,10 +7,11 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserVo {
+public class UserDTO {
     private Integer userId;
     private String userLoginId;
     private String userEmail;
@@ -22,4 +23,5 @@ public class UserVo {
     private UserStatus userStatus;
     private LocalDate userRequestedAt;
 }
+
 

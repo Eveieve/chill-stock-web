@@ -1,10 +1,9 @@
-package com.chilluminati.chillstock.nonuser.repository;
+package com.chilluminati.chillstock.admin.user.repository;
 
 import com.chilluminati.chillstock.nonuser.vo.BizVO;
-import org.apache.ibatis.annotations.Mapper;
 
 
-public interface BizRepo {
+public interface AdminBizRepo {
     void insertBiz(BizVO bizVo);
 
     BizVO findByUserId(Integer userId);

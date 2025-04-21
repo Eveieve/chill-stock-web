@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chilluminati.chillstock.admin.user.repository.AdminUserRepo">
+
+    <resultMap id="UserWithBizMap" type="com.chilluminati.chillstock.admin.user.vo.UserVO">
+        <id property="userId" column="user_id" />
+        <result property="userLoginId" column="user_login_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="userPhone" column="user_phone"/>
+
+        <!-- 사업체 정보까지 포함 -->
+        <association property="biz" javaType="com.chilluminati.chillstock.admin.user.vo.BizVO">
+            <result property="businessRegistNum" column="business_regist_num"/>
+            <result property="businessName" column="business_name"/>
+            <result property="businessAddress" column="business_address"/>
+        </association>
+    </resultMap>
+
+    <!-- 회원가입: 유저 정보 저장 -->
+    <insert id="insertUser" parameterType="com.chilluminati.chillstock.nonuser.vo.UserVO" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO user_table (
+            user_login_id,
+            user_name,
+            user_email,
+            user_password,
+            user_phone,
+            user_requested_at
+
+        ) VALUES (
+                     #{userLoginId},
+                     #{userName},
+                     #{userEmail},
+                     #{userPassword},
+                     #{userPhone},
+
+                     NOW()
+
+                 )
+    </insert>
+
+    <select id="findByUserId" resultMap="UserWithBizMap" parameterType="Integer">
+        SELECT
+            u.user_id, u.user_login_id, u.user_name, u.user_email, u.user_password,
+            u.user_phone, u.user_type, u.user_status, u.user_requested_at, u.user_approved_at,
+            b.business_id, b.business_regist_num, b.business_name, b.business_address,
+            b.business_post
+        FROM user_table u
+                 LEFT JOIN business_table b ON u.user_id = b.user_id
+        WHERE u.user_id = #{userId}
+    </select>
+
+    <!-- 회원 한 명 삭제 전 백업 (회원 + 사업체 정보) -->
+    <insert id="backupUserBeforeDelete" parameterType="int">
+        INSERT INTO user_backup_table (
+            user_login_id, user_email, user_name, user_phone,
+            user_approved_at, user_requested_at,
+            business_regist_num, business_name, business_address, business_post,
+            deleted_at
+        )
+        SELECT
+            u.user_login_id, u.user_email, u.user_name, u.user_phone,
+            u.user_approved_at, u.user_requested_at,
+            b.business_regist_num, b.business_name, b.business_address, b.business_post,
+            NOW()
+        FROM user_table u
+                 LEFT JOIN business_table b ON u.user_id = b.user_id
+        WHERE u.user_id = #{userId}
+    </insert>
+
+    <!-- 회원 한 명 삭제 -->
+    <delete id="deleteUserById">
+        DELETE FROM user_table
+        WHERE user_id = #{userId}
+    </delete>
+
+    <!-- 대기 회원 한 명 승인 -->
+    <update id="approveUserById">
+        UPDATE user_table
+        SET user_status = 'approve'
+        WHERE user_id = #{userId}
+          AND user_status = 'pending'
+    </update>
+
+    <!-- 대기 회원 여러 명 승인 -->
+    <update id="approveUsersByIds">
+        UPDATE user_table
+        SET user_status = 'approve'
+        WHERE user_id IN
+        <foreach collection="userIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND user_status = 'pending'
+    </update>
+</mapper>

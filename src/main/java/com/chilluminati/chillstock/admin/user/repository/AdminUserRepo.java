@@ -1,15 +1,12 @@
-package com.chilluminati.chillstock.nonuser.repository;
+package com.chilluminati.chillstock.admin.user.repository;
 
-import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
-
-import com.chilluminati.chillstock.nonuser.vo.UserVO;
-import org.apache.ibatis.annotations.Mapper;
+import com.chilluminati.chillstock.admin.user.vo.UserVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 
-public interface UserRepo {
+public interface AdminUserRepo {
    void insertUser(UserVO user);  // 회원 가입
 
    // 테이블 기본키로 회원 찾기
@@ -37,27 +34,18 @@ public interface UserRepo {
     */
    String findLoginId(@Param("email") String email);
 
-   /**
-    * UserId키로 회원 삭제하기
-    * @param userId
-    * @return
-    */
    int deleteUserById(Integer userId);
 
-   /**
-    * UserIds 키로 회원 여러명 삭제하기
-    * @param userIds
-    * @return
-    */
    int deleteUsersByIds(List<Integer> userIds);
 
-   /**
-    *
-    * @param userId
-    * @return
-    */
    int approveUserById(Integer userId);
 
    int approveUsersByIds(List<Integer> userIds);
+
+   /**
+    * 삭제전 회원+사업체 정보 묶어 저장하기
+    * @param userId
+    */
+   void backUpUserBeforeDelete(Integer userId);
 
 }

@@ -1,16 +1,11 @@
 package com.chilluminati.chillstock.security;
 
-import com.chilluminati.chillstock.admin.user.common.UserStatus;
-import com.chilluminati.chillstock.admin.user.common.UserType;
-import com.chilluminati.chillstock.admin.user.dto.UserDto;
 import com.chilluminati.chillstock.admin.user.repository.UserRepository;
-import com.chilluminati.chillstock.admin.user.vo.UserVo;
+import com.chilluminati.chillstock.admin.user.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 
 
 @Service
@@ -21,7 +16,7 @@ public class EmailUserDetailsServiceImp implements AuthUserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserVo userVo = userRepository.findByEmail(email)
+        UserVO userVo = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("해당 이메일의 사용자를 찾을 수 없습니다."));
 
         return EmailUserDetails.builder()

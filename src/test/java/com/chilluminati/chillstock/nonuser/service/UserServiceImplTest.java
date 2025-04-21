@@ -121,7 +121,7 @@ public class UserServiceImplTest {
                 .newPassword(newPassword)
                 .build();
 
-        // 서비스에서 비밀번호 재설정하는 메서드 호출
+
         userService.resetPassword(resetDto);
 
         // then

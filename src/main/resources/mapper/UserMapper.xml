@@ -95,4 +95,40 @@
         FROM user_table
         WHERE user_email = #{email}
     </select>
+
+    <!-- 회원 한 명 삭제 -->
+    <update id="deleteUserById">
+        UPDATE user_table
+        SET is_deleted = true
+        WHERE user_id = #{userId}
+    </update>
+
+    <!-- 회원 여러 명 삭제 -->
+    <update id="deleteUsersByIds">
+        UPDATE user_table
+        SET is_deleted = true
+        WHERE user_id IN
+        <foreach collection="userIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!-- 대기 회원 한 명 승인 -->
+    <update id="approveUserById">
+        UPDATE user_table
+        SET user_status = 'approve'
+        WHERE user_id = #{userId}
+          AND user_status = 'pending'
+    </update>
+
+    <!-- 대기 회원 여러 명 승인 -->
+    <update id="approveUsersByIds">
+        UPDATE user_table
+        SET user_status = 'approve'
+        WHERE user_id IN
+        <foreach collection="userIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        AND user_status = 'pending'
+    </update>
 </mapper>

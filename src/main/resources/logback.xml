@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 콘솔 출력 Appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- 로그 포맷: 시간, 스레드, 레벨, 클래스, 메시지 -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 전체 로그 레벨: INFO 이상만 -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <!-- 패키지별 상세 조정 -->
+    <logger name="org.springframework" level="WARN" />
+    <logger name="org.mybatis" level="WARN" />
+    <logger name="com.zaxxer.hikari" level="WARN" />
+
+</configuration>

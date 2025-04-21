@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chilluminati.chillstock.member.inbound.repository.InboundRepository">
+
+    <!-- 회원 입고 요청 INSERT (user_id는 저장 안 함) -->
+    <insert id="insertInboundRequest" parameterType="com.chilluminati.chillstock.member.inbound.dto.InboundRequestDTO">
+        INSERT INTO inbound_table (
+            product_id,
+            inbound_amount,
+            inbound_status,
+            inbound_request_date,
+            admin_id,
+            reject_reason_code
+        )
+        VALUES (
+                   #{productId},
+                   #{amount},
+                   '대기',
+                   NOW(),
+                   NULL,
+                   NULL
+               )
+    </insert>
+
+</mapper>

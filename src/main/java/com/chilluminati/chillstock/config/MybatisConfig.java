@@ -14,7 +14,9 @@ import javax.sql.DataSource;
 @Configuration
 @MapperScan(basePackages = {
         "com.chilluminati.chillstock.example.repository",
-        "com.chilluminati.chillstock.admin.user.repository"
+        "com.chilluminati.chillstock.admin.user.repository",
+        "com.chilluminati.chillstock.member.stock.repository",
+        "com.chilluminati.chillstock.member.outbound.repository"
 })// 매퍼 인터페이스 위치
 public class MybatisConfig {
 

@@ -1,27 +1,65 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{member/layouts/layout-user :: layout(~{::main})}">
-<body>
+      th:replace="~{member/layouts/layout-user :: layout(~{::section})}">
 
-<main id="main" class="main">
-
-
+<section class="section">
     <div class="pagetitle">
-        <h1>메인보드</h1>
+        <h1>입고 요청</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">메인관리</li>
+                <li class="breadcrumb-item active">입고 요청</li>
             </ol>
         </nav>
     </div>
 
-    <section class="section dashboard">
-        <div class="row">
-            <h5>여기에 메인 화면 구성할 예정</h5>
-        </div>
-    </section>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">등록된 제품 리스트</h5>
 
-</main>
-</body>
-</html>
+            <!-- ✅ 전체 폼 시작 -->
+            <form th:action="@{/inbound/request}" method="post">
+
+                <!-- ✅ 테이블 -->
+                <table class="table table-bordered text-center align-middle">
+                    <thead>
+                    <tr>
+                        <th>제품명</th>
+                        <th>크기(m²)</th>
+                        <th>보관온도(℃)</th>
+                        <th>유통기한</th>
+                        <th>체크박스</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${myProducts}">
+                        <td th:text="${product.productName}">제품명</td>
+                        <td th:text="${product.productSize}">2</td>
+                        <td th:text="${product.storageTemperature}">10</td>
+                        <td th:text="${#temporals.format(product.expirationDate, 'yyyy-MM-dd')}">2025-06-30</td>
+                        <td>
+                            <input type="radio" name="productId" th:value="${product.productId}" required>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!-- ✅ 수량 입력 -->
+                <div class="row my-4 justify-content-center">
+                    <label for="amount" class="col-md-2 col-form-label text-end">수량입력:</label>
+                    <div class="col-md-3">
+                        <input type="number" id="amount" name="amount" class="form-control" min="1" required>
+                    </div>
+                </div>
+
+                <!-- ✅ 제출 버튼 -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">입고요청</button>
+                </div>
+
+            </form>
+            <!-- ✅ 폼 끝 -->
+
+        </div>
+    </div>
+</section>

@@ -1,15 +1,14 @@
-package com.chilluminati.chillstock.nonuser.service;
+package com.chilluminati.chillstock.admin.repository;
 
 import com.chilluminati.chillstock.admin.user.common.UserStatus;
-import com.chilluminati.chillstock.admin.user.exception.AdminUserException;
 import com.chilluminati.chillstock.admin.user.repository.AdminUserRepo;
-import com.chilluminati.chillstock.admin.user.service.AdminUserService;
 import com.chilluminati.chillstock.admin.user.service.AdminUserServiceImpl;
 import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
 import com.chilluminati.chillstock.config.MybatisConfig;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.repository.UserRepo;
+import com.chilluminati.chillstock.nonuser.service.UserService;
 import com.chilluminati.chillstock.nonuser.vo.UserVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +18,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 관리자가 할 수 있는 기능을 테스트 한다
@@ -30,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
         MybatisConfig.class,
         HikariCPConfig.class
 })
-class AdminUserServiceImplTest {
+class AdminUserRepoTest {
 
     @Autowired
     private AdminUserServiceImpl adminUserService;
@@ -80,7 +78,7 @@ class AdminUserServiceImplTest {
         adminUserService.deleteUserById(insertedUserId);
 
         // then
-        UserVO deletedUser = userRepo.findByUserId(insertedUserId);
+        UserVO deletedUser = userRepo.findByUserId(insertedUserId); //nonuserRepo로 테스트함
         Assertions.assertNull(deletedUser, "삭제된 회원은 더 이상 조회되지 않아야 한다");
     }
 
@@ -92,7 +90,7 @@ class AdminUserServiceImplTest {
 
         // then
         UserVO approvedUser = userRepo.findByUserId(insertedUserId);
-        Assertions.assertEquals("approve", approvedUser.getUserStatus());
+        Assertions.assertEquals(UserStatus.APPROVED, approvedUser.getUserStatus());
     }
 
     // 회원 삭제시 백업 테이블에 들어간다

@@ -5,9 +5,74 @@
 
 <mapper namespace="com.chilluminati.chillstock.member.mypage.repository.MemberMypageRepo">
 
+    <resultMap id="userWithBizMap" type="com.chilluminati.chillstock.member.mypage.vo.UserVO">
+        <id property="userId" column="user_id"/>
+        <result property="userLoginId" column="user_login_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="userType" column="user_type"/>
 
+        <association property="bizVO" javaType="com.chilluminati.chillstock.nonuser.vo.BizVO">
+            <result property="businessName" column="business_name"/>
+            <result property="businessRegistNum" column="business_regist_num"/>
+            <result property="businessAddress" column="business_address"/>
+            <result property="businessPost" column="business_post"/>
+        </association>
+    </resultMap>
     <!-- 기본키로 삭제하기 -->
     <delete id="deleteByUserId" parameterType="int">
         DELETE FROM user_table WHERE user_id = #{userId}
     </delete>
+
+    <update id="updateUser">
+        UPDATE user_table
+        SET user_name = #{dto.userName},
+            user_phone = #{dto.userPhone},
+            user_email = #{dto.userEmail}
+        WHERE user_id = #{userId}
+    </update>
+
+    <update id="updateBiz">
+        UPDATE business_table
+        SET business_name = #{dto.businessName},
+            business_regist_num = #{dto.businessRegistNum},
+            business_address = #{dto.businessAddress},
+            business_post = #{dto.businessPost}
+        WHERE user_id = #{userId}
+    </update>
+
+
+    <!-- 회원 정보 조회 -->
+    <select id="findUserById" resultType="com.chilluminati.chillstock.nonuser.vo.UserVO">
+        SELECT
+            user_id,
+            user_login_id,
+            user_name,
+            user_phone,
+            user_email,
+            user_type
+        FROM user_table
+        WHERE user_id = #{userId}
+    </select>
+
+    <!-- 사업체 정보 조회 -->
+    <select id="findBizByUserId" resultType="com.chilluminati.chillstock.nonuser.vo.BizVO">
+        SELECT
+            business_id,
+            business_name,
+            business_regist_num,
+            business_address,
+            business_post,
+            user_id
+        FROM business_table
+        WHERE user_id = #{userId}
+    </select>
+
+    <!-- 회원 비번 변경 -->
+    <update id="updateUserPassword">
+        UPDATE user_table
+        SET user_password = #{dto.userPassword}
+        WHERE user_id = #{userId}
+    </update>
 </mapper>

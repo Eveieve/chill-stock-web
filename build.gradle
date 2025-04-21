@@ -45,6 +45,7 @@ dependencies {
 
     implementation 'com.zaxxer:HikariCP:5.0.1'
     implementation 'mysql:mysql-connector-java:8.0.33'
+    //implementation("com.mysql:mysql-connector-j:9.2.0")
 
     //mybatis 라이브러리
     implementation 'org.mybatis:mybatis:3.5.9'

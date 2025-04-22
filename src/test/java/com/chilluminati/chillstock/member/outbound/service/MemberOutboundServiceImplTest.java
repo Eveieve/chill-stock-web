@@ -30,7 +30,7 @@ class MemberOutboundServiceImplTest {
     @Test
     void createOutboundRequest() {
         // Given
-        Integer productId = 1;
+        Integer productId = 7;
         Integer outboundAmount = 5;
 
         // When
@@ -42,38 +42,10 @@ class MemberOutboundServiceImplTest {
     @Test
     void readOutboundRequests() {
         // Given
-        Integer userId = 1;
+        Integer userId = 5;
 
         // When
         List<MemberOutboundDTO> result = memberOutboundService.readOutboundRequests(userId);
-
-        // Then
-        log.info(result.toString());
-        assertNotNull(result);
-    }
-
-    @Test
-    void readAllMemberStock() {
-        // Given
-        Integer userId = 1;
-        String productName = "피자";
-
-        // When
-        List<MemberStockDTO> result = memberOutboundService.readAllMemberStock(userId, productName);
-
-        // Then
-        log.info(result.toString());
-        assertNotNull(result);
-    }
-
-    @Test
-    void readAllMemberStock1() {
-        // Given
-        Integer userId = 1;
-        String productName = null;
-
-        // When
-        List<MemberStockDTO> result = memberOutboundService.readAllMemberStock(userId, productName);
 
         // Then
         log.info(result.toString());

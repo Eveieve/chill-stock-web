@@ -5,6 +5,7 @@ import com.chilluminati.chillstock.admin.warehouse.dto.AdminWarehouseDto;
 import com.chilluminati.chillstock.admin.warehouse.service.AdminWarehouseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,8 @@ public class AdminWarehouseController {
     private final AdminWarehouseService adminWarehouseService;
 
     @GetMapping("admin/warehouse")
-    public String adminWarehouse() {
+    public String adminWarehouse(Model model) {
+        model.addAttribute("warehouseList", adminWarehouseService.getAllWarehouses());
         return "admin/warehouse";
     }
 
@@ -27,4 +29,5 @@ public class AdminWarehouseController {
         adminWarehouseService.registerWarehouse(adminWarehouseDto);
         return "redirect:/admin/warehouse";
     }
+
 }

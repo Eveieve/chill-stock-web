@@ -36,6 +36,36 @@ class AdminUserRepoTest {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Test
+    @DisplayName("로그인 아이디가 존재하는지 확인할 수 있다")
+    void existsByLoginIdTest() {
+        // given
+        String uniqueId = String.valueOf(System.currentTimeMillis());
+        String loginId = "testLogin_" + uniqueId;
+        String email = "exists_" + uniqueId + "@example.com";
+        String businessRegistNum = "123-" + uniqueId.substring(4, 6) + "-" + uniqueId.substring(6, 11);
+
+        SignUpDTO signUpDTO = SignUpDTO.builder()
+                .userLoginId(loginId)
+                .userPassword("password1234!")
+                .userPasswordCheck("password1234!")
+                .userEmail(email)
+                .userName("존재테스트")
+                .userPhone("010-1111-2222")
+                .businessRegistNum(businessRegistNum)
+                .businessName("존재상점")
+                .businessAddress("서울시 존재구")
+                .businessPost("12345")
+                .build();
+
+        userService.signUp(signUpDTO);
+
+        // when
+        boolean exists = userRepo.existsByLoginId(loginId);
+
+        // then
+        Assertions.assertTrue(exists, "회원가입한 로그인 아이디가 존재해야 한다");
+    }
 
 
     @Test

@@ -1,5 +1,6 @@
 package com.chilluminati.chillstock.nonuser.controller;
 
+import com.chilluminati.chillstock.nonuser.dto.LoginIdDupDTO;
 import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.exception.SignUpException;
@@ -9,10 +10,7 @@ import com.chilluminati.chillstock.nonuser.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -46,12 +44,13 @@ public class NonUserController {
 
     /**
      * 로그인 아이디 중복 여부를 확인한다
-     * @param loginId 사용자가 입력한 로그인 아이디
+     * @param loginIdDupDto 사용자가 입력한 로그인 아이디 Dto
      * @return 중복이면 true, 중복이 아니면 false
      */
     @PostMapping("/check-login-id")
-    public boolean checkLoginIdDuplicate(@RequestBody @Valid ) {
-        return userService.checkLoginIdDuplicate(loginId);
+    public boolean checkLoginIdDuplicate(@RequestBody @Valid LoginIdDupDTO loginIdDupDto) {
+        return userService.checkLoginIdDuplicate(loginIdDupDto);
+        // 앞으로 넘겨줄때 true 이면 중복 메시지 사용자에게 띄우고, false 이면 중복 아니라는 메시지를 보여준다
     }
 
 

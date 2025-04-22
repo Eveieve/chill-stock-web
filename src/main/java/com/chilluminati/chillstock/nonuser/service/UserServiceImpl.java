@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
 
 
+
     @Override
     public boolean checkLoginIdDuplicate(LoginIdDupDTO loginIdDupDTO) {
         return userRepo.existsByLoginId(loginIdDupDTO.getUserLoginId());
@@ -104,7 +105,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 사용자 로그인 아이디를  입력 받고, 이메일이 디비에 있으면 새로운 비밀번호를 입력받아 비밀번호 재설정하기
+     * 사용자 로그인 아이디를  입력 받고 디비에 있으면 새로운 비밀번호를 입력받아 비밀번호 재설정하기
      * @param
      */
     @Override

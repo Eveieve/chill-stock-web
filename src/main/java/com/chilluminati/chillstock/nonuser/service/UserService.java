@@ -6,13 +6,15 @@ import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.vo.UserVO;
 
-public interface UserService {
+public interface UserService {  // NonUser 로 바꾸기 ? 여유 있다면
 
     // 로그인아이디 중복 체크
     boolean checkLoginIdDuplicate(LoginIdDupDTO loginIdDupDTO);
 
     // 이메일 중복 체크
     boolean checkEmailDuplicate(EmailDupDTO emailIdDupDTO);
+
+    // 회원가입
     void signUp(SignUpDTO signupDto);
     UserVO findByLoginId(String loginId);
     UserVO findByEmail(String email);

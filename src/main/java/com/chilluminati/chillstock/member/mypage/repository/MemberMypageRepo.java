@@ -19,6 +19,7 @@ public interface MemberMypageRepo {
     UserVO findUserById(@Param("userId") Integer userId);
     /** 유저id로 사업자 찾기 */
     BizVO findBizByUserId(@Param("userId") Integer userId);
+
     /** 유저패스워드 변경 */
     void updateUserPassword(@Param("userId") Integer userId, @Param("dto") UserPasswordDTO userPasswordDTO);
 }

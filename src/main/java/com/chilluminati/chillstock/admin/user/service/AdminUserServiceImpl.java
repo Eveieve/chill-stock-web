@@ -57,7 +57,6 @@ public class AdminUserServiceImpl implements AdminUserService {
         UserBizVO userBizVo = adminUserRepo.getUserBizById(userId);
         return userBizVo;
 
-
     }
 
     /**
@@ -110,7 +109,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     /**
-     * 탈퇴/삭제되ㅣㄴ ㅎ
+     * 탈퇴/삭제된 회원 모두 조회 --> 페이징 ?
      * @return
      */
     @Override

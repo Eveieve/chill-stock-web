@@ -60,15 +60,15 @@ public class UserServiceImpl implements UserService {
             throw new SignUpException(SignUpErrorCode.PASSWORD_MISMATCH);
         }
 
-        // 2. 로그인 ID 중복 체크
-        if (userRepo.findByLoginId(signupDto.getUserLoginId()) != null) {
-            throw new SignUpException(SignUpErrorCode.DUPLICATE_LOGIN_ID);
-        }
-
-        // 3. 이메일 중복 체크
-        if (userRepo.findByEmail(signupDto.getUserEmail()) != null) {
-            throw new SignUpException(SignUpErrorCode.DUPLICATE_EMAIL);
-        }
+//        // 2. 로그인 ID 중복 체크
+//        if (userRepo.findByLoginId(signupDto.getUserLoginId()) != null) {
+//            throw new SignUpException(SignUpErrorCode.DUPLICATE_LOGIN_ID);
+//        }
+//
+//        // 3. 이메일 중복 체크
+//        if (userRepo.findByEmail(signupDto.getUserEmail()) != null) {
+//            throw new SignUpException(SignUpErrorCode.DUPLICATE_EMAIL);
+//        }
 
         // 4. 사업자 등록번호 중복 체크
         if (bizRepo.findByBusinessRegistNum(signupDto.getBusinessRegistNum()) != null) {
@@ -91,6 +91,11 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    /** --> 프라이빗으로 받기
+     * 로그인아이디를 받아
+     * @param loginId
+     * @return
+     */
     @Override
     public UserVO findByLoginId(String loginId) {
         UserVO user = userRepo.findByLoginId(loginId);
@@ -100,6 +105,11 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    /**--> private 으로 두기 -> 인터페이스에서도 삭제
+     * 이메일 아이디 받아 로그인아이디 찾기
+     * @param email
+     * @return
+     */
     @Override
     public UserVO findByEmail(String email) {
         UserVO user = userRepo.findByEmail(email);

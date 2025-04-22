@@ -35,7 +35,7 @@ public class MemberMypageServiceImpl implements MemberMypageService {
 
         UserBizDTO dto = new UserBizDTO();
 
-        //1. 유저 정보 세팅
+        //1. 유저 정보 세팅  ---> 필드 세팅하는걸 빌더패턴으로 변경하기! 변수에 할당하지 말고 발로 리턴하기
         dto.setUserLoginId(user.getUserLoginId());
         dto.setUserEmail(user.getUserEmail());
         dto.setUserName(user.getUserName());
@@ -97,12 +97,13 @@ public class MemberMypageServiceImpl implements MemberMypageService {
         memberMypageRepo.updateBiz(userId, dto);
     }
 
-    /***
+    /***  --->
      * get UserVO
      * @return
      */
     private EmailUserDetails getEmailUserDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (EmailUserDetails) authentication.getPrincipal(); // extract userVO
+       return (EmailUserDetails) authentication.getPrincipal(); // extract userVO
+
     }
 }

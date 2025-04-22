@@ -141,8 +141,8 @@ public class UserServiceImpl implements UserService {
         String loginId = userRepo.findLoginId(email);
         if (loginId == null) {
             throw new UserNotFoundException("해당 이메일로 등록된 계정을 찾을 수 없습니다.");
-        }
-        return loginId;
+        } else return loginId;
+
     }
 
 

@@ -69,9 +69,9 @@ public class NonUserController {
     /**
      * 이메일을 이용해 로그인 아이디를 반환한다.
      * @param email
-     * @return
+     * @return loginId
      */
-    @PostMapping("/find-login-id")
+    @PostMapping("login/find-login-id")
     public String findLoginId(@RequestParam("email") String email) {
         return userService.findLoginId(email); // 로그인 아이디만 문자열로 응답하기. 로그인 아이디는 모달로 알려줌.
     }

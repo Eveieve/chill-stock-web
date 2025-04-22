@@ -11,16 +11,16 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/user")
+@RequestMapping("/admin")
 public class AdminController {
     private final AdminUserService adminUserService;
 
-    @GetMapping("/admin/users")
+    @GetMapping("/users")
     public String getAllUsers(@RequestParam(defaultValue = "1") int page, Model model) {
         List<UserBizDTO> users = adminUserService.getAllUsersByPage(page);
         model.addAttribute("users", users);
         model.addAttribute("currentPage", page);
-        return "admin/user-list";
+        return "admin/users";
     }
 
     /**

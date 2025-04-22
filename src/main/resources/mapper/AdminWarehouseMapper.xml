@@ -34,4 +34,17 @@
         WHERE warehouse_id = #{id}
     </select>
 
+    <select id="adminGetAllWarehouses" resultType="com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseVo">
+        SELECT
+            warehouse_id AS warehouseId,
+            warehouse_name AS warehouseName,
+            warehouse_space AS warehouseSpace,
+            warehouse_address AS warehouseAddress,
+            warehouse_amount AS warehouseAmount
+        FROM
+            warehouse_table
+        ORDER BY
+            warehouse_id DESC
+    </select>
+
 </mapper>

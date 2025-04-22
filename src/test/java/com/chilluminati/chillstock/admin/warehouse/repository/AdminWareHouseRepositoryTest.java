@@ -4,6 +4,7 @@ import com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseVo;
 import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
 import com.chilluminati.chillstock.config.MybatisConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,9 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
+@Slf4j
 @ContextConfiguration(classes = {
         AppConfig.class,
         MybatisConfig.class,
@@ -51,6 +55,15 @@ class AdminWareHouseRepositoryTest {
         AdminWarehouseVo adminWarehouseVo = adminWareHouseRepository.adminGetWarehouseById(wareHouseId);
         //then
         assertNotNull(adminWarehouseVo);
+    }
+
+    @Test
+    void findAllWarehouses() {
+        List<AdminWarehouseVo> adminWarehouseVos = adminWareHouseRepository.adminGetAllWarehouses();
+        assertNotNull(adminWarehouseVos);
+        adminWarehouseVos.forEach(adminWarehouseVo -> {
+            log.info(adminWarehouseVo.toString());
+        });
     }
 
 

@@ -6,6 +6,9 @@ import com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class AdminWarehouseServiceImp implements AdminWarehouseService{
@@ -24,5 +27,20 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
                 .build();
 
         adminWareHouseRepository.createWarehouse(adminWarehouseVo);
+    }
+
+    @Override
+    public List<AdminWarehouseDto> getAllWarehouses() {
+        return adminWareHouseRepository.adminGetAllWarehouses().stream()
+                .map(adminWarehouseVo -> {
+                    AdminWarehouseDto adminWarehouseDto = AdminWarehouseDto.builder()
+                            .warehouseId(adminWarehouseVo.getWarehouseId())
+                            .warehouseName(adminWarehouseVo.getWarehouseName())
+                            .warehouseSpace(adminWarehouseVo.getWarehouseSpace())
+                            .warehouseAddress(adminWarehouseVo.getWarehouseAddress())
+                            .warehouseAmount(adminWarehouseVo.getWarehouseAmount())
+                            .build();
+                    return adminWarehouseDto;
+                }).collect(Collectors.toList());
     }
 }

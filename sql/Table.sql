@@ -47,6 +47,7 @@ CREATE TABLE business_table (
                                 business_regist_num VARCHAR(20) NOT NULL UNIQUE,
                                 business_name VARCHAR(255) NOT NULL,
                                 business_address VARCHAR(255) NOT NULL,
+                                business_post VARCHAR(10) NOT NULL,
                                 user_id INT NOT NULL
 );
 

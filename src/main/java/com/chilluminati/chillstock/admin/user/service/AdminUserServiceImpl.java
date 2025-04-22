@@ -25,11 +25,11 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     private final ModelMapper modelMapper;
 
-    public int getTotalPages() {
-        int totalCount = adminUserRepo.countAllUsers(); // 단순 COUNT(*)
-        int size = 10; // 고정값
-        return (int) Math.ceil((double) totalCount / size);
-    }
+//    public int getTotalPages() {
+//        int totalCount = adminUserRepo.countAllUsers(); // 단순 COUNT(*)
+//        int size = 10; // 고정값
+//        return (int) Math.ceil((double) totalCount / size);
+//    }
     /**
      * 모든 회원 불러오기
      * @param page

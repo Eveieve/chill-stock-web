@@ -16,7 +16,14 @@ import javax.sql.DataSource;
         "com.chilluminati.chillstock.example.repository",
         "com.chilluminati.chillstock.admin.user.repository",
         "com.chilluminati.chillstock.nonuser.repository",
-        "com.chilluminati.chillstock.member.mypage.repository"
+        "com.chilluminati.chillstock.member.mypage.repository",
+        "com.chilluminati.chillstock.member.inbound.repository",
+        "com.chilluminati.chillstock.member.product.repository",
+        "com.chilluminati.chillstock.admin.inventory.repository",
+        "com.chilluminati.chillstock.admin.warehouse.repository",
+        "com.chilluminati.chillstock.admin.user.repository",
+        "com.chilluminati.chillstock.member.stock.repository",
+        "com.chilluminati.chillstock.member.outbound.repository"
 })// 매퍼 인터페이스 위치
 public class MybatisConfig {
 

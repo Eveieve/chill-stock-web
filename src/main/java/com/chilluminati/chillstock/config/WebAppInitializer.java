@@ -1,6 +1,11 @@
 package com.chilluminati.chillstock.config;
 
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -23,5 +28,19 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     @Override
     protected String[] getServletMappings() {
         return new String[] { "/" }; // DispatcherServlet 매핑
+    }
+
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        // DispatcherServlet 먼저 등록
+        super.onStartup(servletContext);
+
+        // CharacterEncodingFilter 등록
+        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+        characterEncodingFilter.setEncoding("UTF-8");
+        characterEncodingFilter.setForceEncoding(true);
+
+        FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("characterEncodingFilter", characterEncodingFilter);
+        encodingFilter.addMappingForUrlPatterns(null, false, "/*");
     }
 }

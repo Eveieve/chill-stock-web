@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chilluminati.chillstock.member.product.repository.ProductRepository">
+
+    <!-- 로그인한 사용자의 등록된 제품 리스트 조회 -->
+    <select id="selectMyProducts" parameterType="Integer"
+            resultType="com.chilluminati.chillstock.member.product.vo.ProductVO">
+
+        SELECT
+        p.product_id           AS productId,
+        p.product_name         AS productName,
+        p.product_size         AS productSize,
+        p.storage_temperature  AS storageTemperature,
+        p.expiration_date      AS expirationDate,
+        cm.category_name       AS categoryName,
+        c.category_name        AS subCategoryName
+
+        FROM product p
+        JOIN business_table b ON p.business_id = b.business_id
+        JOIN user_table u ON b.user_id = u.user_id
+        JOIN c_mid_level c ON p.category_mid_id = c.category_mid_id
+        JOIN category_main cm ON c.category_main_id = cm.category_id
+
+        WHERE u.user_id = #{userId}
+        ORDER BY product_id DESC
+
+    </select>
+
+</mapper>

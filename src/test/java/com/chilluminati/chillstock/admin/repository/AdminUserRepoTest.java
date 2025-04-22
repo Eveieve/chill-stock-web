@@ -20,9 +20,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.DataSource;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,7 +45,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
         HikariCPConfig.class
 })
 class AdminUserRepoTest {
-
+    @Configuration
+    static class TestTxConfig {
+        @Bean
+        public PlatformTransactionManager transactionManager(DataSource dataSource) {
+            return new DataSourceTransactionManager(dataSource);
+        }
+    }
     @Autowired
     private AdminUserServiceImpl adminUserService;
 
@@ -178,6 +191,21 @@ void getAllDeletedUsers() {
     }
     Assertions.assertTrue(match, "삭제된 회원의 정보가 백업 리스트에 포함되어야 한다");
 }
+
+    @DisplayName("여러 명의 회원을 삭제할 수 있다.")
+    @Test
+    @Transactional
+    void deleteUsersByIds_여러회원삭제_테스트() {
+        // given
+        List<Integer> userIds = Arrays.asList(2, 3); // 실제 존재하는 user_id 사용
+
+        // when
+        int deletedCount = adminUserRepo.deleteUsersByIds(userIds);
+
+        // then
+        Assertions.assertTrue(deletedCount > 0, "삭제된 행 수는 0보다 커야 한다");
+    }
+
 
 }
 

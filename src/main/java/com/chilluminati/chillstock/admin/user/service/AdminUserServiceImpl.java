@@ -25,6 +25,27 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     private final ModelMapper modelMapper;
 
+    public int getTotalPages() {
+        int totalCount = adminUserRepo.countAllUsers(); // 단순 COUNT(*)
+        int size = 10; // 고정값
+        return (int) Math.ceil((double) totalCount / size);
+    }
+    /**
+     * 모든 회원 불러오기
+     * @param page
+     * @return
+     */
+    public List<UserBizDTO> getAllUsersByPage(int page) {
+        final int size = 10;
+        int offset = (page - 1) * size;
+
+        List<UserBizVO> voList = adminUserRepo.getAllUsersWithBiz(size, offset);
+        // ModelMapper를 이용한 변환
+        return voList.stream()
+                .map(vo -> modelMapper.map(vo, UserBizDTO.class))
+                .collect(Collectors.toList());
+
+    }
     /**
      * 클릭하여 회원 한명 상세 정보 조회하기
      * @param userId
@@ -89,7 +110,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     /**
-     * 탈퇴/삭제된 회원 모두 조회하기
+     * 탈퇴/삭제되ㅣㄴ ㅎ
      * @return
      */
     @Override

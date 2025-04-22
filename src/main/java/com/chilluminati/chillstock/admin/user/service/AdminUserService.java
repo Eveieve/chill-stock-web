@@ -4,15 +4,26 @@ import com.chilluminati.chillstock.admin.user.dto.UserBizDTO;
 import com.chilluminati.chillstock.admin.user.vo.UserBizBackupVO;
 import com.chilluminati.chillstock.admin.user.vo.UserBizVO;
 import com.chilluminati.chillstock.admin.user.vo.UserVO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface AdminUserService {
 
-    // 이름으로 회원 검색
+    List<UserBizDTO> getAllUsersByPage(@Param("limit") int limit);
+
+    /**
+     * 이름으로 회원계정을 검색
+     * @param userName
+     * @return
+     */
     List<UserBizDTO> searchUserByName(String userName);
 
-    // PK로 회원+ 사업자 정보 상세 조회
+    /**
+     *
+     * @param userId
+     * @return
+     */
     UserBizVO viewUserDetail(Integer userId);
 
     /**
@@ -47,4 +58,6 @@ public interface AdminUserService {
    // List<UserDTO> getDeletedUsers();
 
     List<UserBizBackupVO> getAllDeletedUsers();
+
+
 }

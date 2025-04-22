@@ -48,19 +48,33 @@ public interface AdminUserRepo {
 
    int deleteUserById(Integer userId);
 
+   /**
+    * 회원 계정 한개/여러개 삭제하기
+    * @param userIds
+    * @return
+    */
    int deleteUsersByIds(List<Integer> userIds);
 
    int approveUserById(Integer userId);
 
+   /**
+    * 대기중인 회원 계정 한개/여러개 승인하기
+    * @param userIds
+    * @return
+    */
    int approveUsersByIds(List<Integer> userIds);
 
    /**
-    * 삭제전 회원+사업체 정보 묶어 저장하기
-    * @param userId
+    * 삭제된 회원 백업 테이블 회원계정 모두 불러오기
+    * @return
     */
-   void backUpUserBeforeDelete(Integer userId);
-
    List<UserBizBackupVO> findAllDeletedUsers();
 
-
+   /**
+    * 모든 회원 계정 불러오기
+    * @param limit
+    * @param offset
+    * @return
+    */
+   List<UserBizVO> getAllUsersWithBiz(@Param("limit") int limit, @Param("offset") int offset);
 }

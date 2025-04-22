@@ -1,5 +1,6 @@
 package com.chilluminati.chillstock.nonuser.service;
 
+import com.chilluminati.chillstock.nonuser.dto.EmailDupDTO;
 import com.chilluminati.chillstock.nonuser.dto.LoginIdDupDTO;
 import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
@@ -23,8 +24,21 @@ public class UserServiceImpl implements UserService {
     private final BizRepo bizRepo;
     private final ModelMapper modelMapper;
 
+    /**
+     * 이메일 중복 체크
+     * @param emailIdDupDTO
+     * @return
+     */
+    @Override
+    public boolean checkEmailDuplicate(EmailDupDTO emailIdDupDTO) {
+        return false;
+    }
 
-
+    /**
+     * 로그인 아이디 중복 체크
+     * @param loginIdDupDTO
+     * @return
+     */
     @Override
     public boolean checkLoginIdDuplicate(LoginIdDupDTO loginIdDupDTO) {
         return userRepo.existsByLoginId(loginIdDupDTO.getUserLoginId());

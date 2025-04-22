@@ -1,5 +1,6 @@
 package com.chilluminati.chillstock.nonuser.controller;
 
+import com.chilluminati.chillstock.nonuser.dto.EmailDupDTO;
 import com.chilluminati.chillstock.nonuser.dto.LoginIdDupDTO;
 import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
@@ -16,7 +17,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/home")
+@RequestMapping("/nonuser")
 public class NonUserController {
     private final UserService userService;
 
@@ -35,11 +36,22 @@ public class NonUserController {
     public String signUp(SignUpDTO signUpDto, Model model) {
         try {
             userService.signUp(signUpDto);
-            return "home/login";
+            return "nonuser/login";
         } catch (SignUpException e) {
             model.addAttribute("errorMessage", e.getErrorCode().getMessage());
-            return "home/signup-form";
+            return "nonuser/signup-form";
         }
+    }
+
+    /**
+     * 이메일 중복 여부를 확인한다
+     * @param emailDupDto 사용자가 입력한 이메일 Dto
+     * @return 중복이면 true, 중복이 아니면 false
+     */
+    @PostMapping("/check-email")
+    public boolean checkEmailDuplicate(@RequestBody @Valid EmailDupDTO emailDupDto) {
+        return userService.checkEmailDuplicate(emailDupDto);
+        // 앞으로 넘겨줄때 true 이면 중복 메시지 사용자에게 띄우고, false 이면 중복 아니라는 메시지를 보여준다
     }
 
     /**
@@ -82,10 +94,10 @@ public class NonUserController {
     public String resetPassword(PasswordResetDTO passwordResetDTO, Model model) {
         try {
             userService.resetPassword(passwordResetDTO);
-            return "home/reset-password-success";
+            return "nonuser/reset-password-success";
         } catch (SignUpException e) {
             model.addAttribute("errorMessage", e.getErrorCode().getMessage());
-            return "home/reset-password-form";
+            return "nonuser/reset-password-form";
         }
     }
 }

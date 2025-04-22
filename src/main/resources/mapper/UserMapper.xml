@@ -55,6 +55,13 @@
         WHERE user_login_id = #{loginId}
     </select>
 
+    <!--이메일이 디비에 이미 존재하는지 확인한다-->
+    <select id="existsByEmail" resultType="boolean" parameterType="String">
+        SELECT COUNT(*) > 0
+        FROM user_table
+        WHERE user_email = #{email}
+    </select>
+
     <select id="findByLoginId" resultMap="UserWithBizMap" parameterType="String">
         SELECT
             u.user_id, u.user_login_id, u.user_name, u.user_email, u.user_password,

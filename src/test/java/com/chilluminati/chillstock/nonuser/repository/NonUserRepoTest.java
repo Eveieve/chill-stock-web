@@ -33,11 +33,23 @@ class AdminUserRepoTest {
     @Autowired
     private BizRepo bizRepo;
 
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Test
-    @DisplayName("로그인 아이디가 존재하는지 확인할 수 있다")
+    @DisplayName("이미 존재하는 이메일인지 확인할 수 있다")
+    void existsByEmailTest() {
+        // given
+        String existingEmail = "mypage_1745226481031@example.com"; // 실제 DB에 존재하는 이메일
+
+        // when
+        boolean exists = userRepo.existsByEmail(existingEmail);
+
+        // then
+        Assertions.assertTrue(exists, "DB에 이미 존재하는 이메일이면 true를 반환해야 한다");
+    }
+
+
+    @Test
+    @DisplayName("로그인 아이디가 이미 존재하는지 확인할 수 있다")
     void existsByLoginIdTest() {
         // given
         String uniqueId = String.valueOf(System.currentTimeMillis());

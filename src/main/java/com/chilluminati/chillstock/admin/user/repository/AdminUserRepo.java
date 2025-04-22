@@ -1,6 +1,9 @@
 package com.chilluminati.chillstock.admin.user.repository;
 
+import com.chilluminati.chillstock.admin.user.dto.UserBizDTO;
+import com.chilluminati.chillstock.admin.user.vo.BizVO;
 import com.chilluminati.chillstock.admin.user.vo.UserBizBackupVO;
+import com.chilluminati.chillstock.admin.user.vo.UserBizVO;
 import com.chilluminati.chillstock.admin.user.vo.UserVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -8,10 +11,18 @@ import java.util.List;
 
 
 public interface AdminUserRepo {
-   void insertUser(UserVO user);  // 회원 가입
 
-   // 테이블 기본키로 회원 찾기
-   UserVO findByUserId(Integer userId);
+   // 이름으로 회원 정보 검색하기
+   List<UserBizVO> getUsersByName(String userName);
+
+   // id로 회원정보만 조회하기
+   UserVO getUserById(Integer userId);
+
+   // userid로 사업체 번호만 조회하기
+   BizVO getBizById(Integer userId);
+
+   // 테이블 기본키로 회원 찾기 (회원 상세조회하기 클릭)
+   UserBizVO getUserBizById(Integer userId);
 
    // 로그인 아이디 로 회원의 모든 정보  불러오기
    UserVO findByLoginId(String loginId);

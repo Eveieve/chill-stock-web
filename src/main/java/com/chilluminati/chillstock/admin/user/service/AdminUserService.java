@@ -1,15 +1,19 @@
 package com.chilluminati.chillstock.admin.user.service;
 
+import com.chilluminati.chillstock.admin.user.dto.UserBizDTO;
 import com.chilluminati.chillstock.admin.user.vo.UserBizBackupVO;
+import com.chilluminati.chillstock.admin.user.vo.UserBizVO;
 import com.chilluminati.chillstock.admin.user.vo.UserVO;
 
 import java.util.List;
 
 public interface AdminUserService {
 
-    UserVO findUserById(Integer userId);
+    // 이름으로 회원 검색
+    List<UserBizDTO> searchUserByName(String userName);
 
-
+    // PK로 회원+ 사업자 정보 상세 조회
+    UserBizVO viewUserDetail(Integer userId);
 
     /**
      * 단일 회원을 삭제 처리

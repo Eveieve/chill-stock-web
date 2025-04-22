@@ -1,10 +1,12 @@
 package com.chilluminati.chillstock.admin.repository;
 
 import com.chilluminati.chillstock.admin.user.common.UserStatus;
+import com.chilluminati.chillstock.admin.user.dto.UserBizDTO;
 import com.chilluminati.chillstock.admin.user.exception.AdminUserException;
 import com.chilluminati.chillstock.admin.user.repository.AdminUserRepo;
 import com.chilluminati.chillstock.admin.user.service.AdminUserServiceImpl;
 import com.chilluminati.chillstock.admin.user.vo.UserBizBackupVO;
+import com.chilluminati.chillstock.admin.user.vo.UserBizVO;
 import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
 import com.chilluminati.chillstock.config.MybatisConfig;
@@ -22,6 +24,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * 관리자가 할 수 있는 기능을 테스트 한다
@@ -76,6 +81,43 @@ class AdminUserRepoTest {
     }
 
     @Test
+    @DisplayName("userId로 회원과 사업자 상세 정보를 조회할 수 있다")
+    void viewUserDetailTest() {
+        // given
+        Integer userId = 1; // DB에 존재하는 user_id를 사용하세요
+
+        // when
+        UserBizVO userBizVO = adminUserRepo.getUserBizById(userId);
+
+        // then
+        assertNotNull(userBizVO, "조회된 UserBizVO는 null이 아니어야 한다");
+        assertNotNull(userBizVO.getUserLoginId(), "userLoginId는 null이 아니어야 한다");
+        assertNotNull(userBizVO.getUserName(), "userName은 null이 아니어야 한다");
+        assertNotNull(userBizVO.getBusinessName(), "businessName은 null이 아니어야 한다");
+
+    }
+
+    @Test
+    @DisplayName("중복 이름을 가진 회원의 회원+사업자 정보를 모두 조회할 수 있다")
+    void searchUsersByName_중복이름조회_테스트() {
+        // given
+        String name = "서비스비밀번호변경";
+
+        // when
+        List<UserBizVO> users = adminUserRepo.getUsersByName(name);
+
+        // then
+        // 조회한 리스트가
+        Assertions.assertNotNull(users);
+
+        // 리스트의 모든 회원이 기대하는 name 과 ㅇ리치하는지 확인
+        for (UserBizVO user : users) {
+            assertEquals(name, user.getUserName());
+        }
+    }
+
+
+    @Test
     @DisplayName("회원 한 명 삭제 성공 - 실제 삭제 확인")
     void deleteUserById () {
         // when
@@ -94,7 +136,7 @@ class AdminUserRepoTest {
 
         // then
         UserVO approvedUser = userRepo.findByUserId(insertedUserId);
-        Assertions.assertEquals(UserStatus.APPROVED, approvedUser.getUserStatus());
+        assertEquals(UserStatus.APPROVED, approvedUser.getUserStatus());
     }
 
     // 회원 삭제시 사업체 정보와 함께 백업 테이블에 들어간다

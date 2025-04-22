@@ -27,5 +27,4 @@ public class UserVO {
     private UserStatus userStatus;
     private LocalDate userRequestedAt;
 
-    private BizVO bizVO;
 }

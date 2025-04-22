@@ -16,7 +16,7 @@ public class UserDTO {
     private String userLoginId;
     private String userEmail;
     private String userName;
-    private String userPassword;
+
     private String userPhone;
     private LocalDate userApprovedAt;
     private UserType userType;

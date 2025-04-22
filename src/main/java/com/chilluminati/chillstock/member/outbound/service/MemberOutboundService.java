@@ -9,5 +9,6 @@ import java.util.List;
 public interface MemberOutboundService {
     void createOutboundRequest(Integer productId, Integer outboundAmount);
     List<MemberOutboundDTO> readOutboundRequests(Integer userId);
-    List<MemberStockDTO> readAllMemberStock(Integer userId, String productName);
+    List<MemberStockDTO> readAllMemberStock(String productName, Integer page, Integer limit);
+    Integer countMemberStock(String productName);
 }

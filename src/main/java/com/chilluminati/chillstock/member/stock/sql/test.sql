@@ -24,3 +24,16 @@ from product p
          join business_table b on p.business_id = b.business_id
 where b.user_id = 1
 order by s.stock_id;
+
+select distinct s.stock_id, p.product_id, p.product_name, p.expiration_date, s.stock_amount, i.inbound_date
+from product p
+         join stock_table s on p.product_id = s.product_id
+         join inbound_table i on i.product_id = p.product_id
+         join business_table b on p.business_id = b.business_id
+where i.inbound_status = '대기'
+order by s.stock_id;
+
+select * from stock_table;
+insert into stock_table (stock_amount, product_id, area_id) (select stock_amount, product_id, area_id from stock_table);
+
+select * from outbound_table;

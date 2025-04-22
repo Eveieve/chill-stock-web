@@ -12,6 +12,20 @@ import java.util.List;
 
 public interface AdminUserRepo {
 
+   /**
+    * 모든 회원 불러오기
+    * @param limit
+    * @param offset
+    * @return
+    */
+   List<UserBizVO> getAllUsersBiz(@Param("limit") int limit, @Param("offset") int offset);
+
+   /**
+    * 전체 회원 수 반환
+    * @return
+    */
+   int countAllUsers();
+
    // 이름으로 회원 정보 검색하기
    List<UserBizVO> getUsersByName(String userName);
 
@@ -70,11 +84,5 @@ public interface AdminUserRepo {
     */
    List<UserBizBackupVO> findAllDeletedUsers();
 
-   /**
-    * 모든 회원 계정 불러오기
-    * @param limit
-    * @param offset
-    * @return
-    */
-   List<UserBizVO> getAllUsersWithBiz(@Param("limit") int limit, @Param("offset") int offset);
+
 }

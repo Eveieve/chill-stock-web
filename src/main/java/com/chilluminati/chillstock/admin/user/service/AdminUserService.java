@@ -10,6 +10,17 @@ import java.util.List;
 
 public interface AdminUserService {
 
+    /**
+     * 전체 회원 수 세기
+     * @return
+     */
+    int countAllUsers();
+
+    /**
+     * 전체 회원 조회하기 (페이징)
+     * @param limit
+     * @return
+     */
     List<UserBizDTO> getAllUsersByPage(@Param("limit") int limit);
 
     /**

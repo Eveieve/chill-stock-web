@@ -186,8 +186,8 @@
         AND user_status = 'pending'
     </update>
 
-    <!-- 회원 + 사업체 정보 페이징 조회 -->
-    <select id="getAllUsersWithBiz" resultMap="UserWithBizMap">
+    <!-- 회원 + 사업체 정보 모두 불러오기 -->
+    <select id="getAllUsersBiz" resultMap="UserWithBizMap">
         SELECT
             u.user_id, u.user_login_id, u.user_name, u.user_email,
             u.user_phone, u.user_type, u.user_status, u.user_requested_at, u.user_approved_at,

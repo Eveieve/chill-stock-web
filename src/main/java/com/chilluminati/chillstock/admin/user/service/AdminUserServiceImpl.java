@@ -30,16 +30,29 @@ public class AdminUserServiceImpl implements AdminUserService {
 //        int size = 10; // 고정값
 //        return (int) Math.ceil((double) totalCount / size);
 //    }
+
+    /**
+     * 전체 회원 수 세기
+     *
+     * @return
+     */
+    @Override
+    public int countAllUsers() {
+        return adminUserRepo.countAllUsers();
+    }
+
     /**
      * 모든 회원 불러오기
      * @param page
      * @return
      */
     public List<UserBizDTO> getAllUsersByPage(int page) {
+        // 화면에 10개씩 출력
         final int size = 10;
-        int offset = (page - 1) * size;
+        int safePage = Math.max(page, 1); // 0 이하 방지
+        int offset = (safePage - 1) * size;
 
-        List<UserBizVO> voList = adminUserRepo.getAllUsersWithBiz(size, offset);
+        List<UserBizVO> voList = adminUserRepo.getAllUsersBiz(size, offset);
         // ModelMapper를 이용한 변환
         return voList.stream()
                 .map(vo -> modelMapper.map(vo, UserBizDTO.class))

@@ -15,13 +15,23 @@ import java.util.List;
 public class AdminController {
     private final AdminUserService adminUserService;
 
-    @GetMapping("/users")
-    public String getAllUsers(@RequestParam(defaultValue = "1") int page, Model model) {
-        List<UserBizDTO> users = adminUserService.getAllUsersByPage(page);
-        model.addAttribute("users", users);
-        model.addAttribute("currentPage", page);
-        return "admin/users";
-    }
+        @GetMapping("/users")
+        public String getAllUsers(@RequestParam(defaultValue = "1") int page, Model model) {
+
+            int pageSize = 10;
+
+            // 전체 회원 수를 정확히 구하는 메서드 필요
+            int total = adminUserService.countAllUsers();
+            int totalPages = (int) Math.ceil((double) total / pageSize);
+
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+            List<UserBizDTO> users = adminUserService.getAllUsersByPage(page);
+            model.addAttribute("users", users);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", totalPages);
+            return "admin/users";
+        }
 
     /**
      * 이름으로 회원(들)을 검색한다

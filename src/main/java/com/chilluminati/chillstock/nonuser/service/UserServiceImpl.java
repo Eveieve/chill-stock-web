@@ -1,5 +1,6 @@
 package com.chilluminati.chillstock.nonuser.service;
 
+import com.chilluminati.chillstock.nonuser.dto.LoginIdDupDTO;
 import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.exception.SignUpErrorCode;
@@ -23,6 +24,10 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
 
 
+    @Override
+    public boolean checkLoginIdDuplicate(LoginIdDupDTO loginIdDupDTO) {
+        return userRepo.existsByLoginId(loginIdDupDTO.getUserLoginId());
+    }
 
     /**
      * 회원가입

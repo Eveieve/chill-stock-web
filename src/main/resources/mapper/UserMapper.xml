@@ -48,6 +48,12 @@
             <result property="businessPost" column="business_post"/>
         </association>
     </resultMap>
+<!--로그인 아이디가 디비에 이미 존재하는지 확인한다-->
+    <select id="existsByLoginId" resultType="boolean" parameterType="String">
+        SELECT COUNT(*) > 0
+        FROM user_table
+        WHERE user_login_id = #{loginId}
+    </select>
 
     <select id="findByLoginId" resultMap="UserWithBizMap" parameterType="String">
         SELECT

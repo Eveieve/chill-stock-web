@@ -1,10 +1,15 @@
 package com.chilluminati.chillstock.nonuser.service;
 
+import com.chilluminati.chillstock.nonuser.dto.LoginIdDupDTO;
 import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.vo.UserVO;
 
 public interface UserService {
+
+    //이메일 중복 체크
+    boolean checkLoginIdDuplicate(LoginIdDupDTO loginIdDupDTO);
+
     void signUp(SignUpDTO signupDto);
     UserVO findByLoginId(String loginId);
     UserVO findByEmail(String email);

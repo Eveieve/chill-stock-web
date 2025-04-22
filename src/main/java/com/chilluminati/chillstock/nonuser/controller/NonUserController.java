@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/home")
@@ -25,6 +27,12 @@ public class NonUserController {
         return "nonuser/signupForm";
     }
 
+    /**
+     * 회원가입 한다
+     * @param signUpDto
+     * @param model
+     * @return
+     */
     @PostMapping("/signup")
     public String signUp(SignUpDTO signUpDto, Model model) {
         try {
@@ -35,6 +43,17 @@ public class NonUserController {
             return "home/signup-form";
         }
     }
+
+    /**
+     * 로그인 아이디 중복 여부를 확인한다
+     * @param loginId 사용자가 입력한 로그인 아이디
+     * @return 중복이면 true, 중복이 아니면 false
+     */
+    @PostMapping("/check-login-id")
+    public boolean checkLoginIdDuplicate(@RequestBody @Valid ) {
+        return userService.checkLoginIdDuplicate(loginId);
+    }
+
 
     /**
      * 이메일을 이용해 로그인 아이디를 반환한다.

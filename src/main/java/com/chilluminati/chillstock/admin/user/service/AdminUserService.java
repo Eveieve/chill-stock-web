@@ -9,6 +9,8 @@ public interface AdminUserService {
 
     UserVO findUserById(Integer userId);
 
+
+
     /**
      * 단일 회원을 삭제 처리
      * @param userId 삭제할 회원의 고유 ID

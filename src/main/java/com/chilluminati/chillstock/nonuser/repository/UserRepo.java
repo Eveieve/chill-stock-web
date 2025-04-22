@@ -18,6 +18,9 @@ public interface UserRepo {
    // 로그인 아이디 로 회원의 모든 정보  불러오기
    UserVO findByLoginId(String loginId);
 
+   // 로그인 아이디가 디비에 존재하는지 확인
+   boolean existsByLoginId(String loginId);
+
    /**
     * email로 회원의 모든 정보 (비밀번호 포함) 불러오기
     * @param email

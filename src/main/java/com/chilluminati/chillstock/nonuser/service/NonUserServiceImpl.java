@@ -88,12 +88,20 @@ public class NonUserServiceImpl implements NonUserService {
     }
 
     @Override
-    public void resetPassword(PasswordResetDTO passwordResetDto) { // dto 를 파라미터로 받아야 하나?
+    public void resetPassword(PasswordResetDTO dto) { // dto 를 파라미터로 받아야 하나?
         // 디비에 저장된 사용자인지 확인한다
-       boolean userExists = userRepo.existsByLoginId(passwordResetDto.getUserLoginId());
+       boolean userExists = userRepo.existsByLoginId(dto.getUserLoginId());
        if (userExists) { // 사용자가 존재하면
-           // 패스워드 재서러정한다
-           userRepo.updatePassword(passwordResetDto.getUserLoginId(), passwordResetDto.getNewPassword());
+
+           // 1. 비밀번호 암호화
+           BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+           String encryptedPassword = encoder.encode(dto.getNewPassword());
+
+            //로그
+           log.debug("Encrypted password: {}", encryptedPassword);
+
+        // 3.암호화된 비밀번호로 DB 업데이트
+           userRepo.updatePassword(encryptedPassword, dto.getUserLoginId());
        }
     }
 }

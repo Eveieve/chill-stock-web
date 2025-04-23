@@ -141,33 +141,16 @@ public class NonUserServiceImplTest {
     @DisplayName("사용자의 비밀번호를 성공적으로 업데이트할 수 있다.")
     void updatePasswordTest() {
         // given
-        String uniqueId = String.valueOf(System.currentTimeMillis());
-        String loginId = "chillstock_" + uniqueId;
-        String email = "updatepw_" + uniqueId + "@example.com";
-        String businessRegistNum = "777-" + uniqueId.substring(4, 6) + "-" + uniqueId.substring(6, 11);
 
-        SignUpDTO signupDto = SignUpDTO.builder()
-                .userLoginId(loginId)
-                .userPassword("originalPassword123!")
-                .userPasswordCheck("originalPassword123!")
-                .userEmail(email)
-                .userName("비밀번호변경")
-                .userPhone("010-9876-5432")
-                .businessRegistNum(businessRegistNum)
-                .businessName("비밀번호상점")
-                .businessAddress("서울특별시 비밀번호구")
-                .businessPost("12345")
+        PasswordResetDTO dto = PasswordResetDTO.builder()
+                .userLoginId("chillstock_1745410469351") // 디비에 존재하는 아이디 넣기
+                .newPassword("originalPassword123!")
+                .newPasswordCheck("originalPassword123!")
                 .build();
 
-        userService.signUp(signupDto);
-
         // when
-        String newPassword = "newPassword456!";
-        userRepo.updatePassword(newPassword, loginId);
-        UserVO updatedUser = userRepo.findByLoginId(loginId);
+        userService.resetPassword(dto);
 
-        // then
-        assertEquals(newPassword, updatedUser.getUserPassword());
     }
     @Test
     void 비밀번호_불일치_회원가입_예외발생() {

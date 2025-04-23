@@ -29,6 +29,17 @@ public class NonUserController {
         return nonUserService.findLoginIdByEmail(email); // 로그인 아이디만 문자열로 응답하기. 로그인 아이디는 모달로 알려줌.
     }
 
+
+    /**
+     * 비밀번호 찾기 클릭할 시 find-password.html 로 이동한다
+     * @return
+     */
+    @GetMapping("/find-password")
+    public String showFindPasswordPage() {
+        return "nonuser/find-password";
+    }
+
+
     /**
      * 비밀번호를 찾는다(재설정한다)
      * @param dto 비밀번호 재설정을 위해 비밀번호 입력값
@@ -55,6 +66,11 @@ public class NonUserController {
             nonUserService.resetPassword(dto);
             model.addAttribute("modalStep", "success");
             model.addAttribute("loginId", dto.getUserLoginId());
+
+
+            // 성공 시 모달에서 확인 버튼으로 이동하도록 유지
+            model.addAttribute("modalStep", "success");
+            model.addAttribute("loginId", dto.getUserLoginId());
             return "nonuser/find-password";
 
         } catch (SignUpException e) {
@@ -79,7 +95,7 @@ public class NonUserController {
      * @param emailDupDto 사용자가 입력한 이메일 Dto
      * @return 중복이면 true, 중복이 아니면 false
      */
-    @PostMapping("/check-email")
+    @PostMapping("signup/check-email")
     public boolean checkEmailDuplicate(@RequestBody @Valid EmailDupDTO emailDupDto) {
         return nonUserService.checkEmailDuplicate(emailDupDto);
         // 앞으로 넘겨줄때 true 이면 중복 메시지 사용자에게 띄우고, false 이면 중복 아니라는 메시지를 보여준다
@@ -90,7 +106,7 @@ public class NonUserController {
      * @param loginIdDupDto 사용자가 입력한 로그인 아이디 Dto
      * @return 중복이면 true, 중복이 아니면 false
      */
-    @PostMapping("/check-login-id")
+    @PostMapping("signup/check-login-id")
     public boolean checkLoginIdDuplicate(@RequestBody @Valid LoginIdDupDTO loginIdDupDto) {
         return nonUserService.checkLoginIdDuplicate(loginIdDupDto);
         // 앞으로 넘겨줄때 true 이면 중복 메시지 사용자에게 띄우고, false 이면 중복 아니라는 메시지를 보여준다
@@ -102,27 +118,16 @@ public class NonUserController {
      * @param model
      * @return
      */
-    @PostMapping("/signup")
+    @PostMapping("/signup-submit")
     public String signUp(SignUpDTO signUpDto, Model model) {
         try {
             nonUserService.signUp(signUpDto);
             return "nonuser/login"; // 성공할시 로그인 페이지로 이동
         } catch (SignUpException e) {
             model.addAttribute("errorMessage", e.getErrorCode().getMessage());
-            return "nonuser/signup"; // 실패할 시 회원가입 페이지로 감
+            return "nonuser/signup"; // 실패할 시 회원가입 페이지로 다시 감
         }
     }
-
-
-    /**
-     * 비밀번호 찾기 클릭할 시 find-password.html 로 이동한다
-     * @return
-     */
-    @GetMapping("/find-password")
-    public String showFindPasswordPage() {
-        return "nonuser/find-password";
-    }
-
 
     /**
      * 로그인 아이디 입력후, 비밀번호 재설정 단계로 넘어왔는지 확인한다

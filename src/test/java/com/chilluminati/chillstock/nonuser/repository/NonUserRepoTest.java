@@ -80,8 +80,8 @@ class AdminUserRepoTest {
 
 
     @Test
-    @DisplayName("회원정보와 사업체정보를 직접 insert한 후 조인된 결과를 조회할 수 있다.")
-    void insertAndJoinTest() {
+    @DisplayName("회원가입시 사용자와 사업체 정보가 함께 저장된다")
+    void signUpTest() {
         // given
         String uniqueId = String.valueOf(System.currentTimeMillis());
         String loginId = "repoTest_" + uniqueId;

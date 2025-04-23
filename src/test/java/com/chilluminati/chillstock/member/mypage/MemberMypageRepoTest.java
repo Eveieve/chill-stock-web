@@ -1,4 +1,4 @@
-package com.chilluminati.chillstock.member.repository;
+package com.chilluminati.chillstock.member.mypage;
 
 import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
@@ -65,10 +65,10 @@ class MemberMypageRepoTest {
      */
     @BeforeAll
     static void loginMember() {
-        String loginId = "mypage_1745226903096";
-        String password = "mypageTest123";
+        String loginId = "chillstock_1745388110491";
+        String password = "chillstock1234";
         String role = "ROLE_member";
-        int pk = 22;
+        int pk = 12;
 
         // id: mypage_1745226903096
         // pw: mypageTest123!
@@ -80,7 +80,7 @@ class MemberMypageRepoTest {
         emailUserDetails.setUserId(pk);
         emailUserDetails.setUserLoginId(loginId);
         emailUserDetails.setUserPassword(password);
-        emailUserDetails.setUserType("member");
+        emailUserDetails.setUserType("ROLE_member");
 
         // 로그인시키기
         UsernamePasswordAuthenticationToken authentication =
@@ -103,9 +103,6 @@ class MemberMypageRepoTest {
 
         // then
         Assertions.assertEquals(userLoginId, dto.getUserLoginId());
-//        Assertions.assertEquals(email, dto.getUserEmail());
-//        Assertions.assertEquals("마이페이지상점", dto.getBusinessName());
-//        Assertions.assertEquals(businessRegistNum, dto.getBusinessRegistNum());
     }
 
     @Test

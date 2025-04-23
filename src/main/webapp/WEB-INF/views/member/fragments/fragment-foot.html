@@ -2,19 +2,74 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <th:block th:fragment="foot">
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <!--  맨 위로 이동 버튼 -->
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
 
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js" th:src="@{/static/assets/vendor/apexcharts/apexcharts.min.js}"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js" th:src="@{/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js" th:src="@{/static/assets/vendor/chart.js/chart.umd.js}"></script>
-    <script src="assets/vendor/echarts/echarts.min.js" th:src="@{/static/assets/vendor/echarts/echarts.min.js}"></script>
-    <script src="assets/vendor/quill/quill.js" th:src="@{/static/assets/vendor/quill/quill.js}"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js" th:src="@{/static/assets/vendor/simple-datatables/simple-datatables.js}"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js" th:src="@{/static/assets/vendor/tinymce/tinymce.min.js}"></script>
+    <!--  Vendor JS Files (Spring MVC에선 static 경로 포함 필요) -->
+    <script th:src="@{/static/assets/vendor/apexcharts/apexcharts.min.js}"></script>
+    <script th:src="@{/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/static/assets/vendor/chart.js/chart.umd.js}"></script>
+    <script th:src="@{/static/assets/vendor/echarts/echarts.min.js}"></script>
+    <script th:src="@{/static/assets/vendor/quill/quill.js}"></script>
+    <script th:src="@{/static/assets/vendor/simple-datatables/simple-datatables.js}"></script>
+    <script th:src="@{/static/assets/vendor/tinymce/tinymce.min.js}"></script>
 
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js" th:src="@{/static/assets/js/main.js}"></script>
+    <!-- Main Template JS File -->
+    <script th:src="@{/static/assets/js/main.js}"></script>
+
+<!--    <script th:inline="javascript">-->
+<!--        document.addEventListener("DOMContentLoaded", function () {-->
+<!--            const alert = document.getElementById("successAlert");-->
+<!--            if (alert) {-->
+<!--                setTimeout(function () {-->
+<!--                    alert.classList.remove("show"); // 트랜지션 시작-->
+<!--                    setTimeout(() => alert.remove(), 500); // 서서히 사라진 후 완전 제거-->
+<!--                }, 3000); // 3초 후 시작-->
+<!--            }-->
+<!--        });-->
+<!--    </script>-->
+
+<!--    <script th:if="${pageName == 'product-register'}">-->
+<!--        document.addEventListener("DOMContentLoaded", function () {-->
+<!--            console.log("✅ 제품 등록 JS 작동 중");-->
+
+<!--            const mainSelect = document.getElementById('mainCategory');-->
+<!--            const midSelect = document.getElementById('midCategory');-->
+<!--            const checkAll = document.getElementById('selectAll');-->
+
+<!--            // ✅ 중분류 필터링-->
+<!--            if (mainSelect && midSelect) {-->
+<!--                filterMidCategories(mainSelect.value); // 페이지 최초 진입 시 필터링-->
+
+<!--                mainSelect.addEventListener('change', function () {-->
+<!--                    filterMidCategories(this.value);-->
+<!--                });-->
+
+<!--                function filterMidCategories(selectedMainId) {-->
+<!--                    const midOptions = midSelect.querySelectorAll('option');-->
+
+<!--                    midOptions.forEach(opt => {-->
+<!--                        const mainId = opt.getAttribute('data-main-id');-->
+<!--                        const isDefault = opt.value === "";-->
+<!--                        opt.style.display = (!mainId || mainId === selectedMainId || isDefault) ? 'block' : 'none';-->
+<!--                    });-->
+
+<!--                    midSelect.value = '';-->
+<!--                }-->
+<!--            }-->
+
+<!--            // ✅ 전체 선택/해제 체크박스-->
+<!--            if (checkAll) {-->
+<!--                checkAll.addEventListener('change', function () {-->
+<!--                    const checkboxes = document.querySelectorAll('input[name="productIdList"]');-->
+<!--                    checkboxes.forEach(cb => cb.checked = this.checked);-->
+<!--                });-->
+<!--            }-->
+<!--        });-->
+<!--    </script>-->
+
 </th:block>
 </body>
 </html>

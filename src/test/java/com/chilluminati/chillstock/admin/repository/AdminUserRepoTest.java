@@ -148,7 +148,7 @@ class AdminUserRepoTest {
 
         // then
         UserVO approvedUser = userRepo.findByUserId(insertedUserId);
-        assertEquals(UserStatus.APPROVED, approvedUser.getUserStatus());
+        assertEquals(UserStatus.approve, approvedUser.getUserStatus());
     }
 
     // 회원 삭제시 사업체 정보와 함께 백업 테이블에 들어간다

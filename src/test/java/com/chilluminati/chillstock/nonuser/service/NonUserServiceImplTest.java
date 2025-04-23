@@ -1,10 +1,15 @@
 package com.chilluminati.chillstock.nonuser.service;
 
+import com.chilluminati.chillstock.admin.user.common.UserStatus;
+import com.chilluminati.chillstock.admin.user.common.UserType;
 import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
 import com.chilluminati.chillstock.config.MybatisConfig;
+import com.chilluminati.chillstock.nonuser.dto.EmailDupDTO;
+import com.chilluminati.chillstock.nonuser.dto.LoginIdDupDTO;
 import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
+import com.chilluminati.chillstock.nonuser.exception.SignUpException;
 import com.chilluminati.chillstock.nonuser.repository.BizRepo;
 import com.chilluminati.chillstock.nonuser.repository.UserRepo;
 import com.chilluminati.chillstock.nonuser.vo.BizVO;
@@ -18,6 +23,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @ContextConfiguration(classes = {
         AppConfig.class,
@@ -49,6 +56,46 @@ public class NonUserServiceImplTest {
     private ModelMapper modelMapper;
 
     @Test
+    void 이메일_중복확인_테스트() {
+        userRepo.insertUser(UserVO.builder()
+                .userLoginId("emailDupUser")
+                .userEmail("dupemail@test.com")
+                .userPassword("pw1234")
+                .userName("이메일중복확인용")
+                .userPhone("010-1234-5678")
+                .userType(UserType.valueOf("ROLE_member"))
+                .userStatus(UserStatus.valueOf("pending"))
+                .build());
+
+        EmailDupDTO emailDupDto = EmailDupDTO.builder()
+                .userEmail("dupemail@test.com")
+                .build();
+
+        boolean result = userService.checkEmailDuplicate(emailDupDto);
+        assertTrue(result);
+    }
+
+    @Test
+    void 아이디_중복확인_테스트() {
+        userRepo.insertUser(UserVO.builder()
+                .userLoginId("duplicateUser")
+                .userEmail("dup@test.com")
+                .userPassword("pw1234")
+                .userName("중복확인용")
+                .userPhone("010-0000-1111")
+                .userType(UserType.valueOf("ROLE_member"))
+                .userStatus(UserStatus.valueOf("pending"))
+                .build());
+
+        LoginIdDupDTO loginIdDto = LoginIdDupDTO.builder()
+                .userLoginId("duplicateUser")
+                .build();
+
+        boolean result = userService.checkLoginIdDuplicate(loginIdDto);
+        assertTrue(result);
+    }
+
+    @Test
     @DisplayName("회원가입 시 회원정보와 사업체정보가 함께 저장된다.")
     void signUpWithBusinessInfoTest() {
 
@@ -78,55 +125,76 @@ public class NonUserServiceImplTest {
         // then
         UserVO savedUser = userRepo.findByLoginId(loginId);
         Assertions.assertNotNull(savedUser);
-        Assertions.assertEquals("칠스탁", savedUser.getUserName());
+        assertEquals("칠스탁", savedUser.getUserName());
 
         // 사업체 정보 별도 조회
         BizVO savedBiz = bizRepo.findByUserId(savedUser.getUserId());
         Assertions.assertNotNull(savedBiz);
-        Assertions.assertEquals("칠스탁상점", savedBiz.getBusinessName());
-        Assertions.assertEquals("서울특별시 강남구 칠스탁타운", savedBiz.getBusinessAddress());
-        Assertions.assertEquals(savedUser.getUserId(), savedBiz.getUserId()); // 외래키로 연결되었는지 확인
+        assertEquals("칠스탁상점", savedBiz.getBusinessName());
+        assertEquals("서울특별시 강남구 칠스탁타운", savedBiz.getBusinessAddress());
+        assertEquals(savedUser.getUserId(), savedBiz.getUserId()); // 외래키로 연결되었는지 확인
 
         System.out.println("생성된 userId = " + savedUser.getUserId());
     }
 
     @Test
-    @DisplayName("서비스를 통해 사용자의 비밀번호를 성공적으로 업데이트할 수 있다.")
-    void updatePasswordByServiceTest() {
+    @DisplayName("사용자의 비밀번호를 성공적으로 업데이트할 수 있다.")
+    void updatePasswordTest() {
         // given
         String uniqueId = String.valueOf(System.currentTimeMillis());
         String loginId = "chillstock_" + uniqueId;
-        String email = "updatepw_service_" + uniqueId + "@example.com";
-        String businessRegistNum = "888-" + uniqueId.substring(4, 6) + "-" + uniqueId.substring(6, 11);
+        String email = "updatepw_" + uniqueId + "@example.com";
+        String businessRegistNum = "777-" + uniqueId.substring(4, 6) + "-" + uniqueId.substring(6, 11);
 
         SignUpDTO signupDto = SignUpDTO.builder()
                 .userLoginId(loginId)
                 .userPassword("originalPassword123!")
                 .userPasswordCheck("originalPassword123!")
                 .userEmail(email)
-                .userName("서비스비밀번호변경")
-                .userPhone("010-5678-9999")
+                .userName("비밀번호변경")
+                .userPhone("010-9876-5432")
                 .businessRegistNum(businessRegistNum)
-                .businessName("서비스비번상점")
-                .businessAddress("서울시 서비스구")
-                .businessPost("54321")
+                .businessName("비밀번호상점")
+                .businessAddress("서울특별시 비밀번호구")
+                .businessPost("12345")
                 .build();
 
         userService.signUp(signupDto);
 
         // when
-        String newPassword = "dtoNewPassword321!";
-        PasswordResetDTO resetDto = PasswordResetDTO.builder()
-                .userLoginId(loginId)
-                .newPassword(newPassword)
-                .build();
-
-
-        userService.resetPassword(resetDto);
+        String newPassword = "newPassword456!";
+        userRepo.updatePassword(newPassword, loginId);
+        UserVO updatedUser = userRepo.findByLoginId(loginId);
 
         // then
-        UserVO updatedUser = userRepo.findByLoginId(loginId);
-        Assertions.assertEquals(newPassword, updatedUser.getUserPassword());
+        assertEquals(newPassword, updatedUser.getUserPassword());
     }
+    @Test
+    void 비밀번호_불일치_회원가입_예외발생() {
+        SignUpDTO dto = SignUpDTO.builder()
+                .userLoginId("failuser")
+                .userPassword("pw1")
+                .userPasswordCheck("pw2")
+                .build();
+
+        assertThrows(SignUpException.class, () -> userService.signUp(dto));
+    }
+
+    @Test
+    void 이메일로_아이디_조회_테스트() {
+        userRepo.insertUser(UserVO.builder()
+                .userLoginId("emailuser")
+                .userEmail("email@test.com")
+                .userPassword("pw")
+                .userName("이메일유저")
+                .userPhone("010")
+                .userType(UserType.valueOf("ROLE_member"))
+                .userStatus(UserStatus.valueOf("pending"))
+                .build());
+
+        String loginId = userService.findLoginIdByEmail("email@test.com");
+        assertEquals("emailuser", loginId);
+    }
+
 
 }

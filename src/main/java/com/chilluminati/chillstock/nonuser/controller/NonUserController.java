@@ -5,9 +5,7 @@ import com.chilluminati.chillstock.nonuser.dto.LoginIdDupDTO;
 import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.exception.SignUpException;
-import com.chilluminati.chillstock.nonuser.exception.UserNotFoundException;
-import com.chilluminati.chillstock.nonuser.service.UserService;
-import com.chilluminati.chillstock.nonuser.vo.UserVO;
+import com.chilluminati.chillstock.nonuser.service.NonUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +17,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("/nonuser")
 public class NonUserController {
-    private final UserService userService;
+    private final NonUserService nonUserService;
 
     /**
      * 로그인 아이디를 찾기위해 이메일을 입력받는다.
@@ -28,7 +26,7 @@ public class NonUserController {
      */
     @PostMapping("login/find-login-id")
     private String findLoginId(@RequestParam("email") String email) {
-        return userService.findLoginIdByEmail(email); // 로그인 아이디만 문자열로 응답하기. 로그인 아이디는 모달로 알려줌.
+        return nonUserService.findLoginIdByEmail(email); // 로그인 아이디만 문자열로 응답하기. 로그인 아이디는 모달로 알려줌.
     }
 
     /**
@@ -42,7 +40,7 @@ public class NonUserController {
         try {
             // 1단계: 비밀번호가 아직 입력되지 않은 경우
             if (!hasPasswordInput(dto)) {
-                if (!userService.existsByLoginId(dto.getUserLoginId())) {
+                if (!nonUserService.existsByLoginId(dto.getUserLoginId())) {
                     model.addAttribute("modalStep", "loginId"); // 다시 1단계로
                     model.addAttribute("errorMessage", "존재하지 않는 아이디입니다.");
                     return "nonuser/find-password";
@@ -54,7 +52,7 @@ public class NonUserController {
             }
 
             // 2단계: 비밀번호 입력 완료 → 재설정 수행
-            userService.resetPassword(dto);
+            nonUserService.resetPassword(dto);
             model.addAttribute("modalStep", "success");
             model.addAttribute("loginId", dto.getUserLoginId());
             return "nonuser/find-password";
@@ -83,7 +81,7 @@ public class NonUserController {
      */
     @PostMapping("/check-email")
     public boolean checkEmailDuplicate(@RequestBody @Valid EmailDupDTO emailDupDto) {
-        return userService.checkEmailDuplicate(emailDupDto);
+        return nonUserService.checkEmailDuplicate(emailDupDto);
         // 앞으로 넘겨줄때 true 이면 중복 메시지 사용자에게 띄우고, false 이면 중복 아니라는 메시지를 보여준다
     }
 
@@ -94,7 +92,7 @@ public class NonUserController {
      */
     @PostMapping("/check-login-id")
     public boolean checkLoginIdDuplicate(@RequestBody @Valid LoginIdDupDTO loginIdDupDto) {
-        return userService.checkLoginIdDuplicate(loginIdDupDto);
+        return nonUserService.checkLoginIdDuplicate(loginIdDupDto);
         // 앞으로 넘겨줄때 true 이면 중복 메시지 사용자에게 띄우고, false 이면 중복 아니라는 메시지를 보여준다
     }
 
@@ -107,7 +105,7 @@ public class NonUserController {
     @PostMapping("/signup")
     public String signUp(SignUpDTO signUpDto, Model model) {
         try {
-            userService.signUp(signUpDto);
+            nonUserService.signUp(signUpDto);
             return "nonuser/login"; // 성공할시 로그인 페이지로 이동
         } catch (SignUpException e) {
             model.addAttribute("errorMessage", e.getErrorCode().getMessage());

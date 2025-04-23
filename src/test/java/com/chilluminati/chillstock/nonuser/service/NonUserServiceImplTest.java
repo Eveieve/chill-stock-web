@@ -25,9 +25,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
         HikariCPConfig.class  // DB 연동용 설정
 })
 @ExtendWith(SpringExtension.class)
-public class UserServiceImplTest {
+public class NonUserServiceImplTest {
     @Autowired
-    private UserServiceImpl userService;
+    private NonUserServiceImpl userService;
 
     @Autowired
     private UserRepo userRepo;

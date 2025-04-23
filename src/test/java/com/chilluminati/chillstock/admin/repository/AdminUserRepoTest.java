@@ -1,7 +1,6 @@
 package com.chilluminati.chillstock.admin.repository;
 
 import com.chilluminati.chillstock.admin.user.common.UserStatus;
-import com.chilluminati.chillstock.admin.user.dto.UserBizDTO;
 import com.chilluminati.chillstock.admin.user.exception.AdminUserException;
 import com.chilluminati.chillstock.admin.user.repository.AdminUserRepo;
 import com.chilluminati.chillstock.admin.user.service.AdminUserServiceImpl;
@@ -12,7 +11,7 @@ import com.chilluminati.chillstock.config.HikariCPConfig;
 import com.chilluminati.chillstock.config.MybatisConfig;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.repository.UserRepo;
-import com.chilluminati.chillstock.nonuser.service.UserService;
+import com.chilluminati.chillstock.nonuser.service.NonUserService;
 import com.chilluminati.chillstock.nonuser.vo.UserVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,7 +60,7 @@ class AdminUserRepoTest {
     @Autowired
     private UserRepo userRepo;
     @Autowired
-    private UserService userService;
+    private NonUserService nonUserService;
 
     private Integer insertedUserId;
 
@@ -86,7 +85,7 @@ class AdminUserRepoTest {
                 .businessPost("54321")
                 .build();
 
-        userService.signUp(signupDto);
+        nonUserService.signUp(signupDto);
 
         // 추가: 방금 가입한 유저를 로그인 아이디로 다시 조회해 userId 가져오기
         UserVO user = userRepo.findByLoginId(loginId);  // ← 이걸로 조회

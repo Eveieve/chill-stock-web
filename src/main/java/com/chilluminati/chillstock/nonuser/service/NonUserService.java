@@ -4,9 +4,8 @@ import com.chilluminati.chillstock.nonuser.dto.EmailDupDTO;
 import com.chilluminati.chillstock.nonuser.dto.LoginIdDupDTO;
 import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
-import com.chilluminati.chillstock.nonuser.vo.UserVO;
 
-public interface UserService {  // NonUser 로 바꾸기 ? 여유 있다면
+public interface NonUserService {  // NonUser 로 바꾸기 ? 여유 있다면
     /**
      * 로그인 아이디로 사용자가 이미 존재하는지 확인
      * @param loginId

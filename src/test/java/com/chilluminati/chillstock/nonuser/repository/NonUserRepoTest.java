@@ -4,14 +4,13 @@ import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
 import com.chilluminati.chillstock.config.MybatisConfig;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
-import com.chilluminati.chillstock.nonuser.service.UserServiceImpl;
+import com.chilluminati.chillstock.nonuser.service.NonUserServiceImpl;
 import com.chilluminati.chillstock.nonuser.vo.BizVO;
 import com.chilluminati.chillstock.nonuser.vo.UserVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -25,7 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 class AdminUserRepoTest {
 
     @Autowired
-    private UserServiceImpl userService;
+    private NonUserServiceImpl userService;
 
     @Autowired
     private UserRepo userRepo;

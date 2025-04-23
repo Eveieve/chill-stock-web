@@ -8,9 +8,8 @@ import com.chilluminati.chillstock.member.mypage.dto.UserBizDTO;
 import com.chilluminati.chillstock.member.mypage.dto.UserPasswordDTO;
 import com.chilluminati.chillstock.member.mypage.service.MemberMypageService;
 
-import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.repository.UserRepo;
-import com.chilluminati.chillstock.nonuser.service.UserService;
+import com.chilluminati.chillstock.nonuser.service.NonUserService;
 import com.chilluminati.chillstock.nonuser.vo.UserVO;
 import com.chilluminati.chillstock.security.EmailUserDetails;
 import org.junit.jupiter.api.*;
@@ -23,7 +22,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -60,7 +58,7 @@ class MemberMypageRepoTest {
     private UserRepo userRepo;
 
     @Autowired
-    private UserService userService;
+    private NonUserService nonUserService;
 
     /**
      * 전체 실행 전에 로그인하기

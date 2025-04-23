@@ -6,7 +6,6 @@ import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.exception.SignUpErrorCode;
 import com.chilluminati.chillstock.nonuser.exception.SignUpException;
-import com.chilluminati.chillstock.nonuser.exception.UserNotFoundException;
 import com.chilluminati.chillstock.nonuser.repository.BizRepo;
 import com.chilluminati.chillstock.nonuser.repository.UserRepo;
 import com.chilluminati.chillstock.nonuser.vo.BizVO;
@@ -18,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class NonUserServiceImpl implements NonUserService {
 
     private final UserRepo userRepo;
     private final BizRepo bizRepo;

@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -64,6 +65,22 @@ class AdminWareHouseRepositoryTest {
         adminWarehouseVos.forEach(adminWarehouseVo -> {
             log.info(adminWarehouseVo.toString());
         });
+    }
+
+    @Test
+    void findByAddress() {
+        AdminWarehouseVo adminWarehouseVo = AdminWarehouseVo.builder()
+                .warehouseName("test")
+                .warehouseSpace(1500)
+                .warehouseAddress("address")
+                .warehouseAmount(15000)
+                .build();
+
+        // when
+        adminWareHouseRepository.createWarehouse(adminWarehouseVo);
+        List<AdminWarehouseVo> addr = adminWareHouseRepository.adminGetAllWarehouseByAddress("addr");
+
+        assertNotNull(addr);
     }
 
 

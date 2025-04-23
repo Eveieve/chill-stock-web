@@ -1,0 +1,47 @@
+<!-- user/fragments/fragment-sidebar.html -->
+<aside id="sidebar" class="sidebar" th:fragment="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/user}" th:classappend="${pageName != 'Dashboard'} ? 'collapsed'">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+        <li class="nav-heading">창고 기능</li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" th:href="@{/member/product-register}" th:classappend="${pageName != '제품 등록'} ? 'collapsed'">
+                <i class="bi bi-box"></i><span>제품 등록</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" th:href="@{/member/inbound-request}" th:classappend="${pageName != '입고 요청'} ? 'collapsed'">
+                <i class="bi bi-box-arrow-in-down"></i><span>입고 요청</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" th:href="@{/member/outbound-request}" th:classappend="${pageName != '출고 요청'} ? 'collapsed'">
+                <i class="bi bi-box-arrow-up"></i><span>출고 요청</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" th:href="@{/member/history}" th:classappend="${pageName != '입출고 이력'} ? 'collapsed'">
+                <i class="bi bi-clock-history"></i><span>입출고 이력</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" th:href="@{/member/stock}" th:classappend="${pageName != '재고 현황'} ? 'collapsed'">
+                <i class="bi bi-box-seam"></i><span>재고 현황</span>
+            </a>
+        </li>
+
+    </ul>
+
+</aside>

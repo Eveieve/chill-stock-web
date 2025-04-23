@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chilluminati.chillstock.member.stock.repository.MemberStockRepository">
+    <select id="readAllMemberStock" resultType="com.chilluminati.chillstock.member.stock.vo.MemberStockVO">
+        select distinct s.stock_id, p.product_id, p.product_name, p.expiration_date, s.stock_amount, i.inbound_date
+        from product p
+                 join stock_table s on p.product_id = s.product_id
+                 join inbound_table i on i.product_id = p.product_id
+                 join business_table b on p.business_id = b.business_id
+        where b.user_id = #{userId} -- 로그인 한 사용자의 user_id
+        <if test="productName != null and productName != ''">
+            AND p.product_name LIKE CONCAT('%', #{productName}, '%')
+        </if>
+    </select>
+
+    <select id="readAllMemberStockPaging" resultType="com.chilluminati.chillstock.member.stock.vo.MemberStockVO">
+        select distinct s.stock_id, p.product_id, p.product_name, p.expiration_date, s.stock_amount, i.inbound_date
+        from product p
+        join stock_table s on p.product_id = s.product_id
+        join inbound_table i on i.product_id = p.product_id
+        join business_table b on p.business_id = b.business_id
+        WHERE b.user_id = #{userId}
+        <if test="productName != null and productName != ''">
+                AND p.product_name LIKE CONCAT('%', #{productName}, '%')
+        </if>
+        ORDER BY p.product_name
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countMemberStock" resultType="int">
+        SELECT COUNT(DISTINCT s.stock_id)
+        FROM product p
+        JOIN stock_table s ON p.product_id = s.product_id
+        JOIN inbound_table i ON i.product_id = p.product_id
+        JOIN business_table b ON p.business_id = b.business_id
+        WHERE b.user_id = #{userId}
+        <if test="productName != null and productName != ''">
+            AND p.product_name LIKE CONCAT('%', #{productName}, '%')
+        </if>
+    </select>
+</mapper>

@@ -6,7 +6,7 @@
 <mapper namespace="com.chilluminati.chillstock.admin.user.repository.UserRepository">
 
     <!-- UserVo 매핑 -->
-    <resultMap id="UserResultMap" type="com.chilluminati.chillstock.admin.user.vo.UserVo" autoMapping="true">
+    <resultMap id="UserResultMap" type="com.chilluminati.chillstock.admin.user.vo.UserVO" autoMapping="true">
         <constructor>
             <idArg column="user_id" javaType="int"/>
             <arg column="user_login_id" javaType="string"/>

@@ -5,6 +5,7 @@
 
 <mapper namespace="com.chilluminati.chillstock.example.repository.ExampleRepository">
 
+
     <insert id="insert" parameterType="com.chilluminati.chillstock.example.dto.UserDtoExam">
         INSERT INTO user_tbl (username, password, grantUser)
         VALUES (#{username}, #{password}, #{grantUser})

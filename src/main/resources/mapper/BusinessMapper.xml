@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chilluminati.chillstock.nonuser.repository.BizRepo">
+
+    <resultMap id="bizResultMap" type="com.chilluminati.chillstock.nonuser.vo.BizVO">
+        <id property="businessId" column="business_id"/>
+        <result property="businessRegistNum" column="business_regist_num"/>
+        <result property="businessName" column="business_name"/>
+        <result property="businessAddress" column="business_address"/>
+        <result property="businessPost" column="business_post"/>
+        <result property="userId" column="user_id"/>
+    </resultMap>
+
+    <insert id="insertBiz" parameterType="com.chilluminati.chillstock.nonuser.vo.BizVO">
+        INSERT INTO business_table (
+            business_name,
+            business_regist_num,
+            business_address,
+            business_post,
+            user_id
+        ) VALUES (
+                     #{businessName},
+                     #{businessRegistNum},
+                     #{businessAddress},
+                     #{businessPost},
+                     #{userId}
+                 )
+    </insert>
+
+    <select id="findByUserId" parameterType="int" resultMap="bizResultMap">
+        SELECT * FROM business_table WHERE user_id = #{userId}
+    </select>
+
+    <select id="findByBusinessRegistNum" resultType="com.chilluminati.chillstock.nonuser.vo.BizVO" parameterType="String">
+        SELECT * FROM business_table WHERE business_regist_num = #{businessRegistNum}
+    </select>
+</mapper>

@@ -11,10 +11,12 @@ import com.chilluminati.chillstock.nonuser.repository.UserRepo;
 import com.chilluminati.chillstock.nonuser.vo.BizVO;
 import com.chilluminati.chillstock.nonuser.vo.UserVO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class NonUserServiceImpl implements NonUserService {
@@ -63,10 +65,20 @@ public class NonUserServiceImpl implements NonUserService {
             throw new SignUpException(SignUpErrorCode.PASSWORD_MISMATCH);
         }
         try {
+            // 비밀번호 암호화
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            String encryptPassword = encoder.encode(signupDto.getUserPassword());
+            // 암호화한 비밀번호 디티오에 세팅
+            signupDto.setUserPassword(encryptPassword);
+
+            log.debug("#########################");
+            log.debug("userPassword: {}", signupDto.getUserPassword());
+            // 유저 정보만 가진  vo로 변환
             UserVO userVo = modelMapper.map(signupDto, UserVO.class);
             userRepo.insertUser(userVo);  // 이때 userId가 생성됨
-
+            // 사업체 정보만 가진 vo 로 변환
             BizVO bizVO = modelMapper.map(signupDto, BizVO.class);
+            // 사업체 정보와 유저 정보를 userId 외래키로 연결
             bizVO.setUserId(userVo.getUserId());  // 명시적으로 userId 세팅
             bizRepo.insertBiz(bizVO);  // 이제는 userId가 null이 아님
             System.out.println(bizVO.getUserId());

@@ -1,6 +1,4 @@
-use chillstockDB;
-select * from user_backup_table;
-desc user_backup_table;
+
 -- 외래키 무시하고 삭제 (초기화용)
 SET FOREIGN_KEY_CHECKS = 0;
 

@@ -1,5 +1,5 @@
 use chillstockDB;
-
+select * from user_backup_table;
 drop table if exists user_table;
 drop table if exists business_table;
 

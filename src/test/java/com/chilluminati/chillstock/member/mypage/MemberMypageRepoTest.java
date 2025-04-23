@@ -102,6 +102,7 @@ class MemberMypageRepoTest {
         UserBizDTO dto = memberMypageService.viewMyInfo();
 
         // then
+        System.out.println(dto);
         Assertions.assertEquals(userLoginId, dto.getUserLoginId());
     }
 

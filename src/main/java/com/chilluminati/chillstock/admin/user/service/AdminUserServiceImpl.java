@@ -1,5 +1,6 @@
 package com.chilluminati.chillstock.admin.user.service;
 
+import com.chilluminati.chillstock.admin.user.dto.DeletedUserDTO;
 import com.chilluminati.chillstock.admin.user.dto.UserBizDTO;
 import com.chilluminati.chillstock.admin.user.exception.AdminUserErrorCode;
 import com.chilluminati.chillstock.admin.user.exception.AdminUserException;
@@ -11,6 +12,8 @@ import com.chilluminati.chillstock.admin.user.vo.UserVO;
 import com.chilluminati.chillstock.nonuser.exception.UserNotFoundException;
 import com.chilluminati.chillstock.nonuser.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Param;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -31,21 +34,17 @@ public class AdminUserServiceImpl implements AdminUserService {
 //        return (int) Math.ceil((double) totalCount / size);
 //    }
 
-    /**
-     * 전체 회원 수 세기
-     *
-     * @return
-     */
     @Override
     public int countAllUsers() {
         return adminUserRepo.countAllUsers();
     }
 
-    /**
-     * 모든 회원 불러오기
-     * @param page
-     * @return
-     */
+    @Override
+    public int countAllDeleted() {
+        return adminUserRepo.countAllDeleted();
+    }
+
+    @Override
     public List<UserBizDTO> getAllUsersByPage(int page) {
         // 화면에 10개씩 출력
         final int size = 10;
@@ -59,24 +58,16 @@ public class AdminUserServiceImpl implements AdminUserService {
                 .collect(Collectors.toList());
 
     }
-    /**
-     * 클릭하여 회원 한명 상세 정보 조회하기
-     * @param userId
-     * @return
-     */
+
     @Override
-    public UserBizVO viewUserDetail(Integer userId) {
+    public UserBizDTO viewUserDetail(Integer userId) {
 
         UserBizVO userBizVo = adminUserRepo.getUserBizById(userId);
-        return userBizVo;
+        // ModelMapper를 이용한 변환
+        return modelMapper.map(userBizVo, UserBizDTO.class);
 
     }
 
-    /**
-     * 회원 이름으로 회원계정 불러오기
-     * @param name
-     * @return
-     */
     @Override
     public List<UserBizDTO> searchUserByName(String name) {
         List<UserBizVO> userBizList = adminUserRepo.getUsersByName(name);
@@ -88,45 +79,37 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
 
-
-    @Override
-    public void deleteUserById(Integer userId) {
-        int updatedRows = adminUserRepo.deleteUserById(userId);
-        if (updatedRows == 0) {
-            throw new AdminUserException(AdminUserErrorCode.DELETE_FAILED);
-        }
-    }
-
     @Override
     public void deleteUsersByIds(List<Integer> userIds) {
+        // 백업하기
+        adminUserRepo.backupUsersBeforeDelete(userIds);
+
+        // 삭제하기
         int updatedRows = adminUserRepo.deleteUsersByIds(userIds);
-        if (updatedRows == 0) {
+        if (updatedRows == 0) { // 삭제 실패시 메시지
             throw new AdminUserException(AdminUserErrorCode.DELETE_FAILED);
         }
     }
 
-    @Override
-    public void approveUserById(Integer userId) {
-        int updatedRows = adminUserRepo.approveUserById(userId);
-        if (updatedRows == 0) {
-            throw new AdminUserException(AdminUserErrorCode.APPROVAL_FAILED);
-        }
-    }
 
     @Override
     public void approveUsersByIds(List<Integer> userIds) {
         int updatedRows = adminUserRepo.approveUsersByIds(userIds);
-        if (updatedRows == 0) {
+        if (updatedRows == 0) { // 승인에 실패하면
+            // 예외 던지기
             throw new AdminUserException(AdminUserErrorCode.APPROVAL_FAILED);
         }
     }
 
-    /**
-     * 탈퇴/삭제된 회원 모두 조회 --> 페이징 ?
-     * @return
-     */
+
     @Override
-    public List<UserBizBackupVO> getAllDeletedUsers() {
-        return adminUserRepo.findAllDeletedUsers();
+    public List<DeletedUserDTO> getAllDeletedByPage(@Param("limit") int limit) {
+
+
+        List<UserBizBackupVO> userList = adminUserRepo.findAllDeletedUsers();
+
+       return  userList.stream()
+                .map(vo -> modelMapper.map(vo, DeletedUserDTO.class))
+                .collect(Collectors.toList());
     }
 }

@@ -26,41 +26,30 @@ public interface AdminUserRepo {
     */
    int countAllUsers();
 
-   // 이름으로 회원 정보 검색하기
+   /**
+    * 삭제된 전체 회원 수
+    * @return
+    */
+   int countAllDeleted();
+
+   /**
+    * 이름으로 계정 검색하기
+    * @param userName
+    * @return
+    */
    List<UserBizVO> getUsersByName(String userName);
 
-   // id로 회원정보만 조회하기
-   UserVO getUserById(Integer userId);
 
-   // userid로 사업체 번호만 조회하기
-   BizVO getBizById(Integer userId);
-
-   // 테이블 기본키로 회원 찾기 (회원 상세조회하기 클릭)
+   /**
+    * 회원 계정 정보 상세 조회하기
+    * @param userId
+    * @return
+    */
    UserBizVO getUserBizById(Integer userId);
 
    // 로그인 아이디 로 회원의 모든 정보  불러오기
    UserVO findByLoginId(String loginId);
 
-   /**
-    * email로 회원의 모든 정보 (비밀번호 포함) 불러오기
-    * @param email
-    * @return
-    */
-   UserVO findByEmail(String email);
-
-   /**
-    * 사용자로부터 새 비밀번호를 받아 비밀번호를 재설정하기
-    * @param newPassword
-    */
-   void updatePassword(@Param("newPassword") String newPassword, @Param(("userLoginId")) String userLoginId);
-
-   /**
-    * 이메일로 아이디 찾기
-    * @param email
-    */
-   String findLoginId(@Param("email") String email);
-
-   int deleteUserById(Integer userId);
 
    /**
     * 회원 계정 한개/여러개 삭제하기
@@ -69,7 +58,6 @@ public interface AdminUserRepo {
     */
    int deleteUsersByIds(List<Integer> userIds);
 
-   int approveUserById(Integer userId);
 
    /**
     * 대기중인 회원 계정 한개/여러개 승인하기
@@ -85,4 +73,5 @@ public interface AdminUserRepo {
    List<UserBizBackupVO> findAllDeletedUsers();
 
 
+   void backupUsersBeforeDelete(List<Integer> userIds);
 }

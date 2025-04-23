@@ -1,5 +1,6 @@
 package com.chilluminati.chillstock.admin.user.vo;
 
+import com.chilluminati.chillstock.admin.user.common.UserType;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -11,10 +12,10 @@ public class UserBizBackupVO {
     private String userEmail;
     private String userName;
     private String userPhone;
+    private UserType userType;
     private LocalDateTime deletedAt;
     private LocalDateTime approvedAt;
     private LocalDateTime requestedAt;
-
     private String businessRegistNum;
     private String businessName;
     private String businessAddress;

@@ -1,3 +1,6 @@
+use chillstockDB;
+select * from user_backup_table;
+desc user_backup_table;
 -- 외래키 무시하고 삭제 (초기화용)
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -155,9 +158,13 @@ CREATE TABLE user_backup_table (
                                    user_email VARCHAR(100),
                                    user_name VARCHAR(30) NOT NULL,
                                    user_phone VARCHAR(20),
-                                   deleted_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                                    approved_at DATETIME,
-                                   requested_at DATETIME
+                                   requested_at DATETIME,
+                                   business_regist_num VARCHAR(20),
+                                   business_name VARCHAR(255),
+                                   business_address VARCHAR(255),
+                                   business_post VARCHAR(10),
+                                   deleted_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ✅ 제약 조건 (FK 설정)

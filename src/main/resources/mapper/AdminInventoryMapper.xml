@@ -11,13 +11,13 @@
                 p.product_name AS productName,
                 '입고' AS type,
                 i.inbound_amount AS amount,
-                r.revenue_amount AS currentStock,
+                r.stock_amount AS currentStock,
                 w.warehouse_name AS warehouseName,
                 a.area_code AS areaCode,
                 i.inbound_date AS handledAt
             FROM inbound_table i
                      JOIN product p ON i.product_id = p.product_id
-                     JOIN revenue_table r ON i.product_id = r.product_id
+                     JOIN stock_table r ON i.product_id = r.product_id
                      JOIN area_table a ON r.area_id = a.area_id
                      JOIN warehouse_table w ON a.warehouse_id = w.warehouse_id
         )
@@ -27,13 +27,13 @@
                 p.product_name AS productName,
                 '출고' AS type,
                 o.outbound_amount AS amount,
-                r.revenue_amount AS currentStock,
+                r.stock_amount AS currentStock,
                 w.warehouse_name AS warehouseName,
                 a.area_code AS areaCode,
                 o.outbound_date AS handledAt
             FROM outbound_table o
                      JOIN product p ON o.product_id = p.product_id
-                     JOIN revenue_table r ON o.product_id = r.product_id
+                     JOIN stock_table r ON o.product_id = r.product_id
                      JOIN area_table a ON r.area_id = a.area_id
                      JOIN warehouse_table w ON a.warehouse_id = w.warehouse_id
         )

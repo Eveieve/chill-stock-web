@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class AdminWarehouseDto {
     private Integer warehouseId; // 창고 아이디
 

@@ -17,6 +17,8 @@ DROP TABLE IF EXISTS area_table;
 DROP TABLE IF EXISTS warehouse_table;
 DROP TABLE IF EXISTS storage_condition;
 DROP TABLE IF EXISTS user_backup_table;
+DROP TABLE IF EXISTS revenue_table;
+DROP TABLE IF EXISTS revenue_history_table;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
@@ -211,3 +213,5 @@ ALTER TABLE stock_history_table
 ALTER TABLE inbound_table MODIFY admin_id INT NULL;
 ALTER TABLE outbound_table MODIFY COLUMN admin_id INT NULL;
 -- null 허용 가능
+
+

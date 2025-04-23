@@ -3,6 +3,9 @@
 <head>
     <title>로그인</title>
     <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
+
 </head>
 <body>
 <h2>로그인</h2>
@@ -13,6 +16,7 @@
 
     <label for="password">비밀번호:</label>
     <input type="password" id="password" name="password" required><br><br>
+    <a th:href="@{/nonuser/find-password}" class="btn btn-outline-secondary">비밀번호를 잊으셨나요?</a>
 
     <button type="submit">로그인</button>
 </form>

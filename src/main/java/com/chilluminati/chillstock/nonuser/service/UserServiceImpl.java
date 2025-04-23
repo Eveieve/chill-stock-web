@@ -24,30 +24,34 @@ public class UserServiceImpl implements UserService {
     private final BizRepo bizRepo;
     private final ModelMapper modelMapper;
 
-    /**
-     * 이메일 중복 체크
-     * @param emailIdDupDTO
-     * @return
-     */
     @Override
-    public boolean checkEmailDuplicate(EmailDupDTO emailIdDupDTO) {
-        return false;
+    public boolean checkEmailDuplicate(EmailDupDTO dto) {
+        return userRepo.existsByEmail(dto.getUserEmail());
     }
 
-    /**
-     * 로그인 아이디 중복 체크
-     * @param loginIdDupDTO
-     * @return
-     */
+
     @Override
     public boolean checkLoginIdDuplicate(LoginIdDupDTO loginIdDupDTO) {
         return userRepo.existsByLoginId(loginIdDupDTO.getUserLoginId());
     }
 
-    /**
-     * 회원가입
-     * @param signupDto 회원가입 요청 데이터
-     */
+
+    @Override
+    public boolean existsByLoginId(String loginId) {
+        boolean userExists = userRepo.existsByLoginId(loginId);
+        return userExists;
+    }
+
+    @Override
+    public String findLoginIdByEmail(String email) {
+        UserVO user = userRepo.findByEmail(email);
+        if (user == null) {
+            throw new SignUpException(SignUpErrorCode.USER_NOT_FOUND_BY_EMAIL);
+        } else {
+            return user.getUserLoginId();
+        }
+    }
+
     @Override
     @Transactional
     public void signUp(SignUpDTO signupDto) {
@@ -59,24 +63,7 @@ public class UserServiceImpl implements UserService {
         if (!signupDto.getUserPassword().equals(signupDto.getUserPasswordCheck())) {
             throw new SignUpException(SignUpErrorCode.PASSWORD_MISMATCH);
         }
-
-//        // 2. 로그인 ID 중복 체크
-//        if (userRepo.findByLoginId(signupDto.getUserLoginId()) != null) {
-//            throw new SignUpException(SignUpErrorCode.DUPLICATE_LOGIN_ID);
-//        }
-//
-//        // 3. 이메일 중복 체크
-//        if (userRepo.findByEmail(signupDto.getUserEmail()) != null) {
-//            throw new SignUpException(SignUpErrorCode.DUPLICATE_EMAIL);
-//        }
-
-        // 4. 사업자 등록번호 중복 체크
-        if (bizRepo.findByBusinessRegistNum(signupDto.getBusinessRegistNum()) != null) {
-            throw new SignUpException(SignUpErrorCode.DUPLICATE_BUSINESS_REGIST_NUM);
-        }
-
         try {
-
             UserVO userVo = modelMapper.map(signupDto, UserVO.class);
             userRepo.insertUser(userVo);  // 이때 userId가 생성됨
 
@@ -87,74 +74,15 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             throw new SignUpException(SignUpErrorCode.DATABASE_ERROR);
         }
-
-
     }
 
-    /** --> 프라이빗으로 받기
-     * 로그인아이디를 받아
-     * @param loginId
-     * @return
-     */
-    @Override
-    public UserVO findByLoginId(String loginId) {
-        UserVO user = userRepo.findByLoginId(loginId);
-        if (user == null) {
-            throw new SignUpException(SignUpErrorCode.USER_NOT_FOUND_BY_LOGIN_ID);
-        }
-        return user;
-    }
-
-    /**--> private 으로 두기 -> 인터페이스에서도 삭제
-     * 이메일 아이디 받아 로그인아이디 찾기
-     * @param email
-     * @return
-     */
-    @Override
-    public UserVO findByEmail(String email) {
-        UserVO user = userRepo.findByEmail(email);
-        if (user == null) {
-            throw new SignUpException(SignUpErrorCode.USER_NOT_FOUND_BY_EMAIL);
-        }
-        return user;
-    }
-
-    @Override
-    public UserVO findByUserId(Integer userId) {
-        UserVO user = userRepo.findByUserId(userId);
-        if (user == null) {
-            throw new SignUpException(SignUpErrorCode.USER_NOT_FOUND_BY_USER_ID);
-        }
-        return user;
-    }
-
-    /**
-     * 사용자 로그인 아이디를  입력 받고 디비에 있으면 새로운 비밀번호를 입력받아 비밀번호 재설정하기
-     * @param
-     */
     @Override
     public void resetPassword(PasswordResetDTO passwordResetDto) { // dto 를 파라미터로 받아야 하나?
-
-        UserVO user = userRepo.findByLoginId(passwordResetDto.getUserLoginId());
-        if(user != null) {
-            userRepo.updatePassword(passwordResetDto.getNewPassword(), passwordResetDto.getUserLoginId());
-        }
+        // 디비에 저장된 사용자인지 확인한다
+       boolean userExists = userRepo.existsByLoginId(passwordResetDto.getUserLoginId());
+       if (userExists) { // 사용자가 존재하면
+           // 패스워드 재서러정한다
+           userRepo.updatePassword(passwordResetDto.getUserLoginId(), passwordResetDto.getNewPassword());
+       }
     }
-
-    /**
-     * 이메일을 입력받아 로그인 아이디를 반환한다
-     * @param email
-     * @return
-     */
-    @Override
-    public String findLoginId(String email) {
-        String loginId = userRepo.findLoginId(email);
-        if (loginId == null) {
-            throw new UserNotFoundException("해당 이메일로 등록된 계정을 찾을 수 없습니다.");
-        } else return loginId;
-
-    }
-
-
-
 }

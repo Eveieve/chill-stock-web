@@ -100,7 +100,7 @@ public class AdminController {
             model.addAttribute("userListByName", users);
         }
 
-        return "/users"; // 단순 검색(GET 요청)이고 model에 검색 결과를 담아 그대로 렌더링
+        return "admin/users"; // 단순 검색(GET 요청)이고 model에 검색 결과를 담아 그대로 렌더링
     }
 
     /**

@@ -14,6 +14,23 @@
       </ol>
     </nav>
   </div>
+
+  <!-- 삭제 완료 모달 -->
+  <div class="modal fade" id="deleteSuccessModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">삭제 완료</h5>
+        </div>
+        <div class="modal-body">
+          선택한 회원이 성공적으로 삭제되었습니다.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!--    검색바 시작 -->
   <form class="search-form d-flex align-items-center mb-3" th:action="@{/admin/search}" method="get">
     <input type="text" name="name" class="form-control" placeholder="이름으로 검색" th:value="${param.name}">
@@ -29,7 +46,7 @@
           <tr>
             <!-- 전체 선택 체크박스 -->
             <th style="width: 50px;">
-              <input type="checkbox" id="selectAllCheckboxes" class="form-check-input" />
+              <input type="checkbox" id="selectAll" class="form-check-input" />
             </th>
             <!--화면에서의 레코드 번호-->
             <th style="width: 80px;">번호</th>
@@ -43,26 +60,24 @@
           <tbody>
           <!--          userId를 data attribute로 숨겨서 넣어두기 -->
           <tr th:if="${users != null and not #lists.isEmpty(users)}" th:each="user, iterStat : ${users}">
-            <td>
-              <input type="checkbox" name="selectedUserIds" th:value="${user.id}" class="form-check-input" />
-            </td>
+            <td><input type="checkbox" name="userIds" th:value="${user.id}" class="form-check-input" /></td>
             <td th:text="${iterStat.index + 1}">번호</td>
             <td th:text="${user.userName}">이름</td>
             <td th:text="${user.userType}">계정 유형</td>
             <td th:text="${user.userStatus}">계정 상태</td>
             <td th:text="${user.businessRegistNum}">사업자번호</td>
           </tr>
-          <!--일치하는 사용자 없을 시 nouserFounndMessage 가보내짐 - 있으면 출력 -->
-          <tr th:if="${users == null or #lists.isEmpty(users)}">
-            <td colspan="6" class="text-center" th:text="${NoUserFoundMessage != null ? NoUserFoundMessage : '등록된 회원이 없습니다.'}">
-              데이터가 없습니다.
-            </td>
-          </tr>
           </tbody>
+          <!--일치하는 사용자 없을 시 nouserFounndMessage 가보내짐 - 있으면 출력 -->
+          <tr th:if="${NoUserFoundMessage != null}">
+            <td colspan="6" th:text="${NoUserFoundMessage}"></td>
+          </tr>
         </table>
+
         <!-- 선택된 회원 관리를 위한 버튼 그룹 추가 -->
-        <div class="text-end mt-3">
-          <button type="submit" class="btn btn-primary">선택 완료</button>
+        <div class="d-flex justify-content-start mt-3 gap-3">
+          <button type="button" class="btn btn-primary" onclick="submitBulk('/admin/approve')">승인</button>
+          <button type="button" class="btn btn-danger" onclick="submitBulk('/admin/delete')">삭제</button>
         </div>
       </form>
       <!--    테이블 끝부분-->
@@ -91,44 +106,41 @@
 
 <!--자바스크립트 시작 -->
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // 전체 선택 체크박스
-    const selectAllCheckbox = document.getElementById("selectAllCheckboxes");
-    
-    function updateCheckboxes() {
-      const userCheckboxes = document.querySelectorAll('input[name="selectedUserIds"]');
-      userCheckboxes.forEach(cb => {
-        cb.checked = selectAllCheckbox.checked;
-      });
+
+  document.getElementById('selectAll').addEventListener('change', () => {
+    const checked = this.checked;
+    document.querySelectorAll('.form-check-input').forEach(box => box.checked = checked);
+  })
+
+  function submitBulk(url) {
+    const selectedIds = array.from(document.querySelectorAll('.form-check-input:checked'))
+            .map(cb=> cb.value);
+
+    if(selectedIds.length ===0) {
+      alert("선택된 회원이 없습니다.");
+              return;
     }
 
-    function updateSelectAllCheckbox() {
-      const userCheckboxes = Array.from(document.querySelectorAll('input[name="selectedUserIds"]'));
-      const allChecked = userCheckboxes.every(cb => cb.checked);
-      const someChecked = userCheckboxes.some(cb => cb.checked);
-      
-      selectAllCheckbox.checked = allChecked;
-      selectAllCheckbox.indeterminate = someChecked && !allChecked;
-    }
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(selectedIds)
+    })
+            .then(response => {
+              if (response.redirected) {
+                window.location.href = response.url;
+              } else if (response.ok) {
+                alert("처리가 완료되었습니다.");
+                window.location.reload();
+              } else {
+                alert("요청 처리 중 오류가 발생했습니다.");
+              }
+            });
+  }
 
-    // 전체 선택 체크박스 이벤트
-    // if (selectAllCheckbox) {
-    //   selectAllCheckbox.addEventListener('change', updateCheckboxes);
-    // }
 
-    // 전체 체크
-    if (selectAllCheckbox) {
-     selectAllCheckbox.addEventListener('change', function () {
-        const checkboxes = document.querySelectorAll('input[name="selectedUserIds"]');
-        checkboxes.forEach(cb => cb.checked = this.checked);
-      });
-    }
-
-    // 개별 체크박스 이벤트
-    document.querySelectorAll('input[name="selectedUserIds"]').forEach(checkbox => {
-      checkbox.addEventListener('change', updateSelectAllCheckbox);
-    });
-  });
 </script>
 </body>
 

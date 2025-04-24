@@ -35,7 +35,8 @@ public class AdminController {
             // 전체 회원 수를 정확히 구하는 메서드
             int total = adminUserService.countAllUsers();
             int totalPages = (int) Math.ceil((double) total / pageSize);
-
+            // 뷰로 total 회원 값 넘겨주기
+            model.addAttribute("total", total);
             if (page < 1) page = 1;
             if (page > totalPages) page = totalPages;
             List<UserBizDTO> users = adminUserService.getAllUsersByPage(page);
@@ -111,13 +112,19 @@ public class AdminController {
     public String searchUserByName(@RequestParam("name") String name, Model model) {
         List<UserBizDTO> users = adminUserService.searchUserByName(name);
 
+        // 이름 검색란이 비었으면 회원목록을 모두 보여주기
+        if(name.isEmpty()) return "redirect:/admin/users";
+        // 검색결과 없을 경우
         if (users.isEmpty()) {
+            // 검색결과가 없다는 메시지 띄우기
             model.addAttribute("NoUserFoundMessage", "사용자를 찾을 수 없습니다.");
-        } else {
-            model.addAttribute("userListByName", users);
+
+        } else { // 모든 회원 목록 이랑 같이 페이지 사용하기 위해서 그냥 USERS
+            model.addAttribute("users", users); // 검색된 사용자 보여주기
         }
 
-        return "/users"; // 단순 검색(GET 요청)이고 model에 검색 결과를 담아 그대로 렌더링
+
+        return "admin/users"; // 단순 검색(GET 요청)이고 model에 검색 결과를 담아 그대로 렌더링
     }
 
     /**

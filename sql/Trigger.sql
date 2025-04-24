@@ -1,4 +1,4 @@
--- 회원 삭제될 시 이용되는 트리터
+-- 회원 삭제될 시 이용되는 트리거
 DELIMITER $$
 
 CREATE TRIGGER trg_before_user_delete_with_biz

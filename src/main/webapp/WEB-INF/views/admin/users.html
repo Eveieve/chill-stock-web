@@ -92,23 +92,41 @@
 <!--자바스크립트 시작 -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+    // 전체 선택 체크박스
     const selectAllCheckbox = document.getElementById("selectAllCheckboxes");
-    const userCheckboxes = document.querySelectorAll('input[name="selectedUserIds"]');
-
-    if (selectAllCheckbox) {
-      selectAllCheckbox.addEventListener('change', function () {
-        userCheckboxes.forEach(cb => cb.checked = this.checked);
+    
+    function updateCheckboxes() {
+      const userCheckboxes = document.querySelectorAll('input[name="selectedUserIds"]');
+      userCheckboxes.forEach(cb => {
+        cb.checked = selectAllCheckbox.checked;
       });
     }
 
-    // 개별 체크박스 상태에 따라 전체 선택 체크박스 상태 업데이트
-    userCheckboxes.forEach(checkbox => {
-      checkbox.addEventListener('change', function() {
-        const allChecked = Array.from(userCheckboxes).every(cb => cb.checked);
-        const someChecked = Array.from(userCheckboxes).some(cb => cb.checked);
-        selectAllCheckbox.checked = allChecked;
-        selectAllCheckbox.indeterminate = someChecked && !allChecked;
+    function updateSelectAllCheckbox() {
+      const userCheckboxes = Array.from(document.querySelectorAll('input[name="selectedUserIds"]'));
+      const allChecked = userCheckboxes.every(cb => cb.checked);
+      const someChecked = userCheckboxes.some(cb => cb.checked);
+      
+      selectAllCheckbox.checked = allChecked;
+      selectAllCheckbox.indeterminate = someChecked && !allChecked;
+    }
+
+    // 전체 선택 체크박스 이벤트
+    // if (selectAllCheckbox) {
+    //   selectAllCheckbox.addEventListener('change', updateCheckboxes);
+    // }
+
+    // 전체 체크
+    if (selectAllCheckbox) {
+     selectAllCheckbox.addEventListener('change', function () {
+        const checkboxes = document.querySelectorAll('input[name="selectedUserIds"]');
+        checkboxes.forEach(cb => cb.checked = this.checked);
       });
+    }
+
+    // 개별 체크박스 이벤트
+    document.querySelectorAll('input[name="selectedUserIds"]').forEach(checkbox => {
+      checkbox.addEventListener('change', updateSelectAllCheckbox);
     });
   });
 </script>

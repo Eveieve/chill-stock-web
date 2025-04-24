@@ -62,9 +62,7 @@ class AdminUserRepoTest {
     @Autowired
     private NonUserService nonUserService;
 
-    private Integer insertedUserId;
-
-
+    // 회원 한명 회원가입 시키기
     private Integer registerTestUser(String tag) {
         String uniqueId = tag + "_" + System.currentTimeMillis();
         String loginId = uniqueId;
@@ -134,13 +132,11 @@ void getAllDeletedUsers() {
     List<Integer> userIds = Arrays.asList(userId, userId2); // 실제 존재하는 user_id 사용
     adminUserRepo.deleteUsersByIds(userIds);
 
-
-
 }
 
     @DisplayName("여러 명의 회원을 삭제할 수 있다.")
     @Test
-    void deleteUsersByIds_여러회원삭제_테스트() {
+    void deleteUsersByIds() {
 
         Integer userId = registerTestUser("test");
         Integer userId2 = registerTestUser("test2");
@@ -153,7 +149,22 @@ void getAllDeletedUsers() {
         // then
         Assertions.assertTrue(deletedCount > 0, "삭제된 행 수는 0보다 커야 한다");
     }
+    @DisplayName("여러 명의 회원을 승인 할 수 있다.")
+    @Test
+    @Transactional
+    void approveUsersByIds() {
+        // given
+        Integer userId1 = registerTestUser("test13");  // DB에 유저 삽입
+        Integer userId2 = registerTestUser("test14");
 
+        List<Integer> userIds = Arrays.asList(userId1, userId2);
 
+        // when
+        adminUserService.approveUsersByIds(userIds);
+
+        // then
+        Assertions.assertEquals(UserStatus.approve, userRepo.findByUserId(userId1).getUserStatus());
+        Assertions.assertEquals(UserStatus.approve, userRepo.findByUserId(userId2).getUserStatus());
+    }
 }
 

@@ -99,7 +99,6 @@ public class NonUserServiceImplTest {
     @DisplayName("회원가입 시 회원정보와 사업체정보가 함께 저장된다.")
     void signUpWithBusinessInfoTest() {
 
-
         // given
         String uniqueId = String.valueOf(System.currentTimeMillis());
         String loginId = "chillstock_" + uniqueId;

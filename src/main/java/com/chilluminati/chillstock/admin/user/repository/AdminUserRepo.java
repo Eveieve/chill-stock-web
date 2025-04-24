@@ -48,10 +48,6 @@ public interface AdminUserRepo {
     */
    UserBizVO getUserBizById(Integer userId);
 
-   // 로그인 아이디 로 회원의 모든 정보  불러오기
-   UserVO findByLoginId(String loginId);
-
-
    /**
     * 회원 계정 한개/여러개 삭제하기
     * @param userIds
@@ -74,5 +70,9 @@ public interface AdminUserRepo {
    List<UserBizBackupVO> findAllDeletedUsers();
 
 
+   /**
+    * 회원 삭제전에 백업 테이블에 저장하기
+    * @param userIds
+    */
    void backupUsersBeforeDelete(List<Integer> userIds);
 }

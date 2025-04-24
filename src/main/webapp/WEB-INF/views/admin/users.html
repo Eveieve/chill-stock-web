@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layouts/layout-admin :: layout(~{::main})}">
+<body>
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>회원 관리</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item active">회원관리</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section dashboard">
+
+    <nav>
+      <ul class="pagination justify-content-center mt-4">
+        <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+          <a class="page-link" th:href="@{/admin/users(page=${currentPage - 1})}">이전</a>
+        </li>
+
+        <li class="page-item"
+            th:each="i : ${#numbers.sequence(1, totalPages)}"
+            th:classappend="${i == currentPage} ? 'active'">
+          <a class="page-link" th:href="@{/admin/users(page=${i})}" th:text="${i}">1</a>
+        </li>
+
+        <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+          <a class="page-link" th:href="@{/admin/users(page=${currentPage + 1})}">다음</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="row">
+      <div class="row">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>이메일</th>
+            <th>전화번호</th>
+            <th>회원유형</th>
+            <th>상태</th>
+            <th>요청일</th>
+            <th>승인일</th>
+            <th>사업체명</th>
+            <th>사업자번호</th>
+            <th>사업장주소</th>
+            <th>우편번호</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="user : ${users}">
+            <td th:text="${user.userLoginId}">login_id</td>
+            <td th:text="${user.userName}">이름</td>
+            <td th:text="${user.userEmail}">이메일</td>
+            <td th:text="${user.userPhone}">전화번호</td>
+            <td th:text="${user.userType}">유형</td>
+            <td th:text="${user.userStatus}">상태</td>
+            <td th:text="${user.userRequestedAt}">요청일</td>
+            <td th:text="${user.userApprovedAt}">승인일</td>
+            <td th:text="${user.businessName}">상호명</td>
+            <td th:text="${user.businessRegistNum}">사업자번호</td>
+            <td th:text="${user.businessAddress}">주소</td>
+            <td th:text="${user.businessPost}">우편번호</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

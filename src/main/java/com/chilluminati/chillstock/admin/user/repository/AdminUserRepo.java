@@ -12,41 +12,41 @@ import java.util.List;
 
 public interface AdminUserRepo {
 
-   // 이름으로 회원 정보 검색하기
-   List<UserBizVO> getUsersByName(String userName);
-
-   // id로 회원정보만 조회하기
-   UserVO getUserById(Integer userId);
-
-   // userid로 사업체 번호만 조회하기
-   BizVO getBizById(Integer userId);
-
-   // 테이블 기본키로 회원 찾기 (회원 상세조회하기 클릭)
-   UserBizVO getUserBizById(Integer userId);
-
-   // 로그인 아이디 로 회원의 모든 정보  불러오기
-   UserVO findByLoginId(String loginId);
 
    /**
-    * email로 회원의 모든 정보 (비밀번호 포함) 불러오기
-    * @param email
+    * 모든 회원 불러오기
+    * @param limit
+    * @param offset
     * @return
     */
-   UserVO findByEmail(String email);
+   List<UserBizVO> getAllUsersBiz(@Param("limit") int limit, @Param("offset") int offset);
 
    /**
-    * 사용자로부터 새 비밀번호를 받아 비밀번호를 재설정하기
-    * @param newPassword
+    * 전체 회원 수 반환
+    * @return
     */
-   void updatePassword(@Param("newPassword") String newPassword, @Param(("userLoginId")) String userLoginId);
+   int countAllUsers();
 
    /**
-    * 이메일로 아이디 찾기
-    * @param email
+    * 삭제된 전체 회원 수
+    * @return
     */
-   String findLoginId(@Param("email") String email);
+   int countAllDeleted();
 
-   int deleteUserById(Integer userId);
+   /**
+    * 이름으로 계정 검색하기
+    * @param userName
+    * @return
+    */
+   List<UserBizVO> getUsersByName(String userName);
+
+
+   /**
+    * 회원 계정 정보 상세 조회하기
+    * @param userId
+    * @return
+    */
+   UserBizVO getUserBizById(Integer userId);
 
    /**
     * 회원 계정 한개/여러개 삭제하기
@@ -55,7 +55,6 @@ public interface AdminUserRepo {
     */
    int deleteUsersByIds(List<Integer> userIds);
 
-   int approveUserById(Integer userId);
 
    /**
     * 대기중인 회원 계정 한개/여러개 승인하기
@@ -70,11 +69,10 @@ public interface AdminUserRepo {
     */
    List<UserBizBackupVO> findAllDeletedUsers();
 
+
    /**
-    * 모든 회원 계정 불러오기
-    * @param limit
-    * @param offset
-    * @return
+    * 회원 삭제전에 백업 테이블에 저장하기
+    * @param userIds
     */
-   List<UserBizVO> getAllUsersWithBiz(@Param("limit") int limit, @Param("offset") int offset);
+   void backupUsersBeforeDelete(List<Integer> userIds);
 }

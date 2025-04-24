@@ -126,13 +126,49 @@ VALUES
     (NOW(), NULL, '대기', 8, 12, 8, NULL);
 
 -- ✅ 14. user_backup_table
-INSERT INTO user_backup_table (user_login_id, user_email, user_name, user_phone, deleted_at, approved_at, requested_at)
+INSERT INTO user_backup_table (
+    user_login_id, user_email, user_name, user_phone,
+    approved_at, requested_at,
+    business_regist_num, business_name, business_address, business_post,
+    deleted_at
+)
 VALUES
-    ('olduser1', 'old1@ex.com', '삭제유저1', '010-8888-0001', NOW(), NOW(), NOW()),
-    ('olduser2', 'old2@ex.com', '삭제유저2', '010-8888-0002', NOW(), NOW(), NOW()),
-    ('olduser3', 'old3@ex.com', '삭제유저3', '010-8888-0003', NOW(), NOW(), NOW()),
-    ('olduser4', 'old4@ex.com', '삭제유저4', '010-8888-0004', NOW(), NOW(), NOW()),
-    ('olduser5', 'old5@ex.com', '삭제유저5', '010-8888-0005', NOW(), NOW(), NOW()),
-    ('olduser6', 'old6@ex.com', '삭제유저6', '010-8888-0006', NOW(), NOW(), NOW()),
-    ('olduser7', 'old7@ex.com', '삭제유저7', '010-8888-0007', NOW(), NOW(), NOW()),
-    ('olduser8', 'old8@ex.com', '삭제유저8', '010-8888-0008', NOW(), NOW(), NOW());
+    ('olduser1', 'old1@ex.com', '삭제유저1', '010-8888-0001',
+     NOW(), NOW(),
+     '123-45-67891', '구사업체1', '서울시 강남구 1번지', '06101',
+     NOW()),
+
+    ('olduser2', 'old2@ex.com', '삭제유저2', '010-8888-0002',
+     NOW(), NOW(),
+     '123-45-67892', '구사업체2', '서울시 강남구 2번지', '06102',
+     NOW()),
+
+    ('olduser3', 'old3@ex.com', '삭제유저3', '010-8888-0003',
+     NOW(), NOW(),
+     '123-45-67893', '구사업체3', '서울시 강남구 3번지', '06103',
+     NOW()),
+
+    ('olduser4', 'old4@ex.com', '삭제유저4', '010-8888-0004',
+     NOW(), NOW(),
+     '123-45-67894', '구사업체4', '서울시 강남구 4번지', '06104',
+     NOW()),
+
+    ('olduser5', 'old5@ex.com', '삭제유저5', '010-8888-0005',
+     NOW(), NOW(),
+     '123-45-67895', '구사업체5', '서울시 강남구 5번지', '06105',
+     NOW()),
+
+    ('olduser6', 'old6@ex.com', '삭제유저6', '010-8888-0006',
+     NOW(), NOW(),
+     '123-45-67896', '구사업체6', '서울시 강남구 6번지', '06106',
+     NOW()),
+
+    ('olduser7', 'old7@ex.com', '삭제유저7', '010-8888-0007',
+     NOW(), NOW(),
+     '123-45-67897', '구사업체7', '서울시 강남구 7번지', '06107',
+     NOW()),
+
+    ('olduser8', 'old8@ex.com', '삭제유저8', '010-8888-0008',
+     NOW(), NOW(),
+     '123-45-67898', '구사업체8', '서울시 강남구 8번지', '06108',
+     NOW());

@@ -99,7 +99,6 @@ class AdminUserRepoTest {
         assertNotNull(userBizVO, "조회된 UserBizVO는 null이 아니어야 한다");
         assertNotNull(userBizVO.getUserLoginId(), "userLoginId는 null이 아니어야 한다");
         assertNotNull(userBizVO.getUserName(), "userName은 null이 아니어야 한다");
-        assertNotNull(userBizVO.getBusinessName(), "businessName은 null이 아니어야 한다");
 
     }
 

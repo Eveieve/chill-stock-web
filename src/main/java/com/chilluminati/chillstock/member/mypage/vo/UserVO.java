@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 /**
- * 유저 테이블과 연결되는 VO
+ * 내정보 조회 vo
  */
 @NoArgsConstructor
 @AllArgsConstructor

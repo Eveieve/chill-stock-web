@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layouts/layout-admin :: layout(~{::main})}">
+<body>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>탈퇴 회원 관리</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">회원관리</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section dashboard">
+
+        <nav>
+            <ul class="pagination justify-content-center mt-4">
+                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/deleted-users(page=${currentPage - 1})}">이전</a>
+                </li>
+
+                <li class="page-item"
+                    th:each="i : ${#numbers.sequence(1, totalPages)}"
+                    th:classappend="${i == currentPage} ? 'active'">
+                    <a class="page-link" th:href="@{/admin/deleted-users(page=${i})}" th:text="${i}">1</a>
+                </li>
+
+                <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                    <a class="page-link" th:href="@{/admin/deleted-users(page=${currentPage + 1})}">다음</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="row">
+            <div class="row">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>아이디</th>
+                        <th>이름</th>
+                        <th>승인일</th>
+                        <th>사업체명</th>
+                        <th>사업자번호</th>
+                        <th>사업장주소</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="deletedUser : ${deletedUsers}">
+                        <td th:text="${deletedUser.userLoginId}">아이디</td>
+                        <td th:text="${deletedUser.userName}">이름</td>
+                        <td th:text="${#dates.format(deletedUser.userApprovedAt, 'yyyy-MM-dd')}">승인일</td>
+                        <td th:text="${deletedUser.businessName}">상호명</td>
+                        <!-- 이하 정보는 마스킹 또는 관리자만 확인 -->
+<!--                        <td th:text="${deletedUser.maskedEmail}">이메일</td>-->
+<!--                        <td th:text="${deletedUser.maskedPhone}">전화번호</td>-->
+                        <td th:text="'****-****-****'">사업자번호</td>
+                        <td th:text="'비공개'">주소</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+</main>
+</body>
+</html>

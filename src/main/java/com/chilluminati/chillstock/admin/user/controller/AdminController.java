@@ -63,8 +63,8 @@ public class AdminController {
         if (page > totalPages) page = totalPages;
 
 
-        List<DeletedUserDTO> deletedUsers = adminUserService.getAllDeletedByPage(page);
-        model.addAttribute("deletedUsers", deletedUsers);
+        List<DeletedUserDTO> users = adminUserService.getAllDeletedByPage(page);
+        model.addAttribute("users", users);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
         return "admin/deleted-users"; // → deleted-users.html로 렌더링
@@ -78,9 +78,9 @@ public class AdminController {
      */
     @GetMapping("/pending")
     public String getPendingUsers(@RequestParam(defaultValue = "1") int page, Model model) {
-        List<UserBizDTO> pendingUsers = adminUserService.getPendingUsersByPage(page);
+        List<UserBizDTO> users = adminUserService.getPendingUsersByPage(page);
 
-        model.addAttribute("pendingUsers", pendingUsers);
+        model.addAttribute("users", users);
         model.addAttribute("currentPage", page);
         model.addAttribute("statusFilter", "pending");
 //<a th:href="@{/admin/users/pending?page=1}">대기 중 회원 보기</a>
@@ -94,11 +94,13 @@ public class AdminController {
      * @param model Thymeleaf에 전달할 모델
      * @return 상세 정보 페이지 경로
      */
-    @GetMapping("/user/{userId}")
+    @GetMapping("/detail/{userId}")
     public String viewUserDetail(@PathVariable("userId") Integer userId, Model model) {
-        UserBizDTO userDetail = adminUserService.viewUserDetail(userId);
-        model.addAttribute("userDetail", userDetail);
-        log.info("userDetail: {}", userDetail);
+        // userId는 어디서 가져오지..?
+        UserBizDTO user = adminUserService.viewUserDetail(userId);
+        // 간단하게 user로 수정함.
+        model.addAttribute("user", user);
+
         return "admin/user-detail";
     }
 

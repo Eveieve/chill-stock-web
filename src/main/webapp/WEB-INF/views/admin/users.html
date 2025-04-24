@@ -36,14 +36,16 @@
           </tr>
           </thead>
           <tbody>
+<!--          userId를 data attribute로 숨겨서 넣어두기 -->
           <tr th:each="user, iterStat : ${users}">
 <!--            total은 컨트롤러에서 넘어온 전체 회원수, interStat은 iteration status variable, 반복문에 대한 상태정보 담음 -->
 <!--            가장 최근에 등록된 회원이 번호가 제일 큼-->
             <td th:text="${iterStat.index + 1}">번호</td>
-            <td th:text="${user.userName}">이름</td>
-            <td th:text="${user.userType}">계정 유형</td>
+              <td th:text="${user.userName}">이름</td>
+              <td th:text="${user.userType}">계정 유형</td>
             <td th:text="${user.userStatus}">계정 상태</td>
             <td th:text="${user.businessRegistNum}">사업자번호</td>
+
           </tr>
 <!--일치하는 사용자 없을 시 nouserFounndMessage 가보내짐 - 있으면 출력 -->
           <tr th:if="${NoUserFoundMessage != null}">
@@ -75,5 +77,13 @@
   </nav>
 <!--  페이지 넘버 끝 -->
 </main>
+
+<!--자바스크립트 시작 -->
+<script>
+
+</script>
 </body>
+
+
+
 </html>

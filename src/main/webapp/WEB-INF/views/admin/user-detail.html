@@ -1,80 +1,102 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{admin/layouts/layout-admin :: layout(~{::main})}">
-<body>
 
+<body>
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>회원 관리</h1>
+        <h1>회원 상세 정보</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">회원관리</li>
+                <li class="breadcrumb-item"><a href="/admin/users">회원관리</a></li>
+                <li class="breadcrumb-item active">상세정보</li>
             </ol>
         </nav>
     </div>
 
-    <section class="section dashboard">
+    <section class="section profile">
         <div class="row">
-            <div class="row">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>아이디</th>
-                        <th>이름</th>
-                        <th>이메일</th>
-                        <th>전화번호</th>
-                        <th>회원유형</th>
-                        <th>상태</th>
-                        <th>요청일</th>
-                        <th>승인일</th>
-                        <th>사업체명</th>
-                        <th>사업자번호</th>
-                        <th>사업장주소</th>
-                        <th>우편번호</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="user : ${users}">
-                        <td th:text="${user.userLoginId}">login_id</td>
-                        <td th:text="${user.userName}">이름</td>
-                        <td th:text="${user.userEmail}">이메일</td>
-                        <td th:text="${user.userPhone}">전화번호</td>
-                        <td th:text="${user.userType}">유형</td>
-                        <td th:text="${user.userStatus}">상태</td>
-                        <td th:text="${user.userRequestedAt}">요청일</td>
-                        <td th:text="${user.userApprovedAt}">승인일</td>
-                        <td th:text="${user.businessName}">상호명</td>
-                        <td th:text="${user.businessRegistNum}">사업자번호</td>
-                        <td th:text="${user.businessAddress}">주소</td>
-                        <td th:text="${user.businessPost}">우편번호</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div class="col-xl-8">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!-- Profile Overview Tab -->
+                        <div class="tab-pane fade show active profile-overview" id="profile-overview">
+
+                            <h5 class="card-title">회원 정보</h5>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">아이디</div>
+                                <div class="col-lg-9 col-md-8" th:text="${user.userLoginId}">login_id</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">이름</div>
+                                <div class="col-lg-9 col-md-8" th:text="${user.userName}">홍길동</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">이메일</div>
+                                <div class="col-lg-9 col-md-8" th:text="${user.userEmail}">example@email.com</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">전화번호</div>
+                                <div class="col-lg-9 col-md-8" th:text="${user.userPhone}">010-1234-5678</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">회원유형</div>
+                                <div class="col-lg-9 col-md-8" th:text="${user.userType}">ROLE_MEMBER</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">상태</div>
+                                <div class="col-lg-9 col-md-8" th:text="${user.userStatus}">PENDING</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">요청일</div>
+                                <div class="col-lg-9 col-md-8" th:text="${user.userRequestedAt}">2024-04-23</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">승인일</div>
+                                <div class="col-lg-9 col-md-8" th:text="${user.userApprovedAt}">2024-04-24</div>
+                            </div>
+
+                            <h5 class="card-title mt-4">사업체 정보</h5>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">사업체명</div>
+                                <div class="col-lg-9 col-md-8" th:text="${user.businessName}">ABC Corp</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">사업자번호</div>
+                                <div class="col-lg-9 col-md-8" th:text="${user.businessRegistNum}">123-45-67890</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">사업장 주소</div>
+                                <div class="col-lg-9 col-md-8" th:text="${user.businessAddress}">서울특별시 강남구 테헤란로</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">우편번호</div>
+                                <div class="col-lg-9 col-md-8" th:text="${user.businessPost}">06236</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-        <!--    테이블 끝부분-->
     </section>
-    <!--  페이지 넘버 시작 -->
-    <nav>
-        <ul class="pagination justify-content-center mt-4">
-            <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                <a class="page-link" th:href="@{/admin/users(page=${currentPage - 1})}">이전</a>
-            </li>
 
-            <li class="page-item"
-                th:each="i : ${#numbers.sequence(1, totalPages)}"
-                th:classappend="${i == currentPage} ? 'active'">
-                <a class="page-link" th:href="@{/admin/users(page=${i})}" th:text="${i}">1</a>
-            </li>
-
-            <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                <a class="page-link" th:href="@{/admin/users(page=${currentPage + 1})}">다음</a>
-            </li>
-        </ul>
-    </nav>
-    <!--  페이지 넘버 끝 -->
 </main>
 </body>
 </html>

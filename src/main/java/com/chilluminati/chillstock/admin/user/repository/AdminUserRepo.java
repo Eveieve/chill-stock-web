@@ -12,6 +12,7 @@ import java.util.List;
 
 public interface AdminUserRepo {
 
+
    /**
     * 모든 회원 불러오기
     * @param limit

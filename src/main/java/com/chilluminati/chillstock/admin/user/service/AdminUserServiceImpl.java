@@ -1,5 +1,6 @@
 package com.chilluminati.chillstock.admin.user.service;
 
+import com.chilluminati.chillstock.admin.user.common.UserStatus;
 import com.chilluminati.chillstock.admin.user.dto.DeletedUserDTO;
 import com.chilluminati.chillstock.admin.user.dto.UserBizDTO;
 import com.chilluminati.chillstock.admin.user.exception.AdminUserErrorCode;
@@ -58,6 +59,22 @@ public class AdminUserServiceImpl implements AdminUserService {
                 .collect(Collectors.toList());
 
     }
+
+    @Override
+    public List<UserBizDTO> getPendingUsersByPage(int page) {
+        final int size = 10;
+        int safePage = Math.max(page, 1);
+        int offset = (safePage - 1) * size;
+
+        List<UserBizVO> allUsers = adminUserRepo.getAllUsersBiz(size, offset);
+
+        // 상태가 pending인 회원만 필터링
+        return allUsers.stream()
+                .filter(user -> "pending".equalsIgnoreCase(user.getUserStatus()))
+                .map(vo -> modelMapper.map(vo, UserBizDTO.class))
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     public UserBizDTO viewUserDetail(Integer userId) {

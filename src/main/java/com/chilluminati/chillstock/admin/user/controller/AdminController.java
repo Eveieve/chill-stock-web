@@ -68,6 +68,23 @@ public class AdminController {
     }
 
     /**
+     * 승인 대기 회원 모두 보기
+     * @param page
+     * @param model
+     * @return
+     */
+    @GetMapping("/pending")
+    public String getPendingUsers(@RequestParam(defaultValue = "1") int page, Model model) {
+        List<UserBizDTO> pendingUsers = adminUserService.getPendingUsersByPage(page);
+
+        model.addAttribute("pendingUsers", pendingUsers);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("statusFilter", "pending");
+//<a th:href="@{/admin/users/pending?page=1}">대기 중 회원 보기</a>
+
+        return "admin/users";
+    }
+    /**
      * 이름으로 회원(들)을 검색한다
      * @param name
      * @param model

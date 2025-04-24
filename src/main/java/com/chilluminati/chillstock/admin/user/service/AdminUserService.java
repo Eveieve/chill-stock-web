@@ -1,5 +1,6 @@
 package com.chilluminati.chillstock.admin.user.service;
 
+import com.chilluminati.chillstock.admin.user.common.UserStatus;
 import com.chilluminati.chillstock.admin.user.dto.DeletedUserDTO;
 import com.chilluminati.chillstock.admin.user.dto.UserBizDTO;
 import com.chilluminati.chillstock.admin.user.vo.UserBizBackupVO;
@@ -28,6 +29,13 @@ public interface AdminUserService {
      * @return
      */
     List<UserBizDTO> getAllUsersByPage(@Param("limit") int limit);
+
+    /**
+     * 대기중 회원 모두 조회하기
+     * @param
+     * @return
+     */
+    List<UserBizDTO> getPendingUsersByPage(int page);
 
     /**
      * 이름으로 회원계정을 검색

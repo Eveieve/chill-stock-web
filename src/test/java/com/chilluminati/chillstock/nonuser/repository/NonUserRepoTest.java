@@ -37,10 +37,28 @@ class NonUserRepoTest {
     @DisplayName("이미 존재하는 이메일인지 확인할 수 있다")
     void existsByEmailTest() {
         // given
-        String existingEmail = "mypage_1745226481031@example.com"; // 실제 DB에 존재하는 이메일
+        String uniqueId = String.valueOf(System.currentTimeMillis());
+        String loginId = "testLogin_" + uniqueId;
+        String email = "exists_" + uniqueId + "@example.com";
+        String businessRegistNum = "123-" + uniqueId.substring(4, 6) + "-" + uniqueId.substring(6, 11);
+
+        SignUpDTO signUpDTO = SignUpDTO.builder()
+                .userLoginId(loginId)
+                .userPassword("password1234!")
+                .userPasswordCheck("password1234!")
+                .userEmail(email) // 이 이메일로 테스트
+                .userName("존재테스트")
+                .userPhone("010-1111-2222")
+                .businessRegistNum(businessRegistNum)
+                .businessName("존재상점")
+                .businessAddress("서울시 존재구")
+                .businessPost("12345")
+                .build();
+
+        userService.signUp(signUpDTO);
 
         // when
-        boolean exists = userRepo.existsByEmail(existingEmail);
+        boolean exists = userRepo.existsByEmail(email);
 
         // then
         Assertions.assertTrue(exists, "DB에 이미 존재하는 이메일이면 true를 반환해야 한다");

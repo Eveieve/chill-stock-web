@@ -16,24 +16,6 @@
   </div>
 
   <section class="section dashboard">
-
-    <nav>
-      <ul class="pagination justify-content-center mt-4">
-        <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-          <a class="page-link" th:href="@{/admin/users(page=${currentPage - 1})}">이전</a>
-        </li>
-
-        <li class="page-item"
-            th:each="i : ${#numbers.sequence(1, totalPages)}"
-            th:classappend="${i == currentPage} ? 'active'">
-          <a class="page-link" th:href="@{/admin/users(page=${i})}" th:text="${i}">1</a>
-        </li>
-
-        <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-          <a class="page-link" th:href="@{/admin/users(page=${currentPage + 1})}">다음</a>
-        </li>
-      </ul>
-    </nav>
     <div class="row">
       <div class="row">
         <table class="table table-striped">
@@ -72,8 +54,27 @@
         </table>
       </div>
     </div>
+<!--    테이블 끝부분-->
   </section>
+<!--  페이지 넘버 시작 -->
+  <nav>
+    <ul class="pagination justify-content-center mt-4">
+      <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+        <a class="page-link" th:href="@{/admin/users(page=${currentPage - 1})}">이전</a>
+      </li>
 
+      <li class="page-item"
+          th:each="i : ${#numbers.sequence(1, totalPages)}"
+          th:classappend="${i == currentPage} ? 'active'">
+        <a class="page-link" th:href="@{/admin/users(page=${i})}" th:text="${i}">1</a>
+      </li>
+
+      <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+        <a class="page-link" th:href="@{/admin/users(page=${currentPage + 1})}">다음</a>
+      </li>
+    </ul>
+  </nav>
+<!--  페이지 넘버 끝 -->
 </main>
 </body>
 </html>

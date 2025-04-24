@@ -6,6 +6,7 @@ import com.chilluminati.chillstock.admin.user.exception.AdminUserException;
 import com.chilluminati.chillstock.admin.user.service.AdminUserService;
 import com.chilluminati.chillstock.admin.user.vo.UserBizBackupVO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin")
@@ -84,6 +86,21 @@ public class AdminController {
 
         return "admin/users";
     }
+
+    /**
+     * 특정 회원의 상세 정보를 조회한다.
+     * @param userId 회원 ID
+     * @param model Thymeleaf에 전달할 모델
+     * @return 상세 정보 페이지 경로
+     */
+    @GetMapping("/user/{userId}")
+    public String viewUserDetail(@PathVariable("userId") Integer userId, Model model) {
+        UserBizDTO userDetail = adminUserService.viewUserDetail(userId);
+        model.addAttribute("userDetail", userDetail);
+        log.info("userDetail: {}", userDetail);
+        return "admin/user-detail";
+    }
+
     /**
      * 이름으로 회원(들)을 검색한다
      * @param name

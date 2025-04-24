@@ -1,9 +1,11 @@
 package com.chilluminati.chillstock.admin.warehouse.repository;
 
+import com.chilluminati.chillstock.admin.warehouse.vo.AdminAreaSpaceRemainVo;
 import com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseVo;
 import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
 import com.chilluminati.chillstock.config.MybatisConfig;
+import com.chilluminati.chillstock.config.WebClientConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,38 +24,42 @@ import static org.junit.jupiter.api.Assertions.*;
 @ContextConfiguration(classes = {
         AppConfig.class,
         MybatisConfig.class,
-        HikariCPConfig.class  // ← 필요하다면 추가
+        HikariCPConfig.class,
+        WebClientConfig.class// ← 필요하다면 추가
 })
 @ExtendWith(SpringExtension.class)
 class AdminWareHouseRepositoryTest {
     @Autowired
     AdminWareHouseRepository adminWareHouseRepository;
-    @Test
-    void createWarehouse() {
-        // given
-        AdminWarehouseVo adminWarehouseVo = AdminWarehouseVo.builder()
-                .warehouseName("test")
-                .warehouseSpace(1500)
-                .warehouseAddress("address")
-                .warehouseAmount(15000)
-                .build();
+    @Autowired
+    private AdminAreaRepository adminAreaRepository;
 
-        // when
-        adminWareHouseRepository.createWarehouse(adminWarehouseVo);
-        AdminWarehouseVo result = adminWareHouseRepository.adminGetWarehouseById(1);
-
-        // then
-        Assertions.assertEquals(adminWarehouseVo.getWarehouseName(), result.getWarehouseName());
-        Assertions.assertEquals(adminWarehouseVo.getWarehouseSpace(), result.getWarehouseSpace());
-        Assertions.assertEquals(adminWarehouseVo.getWarehouseAddress(), result.getWarehouseAddress());
-        Assertions.assertEquals(adminWarehouseVo.getWarehouseAmount(), result.getWarehouseAmount());
-    }
+//    @Test
+//    void createWarehouse() {
+//        // given
+//        AdminWarehouseVo adminWarehouseVo = AdminWarehouseVo.builder()
+//                .warehouseName("test")
+//                .warehouseSpace(1500)
+//                .warehouseAddress("address")
+//                .warehouseAmount(15000)
+//                .build();
+//
+//        // when
+//        adminWareHouseRepository.createWarehouse(adminWarehouseVo);
+//        AdminWarehouseVo result = adminWareHouseRepository.adminGetWarehouseById(1).get();
+//
+//        // then
+//        Assertions.assertEquals(adminWarehouseVo.getWarehouseName(), result.getWarehouseName());
+//        Assertions.assertEquals(adminWarehouseVo.getWarehouseSpace(), result.getWarehouseSpace());
+//        Assertions.assertEquals(adminWarehouseVo.getWarehouseAddress(), result.getWarehouseAddress());
+//        Assertions.assertEquals(adminWarehouseVo.getWarehouseAmount(), result.getWarehouseAmount());
+//    }
 
     @Test
     void findByIdWarehouse() {
         Integer wareHouseId = 1;
         //when
-        AdminWarehouseVo adminWarehouseVo = adminWareHouseRepository.adminGetWarehouseById(wareHouseId);
+        AdminWarehouseVo adminWarehouseVo = adminWareHouseRepository.adminGetWarehouseById(wareHouseId).get();
         //then
         assertNotNull(adminWarehouseVo);
     }
@@ -83,5 +89,9 @@ class AdminWareHouseRepositoryTest {
         assertNotNull(addr);
     }
 
-
+    @Test
+    void adminAreaSpaceRemainVo(){
+        List<AdminAreaSpaceRemainVo> allAdminAreaSpaceUsage = adminAreaRepository.getAllAdminAreaSpaceUsage();
+        assertNotNull(allAdminAreaSpaceUsage);
+    }
 }

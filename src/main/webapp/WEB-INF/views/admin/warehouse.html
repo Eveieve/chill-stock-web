@@ -28,6 +28,12 @@
         <button type="button" class="btn btn-primary" onclick="openUpdateModal()">
           수정 하기
         </button>
+        <a href="/admin/warehouse/remain" class="btn btn-primary">
+          남은 공간
+        </a>
+        <button type="button" class="btn btn-outline-primary" onclick="goToWarehouseDetail()">
+          상세 보기
+        </button>
       </div>
 
 <!--      검색창-->
@@ -111,10 +117,11 @@
     </div>
   </div>
 
-  <!-- JavaScript 로직 -->
+  <!-- 스크립트 -->
   <script>
     let selectedWarehouseData = {};
 
+    // 수정하기 함수
     function populateUpdateModal(radio) {
       const row = radio.closest("tr");
       selectedWarehouseData = {
@@ -140,7 +147,20 @@
       const modal = new bootstrap.Modal(document.getElementById("warehouseUpdateModal"));
       modal.show();
     }
+
+    // 상세보기 함수
+    function goToWarehouseDetail() {
+      if (!selectedWarehouseData.warehouseId) {
+        alert("상세보기할 창고를 선택해주세요.");
+        return;
+      }
+
+      const url = `/admin/warehouse/detail?warehouseId=${selectedWarehouseData.warehouseId}`;
+      window.location.href = url;
+    }
   </script>
+
+
 
 
   <!-- 창고 생성 모달 -->

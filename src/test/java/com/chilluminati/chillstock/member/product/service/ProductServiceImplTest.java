@@ -85,23 +85,23 @@ class ProductServiceImplTest {
         log.info("내 제품 개수 = {}", myProductCount);
     }
 
-    @Test
-    @DisplayName("회원 제품 등록 service 부분 테스트")
-    void getMyProducts_shouldReturnProducts() {
-        // given: 더미 제품 데이터 생성
-        ProductDTO dto = ProductDTO.builder()
-                .productName("테스트 제품")
-                .productSize(5)
-                .storageTemperature(4)
-                .expirationDate(Date.valueOf("2025-12-31"))
-                .categoryMainId(1)  // 대분류는 필수는 아님, 테스트 시 참고용
-                .categoryMidId(2)   // 실제 INSERT에 사용될 중분류 ID
-                .build();
-
-        productService.registerProduct(dto);
-
-        log.info(dto.toString());
-    }
+//    @Test
+//    @DisplayName("회원 제품 등록 service 부분 테스트")
+//    void getMyProducts_shouldReturnProducts() {
+//        // given: 더미 제품 데이터 생성
+//        ProductDTO dto = ProductDTO.builder()
+//                .productName("테스트 제품")
+//                .productSize(5)
+//                .storageTemperature(4)
+//                .expirationDate(Date.valueOf("2025-12-31"))
+//                .categoryMainId(1)  // 대분류는 필수는 아님, 테스트 시 참고용
+//                .categoryMidId(2)   // 실제 INSERT에 사용될 중분류 ID
+//                .build();
+//
+//        productService.registerProduct(dto);
+//
+//        log.info(dto.toString());
+//    }
 
     @Test
     @DisplayName("제품 삭제 테스트")

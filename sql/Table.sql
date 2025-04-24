@@ -1,3 +1,4 @@
+use chillstockDb;
 -- 외래키 무시하고 삭제 (초기화용)
 SET FOREIGN_KEY_CHECKS = 0;
 

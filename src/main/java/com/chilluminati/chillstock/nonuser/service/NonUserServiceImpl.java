@@ -27,7 +27,10 @@ public class NonUserServiceImpl implements NonUserService {
 
     @Override
     public boolean checkEmailDuplicate(EmailDupDTO dto) {
-        return userRepo.existsByEmail(dto.getUserEmail());
+        boolean isDuplicate = userRepo.existsByEmail(dto.getUserEmail());
+
+       return isDuplicate;
+
     }
 
 

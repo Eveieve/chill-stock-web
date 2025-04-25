@@ -24,9 +24,14 @@ public class MemberMypageController {
      */
     @GetMapping("/mypage")
     public String showMyPage( Model model) {
-        UserBizDTO dto = memberMypageService.viewMyInfo();
-        model.addAttribute("myInfo", dto);
+        UserBizDTO user = memberMypageService.viewMyInfo();
+        model.addAttribute("user", user);
         return "member/mypage";
+    }
+
+    @GetMapping("/mypage-edit")
+    public String showMyPage1( ) {
+        return "member/mypage-edit";
     }
 
     /***

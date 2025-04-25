@@ -50,6 +50,7 @@ public class MemberMypageServiceImpl implements MemberMypageService {
         dto.setBusinessAddress(biz.getBusinessAddress());
         dto.setBusinessPost(biz.getBusinessPost());
 
+        log.info(dto.toString());
         return dto;
     }
 

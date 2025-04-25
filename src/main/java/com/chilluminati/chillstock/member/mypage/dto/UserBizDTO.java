@@ -1,5 +1,6 @@
 package com.chilluminati.chillstock.member.mypage.dto;
 
+import com.chilluminati.chillstock.admin.user.common.UserStatus;
 import com.chilluminati.chillstock.admin.user.common.UserType;
 import lombok.Data;
 

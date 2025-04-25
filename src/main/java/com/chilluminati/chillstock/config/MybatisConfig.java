@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 
 @Configuration
 @MapperScan(basePackages = {
-        "com.chilluminati.chillstock.example.repository",
         "com.chilluminati.chillstock.admin.user.repository",
         "com.chilluminati.chillstock.nonuser.repository",
         "com.chilluminati.chillstock.member.mypage.repository",

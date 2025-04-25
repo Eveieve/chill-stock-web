@@ -16,6 +16,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
                 HikariCPConfig.class,
                 MybatisConfig.class,
                 SecurityConfig.class,
+                WebClientConfig.class,
                 AppConfig.class};// DB 설정이 따로 있다면 여기에 추가 기타 컨픽도 추가
     }
 

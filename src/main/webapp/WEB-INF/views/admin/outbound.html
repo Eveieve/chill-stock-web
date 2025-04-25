@@ -2,11 +2,10 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{admin/layouts/layout-admin :: layout(~{::main})}">
 <body>
-
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>입고관리</h1>
+    <h1>출고관리</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -17,10 +16,151 @@
 
   <section class="section dashboard">
     <div class="row">
-      <h5>여기에 입고 화면 구성할 예정</h5>
+      <!-- 상태별 조회 -->
+      <form th:action="@{/admin/outbound/sort}" method="get">
+        <div class="input-group mb-3" style="max-width: 300px;">
+          <select class="form-select" name="status" onchange="this.form.submit()">
+            <option value="">전체</option>
+            <option value="대기">대기</option>
+            <option value="승인">승인</option>
+            <option value="반려">반려</option>
+          </select>
+        </div>
+      </form>
+
+      <!-- 승인/반려 공통 폼 (승인 시 제출) -->
+      <form id="outboundForm" method="post" th:action="@{/admin/outbound}">
+        <table class="table table-bordered table-hover align-middle text-center">
+          <thead class="table-light">
+          <tr>
+            <th>출고 ID</th>
+            <th>출고일</th>
+            <th>출고 요청일</th>
+            <th>출고 상태</th>
+            <th>출고 수량</th>
+            <th>제품명</th>
+            <th>반려 사유</th>
+            <th>선택</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="outbound : ${outboundList}">
+            <td th:text="${outbound.outbound_id}"></td>
+            <td th:text="${outbound.outbound_date}"></td>
+            <td th:text="${outbound.outbound_request_date}"></td>
+            <td th:text="${outbound.outbound_status}"></td>
+            <td th:text="${outbound.outbound_amount}"></td>
+            <td th:text="${outbound.product_name}"></td>
+            <td th:text="${outbound.reject_reason_message}"></td>
+            <td>
+              <!-- 라디오버튼 name은 outboundId -->
+              <input type="radio"
+                     class="stock-radio"
+                     name="outboundId"
+                     th:value="${outbound.outbound_id}"
+                     required/>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <div class="d-flex justify-content-end align-items-center gap-2 mt-3">
+          <!-- 승인 버튼: 이 폼(submit)에 newStatus=승인 추가 -->
+          <button type="submit"
+                  class="btn btn-primary"
+                  name="newStatus"
+                  value="승인">승인</button>
+
+          <!-- 반려 버튼: 모달 트리거 -->
+          <button type="button"
+                  id="OutboundReject"
+                  class="btn btn-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#rejectModal">
+            반려
+          </button>
+        </div>
+      </form>
+
+      <!-- 페이징(nav) -->
+      <nav>
+        <ul class="pagination justify-content-center mt-4">
+          <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+            <a class="page-link"
+               th:href="@{/admin/outbound(page=${currentPage - 1})}">이전</a>
+          </li>
+
+          <th:block th:with="startPage=${((currentPage - 1) / 10) * 10 + 1},
+                              endPage=${(startPage + 9) > totalPages ? totalPages : (startPage + 9)}">
+            <li class="page-item"
+                th:each="i : ${#numbers.sequence(startPage, endPage)}"
+                th:classappend="${i == currentPage} ? 'active'">
+              <a class="page-link"
+                 th:href="@{/admin/outbound(page=${i})}"
+                 th:text="${i}"></a>
+            </li>
+          </th:block>
+
+          <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+            <a class="page-link"
+               th:href="@{/admin/outbound(page=${currentPage + 1})}">다음</a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </section>
 
+  <!-- 반려 모달 -->
+  <div class="modal fade" id="rejectModal" tabindex="-1"
+       aria-labelledby="rejectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form id="rejectForm"
+              method="post"
+              th:action="@{/admin/outbound}">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rejectModalLabel">반려 사유 선택</h5>
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <select name="rejectCode" class="form-select" required>
+              <option th:each="code : ${rejectCodes}"
+                      th:value="${code.code}"
+                      th:text="${code.msg}"></option>
+            </select>
+            <!-- 선택된 ID 전달 -->
+            <input type="hidden" name="outboundId" id="rejectOutboundId"/>
+            <!-- 상태 전달 -->
+            <input type="hidden" name="newStatus" value="반려"/>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger">확인</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </main>
+
+<!-- JavaScript: 모달 띄우기 및 ID 세팅 -->
+<script>
+  document.getElementById("OutboundReject").addEventListener("click", function (e) {
+    e.preventDefault();
+    const selected = document.querySelector('input[name="outboundId"]:checked');
+    if (!selected) {
+      alert("출고를 선택하세요.");
+      return;
+    }
+    // hidden input에 값 세팅
+    const rejectInput = document.getElementById("rejectOutboundId");
+    rejectInput.value = selected.value.trim();
+    // 모달 표시
+    new bootstrap.Modal(document.getElementById("rejectModal")).show();
+  });
+</script>
+
 </body>
 </html>

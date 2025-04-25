@@ -5,7 +5,7 @@ import com.chilluminati.chillstock.member.stock.dto.MemberStockDTO;
 import java.util.List;
 
 public interface MemberStockService {
-    List<MemberStockDTO> readAllMemberStock(String productName);
-    List<MemberStockDTO> readAllMemberStockPaging(String productName, Integer page, Integer size);
+    List<MemberStockDTO> readAllMemberStock(Integer page, Integer limit);
+    List<MemberStockDTO> readAllMemberStockByProductName(String productName, Integer page, Integer limit);
     Integer countMemberStock(String productName);
 }

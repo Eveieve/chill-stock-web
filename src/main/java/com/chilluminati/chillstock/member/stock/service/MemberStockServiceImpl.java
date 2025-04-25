@@ -20,13 +20,13 @@ public class MemberStockServiceImpl implements MemberStockService {
     private final MemberStockRepository memberStockRepository;
 
     @Override
-    public List<MemberStockDTO> readAllMemberStock(String productName) {
+    public List<MemberStockDTO> readAllMemberStock(Integer page, Integer limit) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         EmailUserDetails userDetails = (EmailUserDetails) authentication.getPrincipal();
         Integer userId = userDetails.getUserId();
-//        Integer userId = 1;
 
-        return memberStockRepository.readAllMemberStock(userId, productName).stream().map(vo -> {
+        Integer offset = (page - 1) * limit;
+        return memberStockRepository.readAllMemberStock(userId, offset, limit).stream().map(vo -> {
             return MemberStockDTO.builder()
                     .stock_id(vo.getStock_id())
                     .product_id(vo.getProduct_id())
@@ -39,13 +39,13 @@ public class MemberStockServiceImpl implements MemberStockService {
     }
 
     @Override
-    public List<MemberStockDTO> readAllMemberStockPaging(String productName, Integer page, Integer limit) {
+    public List<MemberStockDTO> readAllMemberStockByProductName(String productName, Integer page, Integer limit) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         EmailUserDetails userDetails = (EmailUserDetails) authentication.getPrincipal();
         Integer userId = userDetails.getUserId();
 
         Integer offset = (page - 1) * limit;
-        return memberStockRepository.readAllMemberStockPaging(userId, productName, offset, limit)
+        return memberStockRepository.readAllMemberStockByProductName(userId, productName, offset, limit)
                 .stream().map(vo -> MemberStockDTO.builder()
                         .stock_id(vo.getStock_id())
                         .product_id(vo.getProduct_id())

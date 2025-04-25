@@ -102,7 +102,7 @@ VALUES
     (7, NOW(), 40, '입고'), (8, NOW(), 30, '입고');
 
 -- ✅ 12. inbound_table
-INSERT INTO inbound_table (inbound_request_date, inbound_date, inbound_status, admin_id, inbound_amount, product_id, reject_reason_code)
+INSERT INTO inbound_table (inbound_request_date, inbound_date, inbound_status, admin_id, inbound_amount, product_id, reject_reason_message)
 VALUES
     (NOW(), NOW(), '승인', 1, 10, 1, NULL),
     (NOW(), NULL, '대기', 2, 15, 2, NULL),
@@ -114,14 +114,14 @@ VALUES
     (NOW(), NULL, '대기', 8, 45, 8, NULL);
 
 -- ✅ 13. outbound_table
-INSERT INTO outbound_table (outbound_request_date, outbound_date, outbound_status, admin_id, outbound_amount, product_id, reject_reason_code)
+INSERT INTO outbound_table (outbound_request_date, outbound_date, outbound_status, admin_id, outbound_amount, product_id, reject_reason_message)
 VALUES
     (NOW(), NOW(), '승인', 1, 5, 1, NULL),
     (NOW(), NULL, '대기', 2, 6, 2, NULL),
-    (NOW(), NOW(), '취소', 3, 7, 3, 'ERR10'),
+    (NOW(), NOW(), '반려', 3, 7, 3, 'ERR10'),
     (NOW(), NOW(), '승인', 4, 8, 4, NULL),
     (NOW(), NULL, '대기', 5, 9, 5, NULL),
-    (NOW(), NOW(), '취소', 6, 10, 6, 'ERR11'),
+    (NOW(), NOW(), '반려', 6, 10, 6, 'ERR11'),
     (NOW(), NOW(), '승인', 7, 11, 7, NULL),
     (NOW(), NULL, '대기', 8, 12, 8, NULL);
 

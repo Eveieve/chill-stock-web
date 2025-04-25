@@ -85,6 +85,19 @@
             </div>
         </div>
     </section>
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const alert = document.getElementById("successAlert");
+            if (alert) {
+                setTimeout(function () {
+                    alert.classList.remove("show"); // 트랜지션 시작
+                    setTimeout(() => alert.remove(), 500); // 서서히 사라진 후 완전 제거
+                }, 3000); // 3초 후 시작
+            }
+        });
+    </script>
+
 </main>
 </body>
 </html>

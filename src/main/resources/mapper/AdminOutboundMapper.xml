@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chilluminati.chillstock.admin.outbound.repository.AdminOutboundRepository">
+    <select id="readAllOutboundRequest" resultType="com.chilluminati.chillstock.admin.outbound.vo.AdminOutboundVO">
+        select o.outbound_id, o.outbound_date, o.outbound_request_date, o.outbound_status, o.outbound_amount, p.product_name, o.reject_reason_message
+        from outbound_table o
+            join product p on o.product_id = p.product_id
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="readOutboundRequestByStatus" resultType="com.chilluminati.chillstock.admin.outbound.vo.AdminOutboundVO">
+        select o.outbound_id, o.outbound_date, o.outbound_request_date, o.outbound_status, o.outbound_amount, p.product_name, o.reject_reason_message
+        from outbound_table o
+            join product p on o.product_id = p.product_id
+        where outbound_status = #{status}
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="count" resultType="Integer">
+        SELECT COUNT(*)
+        FROM outbound_table o
+            JOIN product p ON o.product_id = p.product_id
+        <if test="status != null and status != ''">
+            WHERE o.outbound_status = #{status}
+        </if>
+    </select>
+
+    <update id="updateOutboundStatus">
+        update outbound_table
+        set outbound_status = #{newStatus}, admin_id = #{adminId}, outbound_date = now(), reject_reason_message = #{msg} where outbound_id = #{outboundId};
+    </update>
+
+    <update id="updateStock">
+        UPDATE stock_table s
+            JOIN product p ON s.product_id = p.product_id
+            JOIN outbound_table o ON o.product_id = p.product_id
+            SET s.stock_amount = s.stock_amount - o.outbound_amount
+        WHERE o.outbound_status = '승인'
+          AND o.outbound_id = #{outboundId}
+          AND s.stock_amount >= o.outbound_amount;
+
+    </update>
+
+    <delete id="deleteZeroStock">
+        delete from stock_table where stock_amount = 0
+    </delete>
+
+    <select id="getStockAndOutboundAmount" resultType="java.util.Map">
+        SELECT distinct s.stock_amount, o.outbound_amount
+        FROM stock_table s
+                 JOIN product p ON s.product_id = p.product_id
+                 JOIN outbound_table o ON o.product_id = p.product_id
+        WHERE o.outbound_id = #{outboundId};
+    </select>
+
+    <select id="getAdminId" resultType="Integer">
+        select admin_id
+        from admin_table
+        where user_id = #{userId}
+    </select>
+</mapper>

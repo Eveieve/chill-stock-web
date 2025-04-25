@@ -41,7 +41,12 @@ public class MemberOutboundServiceImpl implements MemberOutboundService {
 
     @Override
     public List<MemberStockDTO> readAllMemberStock(String productName, Integer page, Integer limit) {
-        return memberStockService.readAllMemberStockPaging(productName, page, limit);
+        return memberStockService.readAllMemberStockByProductName(productName, page, limit);
+    }
+
+    @Override
+    public List<MemberStockDTO> readAllMemberStockByProductName(String productName, Integer page, Integer limit) {
+        return memberStockService.readAllMemberStockByProductName(productName, page, limit);
     }
 
     @Override

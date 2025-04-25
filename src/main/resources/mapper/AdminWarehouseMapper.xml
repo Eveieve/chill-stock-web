@@ -47,4 +47,28 @@
             warehouse_id DESC
     </select>
 
+    <select id="adminGetAllWarehouseByAddress"
+            parameterType="String"
+            resultType="com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseVo">
+        SELECT
+            warehouse_id AS warehouseId,
+            warehouse_name AS warehouseName,
+            warehouse_space AS warehouseSpace,
+            warehouse_address AS warehouseAddress,
+            warehouse_amount AS warehouseAmount
+        FROM warehouse_table
+        WHERE warehouse_address like CONCAT('%', #{address}, '%')
+    </select>
+
+    <update id = "adminUpdateWarehouseById"
+            parameterType="com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseVo">
+        update warehouse_table
+        set
+            warehouse_name = #{warehouseName},
+            warehouse_space = #{warehouseSpace},
+            warehouse_address = #{warehouseAddress},
+            warehouse_amount = #{warehouseAmount}
+        where
+            warehouse_id = #{warehouseId}
+    </update>
 </mapper>

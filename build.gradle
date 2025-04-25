@@ -67,6 +67,13 @@ dependencies {
 
     // modelMapper 라이브러리
     implementation 'org.modelmapper:modelmapper:3.1.1'
+
+    // webflux for webclient
+    implementation("org.springframework:spring-webflux:5.3.36")
+    implementation 'io.projectreactor.netty:reactor-netty:1.1.12'
+
+    // Jackson
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.3'
 }
 
 test {

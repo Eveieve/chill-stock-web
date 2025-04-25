@@ -24,7 +24,8 @@ import javax.sql.DataSource;
         "com.chilluminati.chillstock.member.stock.repository",
         "com.chilluminati.chillstock.member.outbound.repository",
         "com.chilluminati.chillstock.member.iohistory.repository",
-        "com.chilluminati.chillstock.admin.outbound.repository"
+        "com.chilluminati.chillstock.admin.outbound.repository",
+        "com.chilluminati.chillstock.admin.inbound.repository"
 })// 매퍼 인터페이스 위치
 public class MybatisConfig {
 

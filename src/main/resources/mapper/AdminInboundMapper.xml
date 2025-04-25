@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chilluminati.chillstock.admin.inbound.repository.InventoryRepository">
+    <!-- 목록 조회 -->
+    <select id="selectInboundList" resultType="com.chilluminati.chillstock.admin.inbound.vo.AdminInboundRequestVO">
+        select  i.inbound_id,
+                i.inbound_request_date,
+                i.inbound_status,
+                i.inbound_amount,
+                i.reject_reason_message,
+                p.product_name,
+                b.business_id
+        from inbound_table i
+        join product p on i.product_id = p.product_id
+        join business_table b on p.business_id = b.business_id
+        <where>
+            <if test="status != null and status != ''">
+                i.inbound_status = #{status}
+            </if>
+        </where>
+        ORDER BY i.inbound_request_date DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+    <!-- 목록 개수 조회 -->
+    <select id="countInbound" resultType="int">
+        select count(*)
+        from inbound_table
+        <where>
+            <if test="status != null and status != ''">
+             inbound_status = #{status}
+        </if>
+        </where>
+    </select>
+</mapper>

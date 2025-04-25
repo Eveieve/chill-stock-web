@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chilluminati.chillstock.member.iohistory.repository.MemberIOHistoryRepository">
+
+    <select id="readOutboundRequests" resultType="com.chilluminati.chillstock.member.iohistory.vo.MemberIOHistoryOutboundVO">
+        select o.outbound_id, o.outbound_date, o.outbound_request_date, o.outbound_status, o.outbound_amount, p.product_name, o.reject_reason_message
+        from outbound_table o
+                 join product p on o.product_id = p.product_id
+                 join business_table b on b.business_id = p.business_id
+        where b.user_id = #{userId};
+    </select>
+
+    <select id="readInboundRequests" resultType="com.chilluminati.chillstock.member.iohistory.vo.MemberIOHistoryInboundVO">
+        select i.inbound_id, i.inbound_date, i.inbound_request_date, i.inbound_status, i.inbound_amount, p.product_name, i.reject_reason_message
+        from inbound_table i
+                 join product p on i.product_id = p.product_id
+                 join business_table b on b.business_id = p.business_id
+        where b.user_id = #{userId};
+    </select>
+</mapper>

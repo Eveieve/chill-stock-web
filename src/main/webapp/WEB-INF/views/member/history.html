@@ -2,26 +2,80 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{member/layouts/layout-user :: layout(~{::main})}">
 <body>
-
 <main id="main" class="main">
+  <div class="pagetitle">
+    <h1>메인보드</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item active">메인관리</li>
+      </ol>
+    </nav>
+  </div>
 
-
-    <div class="pagetitle">
-        <h1>메인보드</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">메인관리</li>
-            </ol>
-        </nav>
+  <section class="section dashboard">
+    <!-- 입고 리스트 구역 -->
+    <div style="margin-bottom: 30px;">
+      <h2>입고 요청</h2>
+      <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;" class="border-primary">
+        <table border="1" class="table table-bordered table-hover align-middle text-center" style="width: 100%;">
+          <thead class="table-light">
+          <tr>
+            <th>입고 ID</th>
+            <th>입고일</th>
+            <th>입고 요청일</th>
+            <th>입고 상태</th>
+            <th>입고 수량</th>
+            <th>제품명</th>
+            <th>반려사유</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="inbound : ${inboundList}">
+            <td th:text="${inbound.inbound_id}"></td>
+            <td th:text="${inbound.inbound_date}"></td>
+            <td th:text="${inbound.inbound_request_date}"></td>
+            <td th:text="${inbound.inbound_status}"></td>
+            <td th:text="${inbound.inbound_amount}"></td>
+            <td th:text="${inbound.product_name}"></td>
+            <td th:text="${inbound.reject_reason_message}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <section class="section dashboard">
-        <div class="row">
-            <h5>여기에 메인 화면 구성할 예정</h5>
-        </div>
-    </section>
-
+    <!-- 출고 리스트 구역 -->
+    <div>
+      <h2>출고 요청</h2>
+      <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;" class="border-primary">
+        <table border="1" class="table table-bordered table-hover align-middle text-center" style="width: 100%;">
+          <thead class="table-light">
+          <tr>
+            <th>출고 ID</th>
+            <th>출고일</th>
+            <th>출고 요청일</th>
+            <th>출고 상태</th>
+            <th>출고 수량</th>
+            <th>제품명</th>
+            <th>반려사유</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="outbound : ${outboundList}">
+            <td th:text="${outbound.outbound_id}"></td>
+            <td th:text="${outbound.outbound_date}"></td>
+            <td th:text="${outbound.outbound_request_date}"></td>
+            <td th:text="${outbound.outbound_status}"></td>
+            <td th:text="${outbound.outbound_amount}"></td>
+            <td th:text="${outbound.product_name}"></td>
+            <td th:text="${outbound.reject_reason_message}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 </main>
 </body>
 </html>

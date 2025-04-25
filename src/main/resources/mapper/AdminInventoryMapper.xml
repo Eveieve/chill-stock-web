@@ -5,39 +5,55 @@
 
 <mapper namespace="com.chilluminati.chillstock.admin.inventory.repository.InventoryRepository">
 
-    <select id="selectInventoryHistory" resultType="com.chilluminati.chillstock.admin.inventory.vo.InventoryHistoryVO">
-        (
-            SELECT
-                p.product_name AS productName,
-                '입고' AS type,
-                i.inbound_amount AS amount,
-                r.stock_amount AS currentStock,
-                w.warehouse_name AS warehouseName,
-                a.area_code AS areaCode,
-                i.inbound_date AS handledAt
-            FROM inbound_table i
-                     JOIN product p ON i.product_id = p.product_id
-                     JOIN stock_table r ON i.product_id = r.product_id
-                     JOIN area_table a ON r.area_id = a.area_id
-                     JOIN warehouse_table w ON a.warehouse_id = w.warehouse_id
-        )
-        UNION ALL
-        (
-            SELECT
-                p.product_name AS productName,
-                '출고' AS type,
-                o.outbound_amount AS amount,
-                r.stock_amount AS currentStock,
-                w.warehouse_name AS warehouseName,
-                a.area_code AS areaCode,
-                o.outbound_date AS handledAt
-            FROM outbound_table o
-                     JOIN product p ON o.product_id = p.product_id
-                     JOIN stock_table r ON o.product_id = r.product_id
-                     JOIN area_table a ON r.area_id = a.area_id
-                     JOIN warehouse_table w ON a.warehouse_id = w.warehouse_id
-        )
+    <!-- ✅ 페이징 조회 -->
+    <select id="selectInventoryHistoryPaged"
+            resultType="com.chilluminati.chillstock.admin.inventory.vo.InventoryHistoryVO">
+        SELECT * FROM (
+                          -- ✅ 입고: 승인된 건만
+                          SELECT
+                              p.product_name AS productName,
+                              '입고' AS type,
+                              i.inbound_amount AS amount,
+                              r.stock_amount AS currentStock,
+                              w.warehouse_name AS warehouseName,
+                              a.area_code AS areaCode,
+                              i.inbound_date AS handledAt
+                          FROM inbound_table i
+                                   JOIN product p ON i.product_id = p.product_id
+                                   JOIN stock_table r ON i.product_id = r.product_id
+                                   JOIN area_table a ON r.area_id = a.area_id
+                                   JOIN warehouse_table w ON a.warehouse_id = w.warehouse_id
+                          WHERE i.inbound_status = '승인'
+
+                          UNION ALL
+
+                          -- ✅ 출고: 승인된 건만
+                          SELECT
+                              p.product_name AS productName,
+                              '출고' AS type,
+                              o.outbound_amount AS amount,
+                              r.stock_amount AS currentStock,
+                              w.warehouse_name AS warehouseName,
+                              a.area_code AS areaCode,
+                              o.outbound_date AS handledAt
+                          FROM outbound_table o
+                                   JOIN product p ON o.product_id = p.product_id
+                                   JOIN stock_table r ON o.product_id = r.product_id
+                                   JOIN area_table a ON r.area_id = a.area_id
+                                   JOIN warehouse_table w ON a.warehouse_id = w.warehouse_id
+                          WHERE o.outbound_status = '승인'
+                      ) AS combined
         ORDER BY handledAt DESC
+            LIMIT #{limit} OFFSET #{offset}
     </select>
+
+    <!--  전체 이력 수 조회 -->
+    <select id="countInventoryHistory" resultType="int">
+        SELECT (
+                   (SELECT COUNT(*) FROM inbound_table WHERE inbound_status = '승인') +
+                   (SELECT COUNT(*) FROM outbound_table WHERE outbound_status = '승인')
+                   ) AS totalCount
+    </select>
+
 
 </mapper>

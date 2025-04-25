@@ -9,6 +9,7 @@ import com.chilluminati.chillstock.admin.user.vo.UserBizVO;
 import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
 import com.chilluminati.chillstock.config.MybatisConfig;
+import com.chilluminati.chillstock.config.WebClientConfig;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.repository.UserRepo;
 import com.chilluminati.chillstock.nonuser.service.NonUserService;
@@ -41,7 +42,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ContextConfiguration(classes = {
         AppConfig.class,
         MybatisConfig.class,
-        HikariCPConfig.class
+        HikariCPConfig.class,
+        WebClientConfig.class
 })
 class AdminUserRepoTest {
     @Configuration

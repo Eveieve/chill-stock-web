@@ -3,6 +3,7 @@ package com.chilluminati.chillstock.member.mypage;
 import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
 import com.chilluminati.chillstock.config.MybatisConfig;
+import com.chilluminati.chillstock.config.WebClientConfig;
 import com.chilluminati.chillstock.member.mypage.dto.MypageUpdateDTO;
 import com.chilluminati.chillstock.member.mypage.dto.UserBizDTO;
 import com.chilluminati.chillstock.member.mypage.dto.UserPasswordDTO;
@@ -30,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 회원 마이페이지 기능 중 회원 탈퇴 테스트
@@ -39,7 +41,8 @@ import java.util.List;
         AppConfig.class,
         MybatisConfig.class,
         HikariCPConfig.class,
-        MemberMypageRepoTest.TestTxConfig.class
+        MemberMypageRepoTest.TestTxConfig.class,
+        WebClientConfig.class,
 })
 class MemberMypageRepoTest {
     //transactional을 하기 위해 세팅.. transactionManager를 내부구현 해놓은 config가 없어서 이렇게 일단 세팅함
@@ -65,10 +68,10 @@ class MemberMypageRepoTest {
      */
     @BeforeAll
     static void loginMember() {
-        String loginId = "chillstock_1745388110491";
+        String loginId = "repoTest_1745567083992"; // 실제 디비에 저장된 값
         String password = "chillstock1234";
         String role = "ROLE_member";
-        int pk = 12;
+        int pk = 10; // 실제 디비에 저장된 기본키
 
         // id: mypage_1745226903096
         // pw: mypageTest123!
@@ -178,6 +181,14 @@ class MemberMypageRepoTest {
      */
     private EmailUserDetails getEmailUserDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (EmailUserDetails) authentication.getPrincipal(); // extract userVO
+        Optional<Object> principal = Optional.ofNullable(authentication.getPrincipal());
+        if(principal.orElse(null) instanceof EmailUserDetails) {
+            System.out.println("성공");
+
+            return (EmailUserDetails) authentication.getPrincipal();
+
+        }
+        else System.out.println("asdasdasdasdasdasdasdasdasdasd");
+        return null;
     }
 }

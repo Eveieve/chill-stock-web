@@ -3,6 +3,7 @@ package com.chilluminati.chillstock.nonuser.repository;
 import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
 import com.chilluminati.chillstock.config.MybatisConfig;
+import com.chilluminati.chillstock.config.WebClientConfig;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.service.NonUserServiceImpl;
 import com.chilluminati.chillstock.nonuser.vo.BizVO;
@@ -18,7 +19,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ContextConfiguration(classes = {
         AppConfig.class,
         MybatisConfig.class,
-        HikariCPConfig.class  // DB 연동용 설정
+        HikariCPConfig.class, // DB 연동용 설정
+        WebClientConfig.class
 })
 @ExtendWith(SpringExtension.class)
 class NonUserRepoTest {

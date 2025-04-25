@@ -12,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -150,19 +152,20 @@ public class AdminController {
      * @param userIds 승인할 회원 ID 목록
      */
     @PostMapping("/approve")
-    public String approveUsers(@RequestBody List<Integer> userIds, RedirectAttributes redirectAttributes) { // 클라이언트가 전송한 요청의 바디에 담긴 제이슨 데이터를 자바 객체로 자동 변환 @RequestBody
-        // 1. 승인하기
+    @ResponseBody
+    public Map<String, Object> approveUsers(@RequestBody List<Integer> userIds, RedirectAttributes redirectAttributes) { // 클라이언트가 전송한 요청의 바디에 담긴 제이슨 데이터를 자바 객체로 자동 변환 @RequestBody
+        Map<String, Object> result = new HashMap<>();
         try {
             adminUserService.approveUsersByIds(userIds);
-            // 2. 완료 메시지 전달 (redirect 시에도 메시지 유지)
-            redirectAttributes.addFlashAttribute("approvalSuccessMessage", "승인 처리가 완료되었습니다.");
+            result.put("success", true);
+            result.put("message", "회원이 승인되었습니다.");
         } catch (AdminUserException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getErrorCode().getMessage());
+            result.put("success", false);
+            result.put("message", e.getErrorCode().getMessage());
         }
-//<!-- admin/users.html -->
-//<div th:if="${successMessage}" class="alert alert-success" th:text="${approvalSuccessMessage}"></div>
-        // 3. 같은 페이지로 리다이렉트
-        return "redirect:/admin/users";
+        return result;
 
     }
+
+
 }

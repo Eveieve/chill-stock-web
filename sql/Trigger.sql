@@ -23,7 +23,7 @@ BEGIN
         v_business_post
     FROM business_table b
     WHERE b.user_id = OLD.user_id
-        LIMIT 1;
+    LIMIT 1;
 
     -- user_backup_table에 회원 정보 + 사업체 정보 함께 저장
     INSERT INTO user_backup_table (
@@ -32,8 +32,8 @@ BEGIN
         user_name,
         user_phone,
         deleted_at,
-        approved_at,
-        requested_at,
+        user_approved_at,
+        user_requested_at,
         business_regist_num,
         business_name,
         business_address,

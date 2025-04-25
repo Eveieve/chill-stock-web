@@ -134,7 +134,7 @@ public class AdminController {
      * @param userIds 삭제할 회원 ID 목록
      */
     @PostMapping("/delete")
-    public String deleteUsers(@RequestBody List<Integer> userIds, RedirectAttributes redirectAttributes) {
+    public String deleteUsers(@RequestParam List<Integer> userIds, RedirectAttributes redirectAttributes) {
         try {
             adminUserService.deleteUsersByIds(userIds);
             redirectAttributes.addFlashAttribute("deleteSuccessMessage", "삭제 처리가 완료되었습니다.");

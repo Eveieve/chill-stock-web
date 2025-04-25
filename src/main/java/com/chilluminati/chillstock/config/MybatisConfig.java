@@ -22,7 +22,9 @@ import javax.sql.DataSource;
         "com.chilluminati.chillstock.admin.inventory.repository",
         "com.chilluminati.chillstock.admin.warehouse.repository",
         "com.chilluminati.chillstock.member.stock.repository",
-        "com.chilluminati.chillstock.member.outbound.repository"
+        "com.chilluminati.chillstock.member.outbound.repository",
+        "com.chilluminati.chillstock.member.iohistory.repository",
+        "com.chilluminati.chillstock.admin.outbound.repository"
 })// 매퍼 인터페이스 위치
 public class MybatisConfig {
 

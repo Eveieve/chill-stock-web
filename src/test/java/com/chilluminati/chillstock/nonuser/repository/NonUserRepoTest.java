@@ -4,14 +4,13 @@ import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
 import com.chilluminati.chillstock.config.MybatisConfig;
 import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
-import com.chilluminati.chillstock.nonuser.service.UserServiceImpl;
+import com.chilluminati.chillstock.nonuser.service.NonUserServiceImpl;
 import com.chilluminati.chillstock.nonuser.vo.BizVO;
 import com.chilluminati.chillstock.nonuser.vo.UserVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -22,10 +21,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
         HikariCPConfig.class  // DB 연동용 설정
 })
 @ExtendWith(SpringExtension.class)
-class AdminUserRepoTest {
+class NonUserRepoTest {
 
     @Autowired
-    private UserServiceImpl userService;
+    private NonUserServiceImpl userService;
 
     @Autowired
     private UserRepo userRepo;
@@ -81,8 +80,8 @@ class AdminUserRepoTest {
 
 
     @Test
-    @DisplayName("회원정보와 사업체정보를 직접 insert한 후 조인된 결과를 조회할 수 있다.")
-    void insertAndJoinTest() {
+    @DisplayName("회원가입시 사용자와 사업체 정보가 함께 저장된다")
+    void signUpTest() {
         // given
         String uniqueId = String.valueOf(System.currentTimeMillis());
         String loginId = "repoTest_" + uniqueId;

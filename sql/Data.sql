@@ -19,16 +19,22 @@ VALUES
     (CURDATE(), '배송담당', 7), (CURDATE(), '창고장', 8);
 
 -- ✅ 3. business_table
-INSERT INTO business_table (business_regist_num, business_name, business_address, user_id)
+INSERT INTO business_table (
+    business_regist_num,
+    business_name,
+    business_address,
+    business_post,
+    user_id
+)
 VALUES
-    ('111-11-1111', '청정푸드', '서울시 A로', 3),
-    ('222-22-2222', '햇살농장', '서울시 B로', 4),
-    ('333-33-3333', '푸드컴퍼니', '서울시 C로', 5),
-    ('444-44-4444', '해밀가든', '서울시 D로', 6),
-    ('555-55-5555', '제철푸드', '서울시 E로', 7),
-    ('666-66-6666', '반찬나라', '서울시 F로', 8),
-    ('777-77-7777', '육해공유통', '서울시 G로', 3),
-    ('888-88-8888', '자연마트', '서울시 H로', 4);
+    ('111-11-1111', '청정푸드', '서울시 A로', '01111', 3),
+    ('222-22-2222', '햇살농장', '서울시 B로', '02222', 4),
+    ('333-33-3333', '푸드컴퍼니', '서울시 C로', '03333', 5),
+    ('444-44-4444', '해밀가든', '서울시 D로', '04444', 6),
+    ('555-55-5555', '제철푸드', '서울시 E로', '05555', 7),
+    ('666-66-6666', '반찬나라', '서울시 F로', '06666', 8),
+    ('777-77-7777', '육해공유통', '서울시 G로', '07777', 3),
+    ('888-88-8888', '자연마트', '서울시 H로', '08888', 4);
 
 -- ✅ 4. category_main
 INSERT INTO category_main (category_name)
@@ -96,7 +102,7 @@ VALUES
     (7, NOW(), 40, '입고'), (8, NOW(), 30, '입고');
 
 -- ✅ 12. inbound_table
-INSERT INTO inbound_table (inbound_request_date, inbound_date, inbound_status, admin_id, inbound_amount, product_id, reject_reason_code)
+INSERT INTO inbound_table (inbound_request_date, inbound_date, inbound_status, admin_id, inbound_amount, product_id, reject_reason_message)
 VALUES
     (NOW(), NOW(), '승인', 1, 10, 1, NULL),
     (NOW(), NULL, '대기', 2, 15, 2, NULL),
@@ -108,14 +114,14 @@ VALUES
     (NOW(), NULL, '대기', 8, 45, 8, NULL);
 
 -- ✅ 13. outbound_table
-INSERT INTO outbound_table (outbound_request_date, outbound_date, outbound_status, admin_id, outbound_amount, product_id, reject_reason_code)
+INSERT INTO outbound_table (outbound_request_date, outbound_date, outbound_status, admin_id, outbound_amount, product_id, reject_reason_message)
 VALUES
     (NOW(), NOW(), '승인', 1, 5, 1, NULL),
     (NOW(), NULL, '대기', 2, 6, 2, NULL),
-    (NOW(), NOW(), '취소', 3, 7, 3, 'ERR10'),
+    (NOW(), NOW(), '반려', 3, 7, 3, 'ERR10'),
     (NOW(), NOW(), '승인', 4, 8, 4, NULL),
     (NOW(), NULL, '대기', 5, 9, 5, NULL),
-    (NOW(), NOW(), '취소', 6, 10, 6, 'ERR11'),
+    (NOW(), NOW(), '반려', 6, 10, 6, 'ERR11'),
     (NOW(), NOW(), '승인', 7, 11, 7, NULL),
     (NOW(), NULL, '대기', 8, 12, 8, NULL);
 

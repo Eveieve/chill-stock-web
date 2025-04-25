@@ -4,8 +4,6 @@
 <body>
 
 <main id="main" class="main">
-
-
     <div class="pagetitle">
         <h1>메인보드</h1>
         <nav>
@@ -21,40 +19,53 @@
             <h5>여기에 메인 화면 구성할 예정</h5>
             <h1>재고 목록</h1>
             <form th:action="@{/member/stock/search}" method="get">
-                <input type="text" name="productName" placeholder="상품명 검색" th:value="${productName}">
-                <button type="submit">검색</button>
+                <div class="input-group mb-3" style="max-width: 300px;">
+                    <input type="text" class="form-control" name="productName" placeholder="상품명 검색" th:value="${productName}">
+                    <button class="btn btn-primary" type="submit">검색</button>
+                </div>
             </form>
-            <table border="1" class="table table-bordered table-hover align-middle text-center">
-                <thead class="table-light">
-                <tr>
-                    <th>재고 ID</th>
-                    <th>상품 ID</th>
-                    <th>상품명</th>
-                    <th>유통기한</th>
-                    <th>재고량</th>
-                    <th>입고일</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="stock : ${stockList}">
-                    <td th:text="${stock.stock_id}"></td>
-                    <td th:text="${stock.product_id}"></td>
-                    <td th:text="${stock.product_name}"></td>
-                    <td th:text="${#dates.format(stock.expiration_date, 'yyyy-MM-dd')}"></td>
-                    <td th:text="${stock.stock_amount}"></td>
-                    <td th:text="${stock.inbound_date}"></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="pagination">
-                <a th:if="${currentPage > 1}" th:href="@{/member/stock(page=${currentPage - 1})}">
-                    이전
-                </a>
-                <span>페이지 <span th:text="${currentPage}"></span></span>
-                <a th:if="${currentPage < totalPages}" th:href="@{/member/stock(page=${currentPage + 1})}">
-                    다음
-                </a>
-            </div>
+            <form>
+                <table border="1" class="table table-bordered table-hover align-middle text-center">
+                    <thead class="table-light">
+                    <tr>
+                        <th>재고 ID</th>
+                        <th>상품 ID</th>
+                        <th>상품명</th>
+                        <th>유통기한</th>
+                        <th>재고량</th>
+                        <th>입고일</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="stock : ${stockList}">
+                        <td th:text="${stock.stock_id}"></td>
+                        <td th:text="${stock.product_id}"></td>
+                        <td th:text="${stock.product_name}"></td>
+                        <td th:text="${#dates.format(stock.expiration_date, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${stock.stock_amount}"></td>
+                        <td th:text="${stock.inbound_date}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+            <nav>
+                <ul class="pagination justify-content-center mt-4">
+                    <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/member/stock(page=${currentPage - 1})}">이전</a>
+                    </li>
+
+                    <th:block th:with="startPage=${((currentPage - 1) / 10) * 10 + 1}, endPage=${(startPage + 9) > totalPages ? totalPages : (startPage + 9)}">
+                        <li class="page-item" th:each="i : ${#numbers.sequence(startPage, endPage)}"
+                            th:classappend="${i == currentPage} ? 'active'">
+                            <a class="page-link" th:href="@{/member/stock(page=${i})}" th:text="${i}">1</a>
+                        </li>
+                    </th:block>
+
+                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/member/stock(page=${currentPage + 1})}">다음</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </section>
 

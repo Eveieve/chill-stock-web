@@ -9,6 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class InboundRequestDTO {
-    private int productId;  // 어떤 제품에 대한 입고 요청인지
-    private int amount;     // 수량
+    private  Integer productId;  // 어떤 제품에 대한 입고 요청인지
+    private  Integer amount;     // 수량
 }

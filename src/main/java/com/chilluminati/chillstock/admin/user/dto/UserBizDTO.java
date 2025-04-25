@@ -1,16 +1,21 @@
 package com.chilluminati.chillstock.admin.user.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotEmpty;
 
 /**
  * 회원+사업자 정보를 조회할때 쓰는 디티오
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserBizDTO {
     // 회원 정보
-    private Integer userId;
     private String userLoginId;
     private String userName;
     private String userEmail;
@@ -25,4 +30,5 @@ public class UserBizDTO {
     private String businessName;
     private String businessAddress;
     private String businessPost;
+
 }

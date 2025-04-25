@@ -1,3 +1,4 @@
+
 -- 외래키 무시하고 삭제 (초기화용)
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -16,6 +17,8 @@ DROP TABLE IF EXISTS area_table;
 DROP TABLE IF EXISTS warehouse_table;
 DROP TABLE IF EXISTS storage_condition;
 DROP TABLE IF EXISTS user_backup_table;
+DROP TABLE IF EXISTS revenue_table;
+DROP TABLE IF EXISTS revenue_history_table;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
@@ -28,7 +31,7 @@ CREATE TABLE user_table (
                             user_password VARCHAR(255) NOT NULL,
                             user_phone VARCHAR(20),
                             user_approved_at DATETIME,
-                            user_type ENUM('ROLE_admin', 'ROLE_member') NOT NULL,
+                            user_type ENUM('ROLE_admin', 'ROLE_member') NOT NULL default 'ROLE_member',
                             user_status ENUM('approve', 'pending') DEFAULT 'pending',
                             user_requested_at DATETIME
 );
@@ -47,6 +50,7 @@ CREATE TABLE business_table (
                                 business_regist_num VARCHAR(20) NOT NULL UNIQUE,
                                 business_name VARCHAR(255) NOT NULL,
                                 business_address VARCHAR(255) NOT NULL,
+                                business_post VARCHAR(10) NOT NULL,
                                 user_id INT NOT NULL
 );
 
@@ -154,9 +158,13 @@ CREATE TABLE user_backup_table (
                                    user_email VARCHAR(100),
                                    user_name VARCHAR(30) NOT NULL,
                                    user_phone VARCHAR(20),
-                                   deleted_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                                    approved_at DATETIME,
-                                   requested_at DATETIME
+                                   requested_at DATETIME,
+                                   business_regist_num VARCHAR(20),
+                                   business_name VARCHAR(255),
+                                   business_address VARCHAR(255),
+                                   business_post VARCHAR(10),
+                                   deleted_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ✅ 제약 조건 (FK 설정)
@@ -205,3 +213,5 @@ ALTER TABLE stock_history_table
 ALTER TABLE inbound_table MODIFY admin_id INT NULL;
 ALTER TABLE outbound_table MODIFY COLUMN admin_id INT NULL;
 -- null 허용 가능
+
+

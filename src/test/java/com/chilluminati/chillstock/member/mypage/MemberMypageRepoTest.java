@@ -1,4 +1,4 @@
-package com.chilluminati.chillstock.member.repository;
+package com.chilluminati.chillstock.member.mypage;
 
 import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
@@ -8,9 +8,8 @@ import com.chilluminati.chillstock.member.mypage.dto.UserBizDTO;
 import com.chilluminati.chillstock.member.mypage.dto.UserPasswordDTO;
 import com.chilluminati.chillstock.member.mypage.service.MemberMypageService;
 
-import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.repository.UserRepo;
-import com.chilluminati.chillstock.nonuser.service.UserService;
+import com.chilluminati.chillstock.nonuser.service.NonUserService;
 import com.chilluminati.chillstock.nonuser.vo.UserVO;
 import com.chilluminati.chillstock.security.EmailUserDetails;
 import org.junit.jupiter.api.*;
@@ -23,7 +22,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -60,17 +58,17 @@ class MemberMypageRepoTest {
     private UserRepo userRepo;
 
     @Autowired
-    private UserService userService;
+    private NonUserService nonUserService;
 
     /**
      * 전체 실행 전에 로그인하기
      */
     @BeforeAll
     static void loginMember() {
-        String loginId = "mypage_1745226903096";
-        String password = "mypageTest123";
+        String loginId = "chillstock_1745388110491";
+        String password = "chillstock1234";
         String role = "ROLE_member";
-        int pk = 22;
+        int pk = 12;
 
         // id: mypage_1745226903096
         // pw: mypageTest123!
@@ -82,7 +80,7 @@ class MemberMypageRepoTest {
         emailUserDetails.setUserId(pk);
         emailUserDetails.setUserLoginId(loginId);
         emailUserDetails.setUserPassword(password);
-        emailUserDetails.setUserType("member");
+        emailUserDetails.setUserType("ROLE_member");
 
         // 로그인시키기
         UsernamePasswordAuthenticationToken authentication =
@@ -104,10 +102,8 @@ class MemberMypageRepoTest {
         UserBizDTO dto = memberMypageService.viewMyInfo();
 
         // then
+        System.out.println(dto);
         Assertions.assertEquals(userLoginId, dto.getUserLoginId());
-//        Assertions.assertEquals(email, dto.getUserEmail());
-//        Assertions.assertEquals("마이페이지상점", dto.getBusinessName());
-//        Assertions.assertEquals(businessRegistNum, dto.getBusinessRegistNum());
     }
 
     @Test

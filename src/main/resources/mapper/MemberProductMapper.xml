@@ -4,28 +4,92 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chilluminati.chillstock.member.product.repository.ProductRepository">
 
-    <!-- 로그인한 사용자의 등록된 제품 리스트 조회 -->
-    <select id="selectMyProducts" parameterType="Integer"
-            resultType="com.chilluminati.chillstock.member.product.vo.ProductVO">
-
+    <!-- 제품 페이징 조회 -->
+    <select id="selectMyPagedProducts" resultType="com.chilluminati.chillstock.member.product.vo.ProductVO">
         SELECT
-        p.product_id           AS productId,
-        p.product_name         AS productName,
-        p.product_size         AS productSize,
-        p.storage_temperature  AS storageTemperature,
-        p.expiration_date      AS expirationDate,
-        cm.category_name       AS categoryName,
-        c.category_name        AS subCategoryName
-
+            p.product_id AS productId,
+            p.product_name AS productName,
+            p.product_size AS productSize,
+            p.storage_temperature AS storageTemperature,
+            p.expiration_date AS expirationDate,
+            c1.category_name AS categoryName,
+            c2.category_name AS subCategoryName
         FROM product p
-        JOIN business_table b ON p.business_id = b.business_id
-        JOIN user_table u ON b.user_id = u.user_id
-        JOIN c_mid_level c ON p.category_mid_id = c.category_mid_id
-        JOIN category_main cm ON c.category_main_id = cm.category_id
-
-        WHERE u.user_id = #{userId}
-        ORDER BY product_id DESC
-
+                 JOIN c_mid_level c2 ON p.category_mid_id = c2.category_mid_id
+                 JOIN category_main c1 ON c2.category_main_id = c1.category_id
+        WHERE p.business_id IN (
+            SELECT business_id FROM business_table WHERE user_id = #{userId}
+        )
+        ORDER BY p.created_at DESC
+            LIMIT #{limit} OFFSET #{offset}
     </select>
+
+    <insert id="insertProduct" parameterType="com.chilluminati.chillstock.member.product.vo.ProductVO">
+        INSERT INTO product (
+            product_name,
+            product_size,
+            storage_temperature,
+            expiration_date,
+            category_mid_id,
+            business_id
+        )
+        VALUES (
+                   #{productName},
+                   #{productSize},
+                   #{storageTemperature},
+                   #{expirationDate},
+                   #{categoryMidId},
+                   (SELECT business_id FROM business_table WHERE user_id = #{userId} LIMIT 1)
+            )
+    </insert>
+
+    <!-- 제품 정보 수정 쿼리 -->
+    <update id="updateProduct" parameterType="com.chilluminati.chillstock.member.product.vo.ProductVO">
+        UPDATE product
+        SET
+            product_name = #{productName},             -- 제품명
+            product_size = #{productSize},             -- 제품 크기
+            storage_temperature = #{storageTemperature}, -- 보관 온도
+            expiration_date = #{expirationDate},       -- 유통기한
+            category_mid_id = #{categoryMidId}         -- 중분류 ID
+        WHERE product_id = #{productId}                -- 수정 대상 제품 ID
+    </update>
+
+    <!-- 제품 삭제 쿼리 -->
+    <delete id="deleteProduct" parameterType="int">
+        DELETE FROM product
+        WHERE product_id = #{productId} -- 삭제할 제품 ID
+    </delete>
+
+    <!-- 총 개수 조회 -->
+    <select id="countMyProducts" resultType="int">
+        SELECT COUNT(*)
+        FROM product
+        WHERE business_id IN (
+            SELECT business_id FROM business_table WHERE user_id = #{userId}
+        )
+    </select>
+
+
+    <!-- 대분류 카테고리 전체 조회 -->
+    <select id="selectAllMainCategories" resultType="com.chilluminati.chillstock.member.product.vo.CategoryMainVO">
+        SELECT
+            category_id AS categoryId,
+            category_name AS categoryName
+        FROM category_main
+        ORDER BY category_id ASC
+    </select>
+
+    <!-- ✅ 중분류 카테고리 전체 조회 -->
+    <select id="selectAllMidCategories" resultType="com.chilluminati.chillstock.member.product.vo.CategoryMidVO">
+        SELECT
+            category_mid_id AS categoryMidId,
+            category_name AS categoryName,
+            category_main_id AS categoryMainId
+        FROM c_mid_level
+        ORDER BY category_main_id ASC, category_mid_id ASC
+    </select>
+
+
 
 </mapper>

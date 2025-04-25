@@ -4,9 +4,9 @@ VALUES
     ('admin001', 'admin1@example.com', '관리자홍', 'pw1', '010-0001-0001', 'ROLE_admin', 'approve', NOW(), NOW()),
     ('admin002', 'admin2@example.com', '관리자이', 'pw2', '010-0002-0002', 'ROLE_admin', 'approve', NOW(), NOW()),
     ('member001', 'mem1@example.com', '김상추', 'pw3', '010-0003-0003', 'ROLE_member', 'approve', NOW(), NOW()),
-    ('member002', 'mem2@example.com', '이당근', 'pw4', '010-0004-0004', 'ROLE_member', 'approve', NOW(), NOW()),
-    ('member003', 'mem3@example.com', '박마늘', 'pw5', '010-0005-0005', 'ROLE_member', 'approve', NOW(), NOW()),
-    ('member004', 'mem4@example.com', '최고기', 'pw6', '010-0006-0006', 'ROLE_member', 'approve', NOW(), NOW()),
+    ('member002', 'mem2@example.com', '이당근', 'pw4', '010-0004-0004', 'ROLE_member', 'pending', NOW(), NOW()),
+    ('member003', 'mem3@example.com', '박마늘', 'pw5', '010-0005-0005', 'ROLE_member', 'pending', NOW(), NOW()),
+    ('member004', 'mem4@example.com', '최고기', 'pw6', '010-0006-0006', 'ROLE_member', 'pending', NOW(), NOW()),
     ('member005', 'mem5@example.com', '장과일', 'pw7', '010-0007-0007', 'ROLE_member', 'pending', NOW(), NULL),
     ('member006', 'mem6@example.com', '하해산', 'pw8', '010-0008-0008', 'ROLE_member', 'pending', NOW(), NULL);
 

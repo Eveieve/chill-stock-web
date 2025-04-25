@@ -136,15 +136,19 @@ public class AdminController {
      * @param userIds 삭제할 회원 ID 목록
      */
     @PostMapping("/delete")
-    public String deleteUsers(@RequestParam List<Integer> userIds, RedirectAttributes redirectAttributes) {
+    @ResponseBody
+    public Map<String, Object> deleteUsers(@RequestBody List<Integer> userIds, RedirectAttributes redirectAttributes) {
+        Map<String, Object> result = new HashMap<>();
+
         try {
             adminUserService.deleteUsersByIds(userIds);
-            redirectAttributes.addFlashAttribute("deleteSuccessMessage", "삭제 처리가 완료되었습니다.");
+            result.put("success", true);
+            result.put("message", "회원이 삭제되었습니다.");
         } catch (AdminUserException e) {
-            redirectAttributes.addFlashAttribute("message", e.getErrorCode().getMessage());
+            result.put("success", false);
+            result.put("message", e.getErrorCode().getMessage());
         }
-
-        return "redirect:/admin/users";
+        return result;
     }
 
     /**

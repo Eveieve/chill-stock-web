@@ -79,7 +79,7 @@
                 <!-- 선택된 회원 관리를 위한 버튼 추가 -->
 <!--                <div class="d-flex justify-content-start mt-3 gap-3">-->
                     <button type="button" class="btn btn-primary" onclick="handleApprove()" >승인</button>
-                    <button type="button" class="btn btn-danger" >삭제</button>
+                    <button type="button" class="btn btn-danger" onclick="handleDelete()">삭제</button>
 <!--                </div>-->
             </form>
             <!--      폼의 끝부분에 모달 놔두기? -->
@@ -158,6 +158,34 @@
             }
         }
 
+
+        // 삭제 버튼 클릭 시
+        function handleDelete() {
+            let selectedMembers = getSelectedMembers();
+            if (selectedMembers.length > 0) {
+                if (confirm('선택된 회원을 삭제하시겠습니까?')) {
+                    // 선택된 회원 ID를 서버로 보내서 approve 처리
+                    fetch('/admin/delete', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(selectedMembers) // id 담은 배열만 보내기 !!
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('회원이 삭제되었습니다.');
+                                window.location.reload(); // 삭제 후 페이지 새로고침
+                            } else {
+                                alert('삭제 실패했습니다.');
+                            }
+                        });
+                }
+            } else {
+                alert('회원이 선택되지 않았습니다.');
+            }
+        }
 
         document.getElementById('selectAll').addEventListener('change', () => {
             const checked = this.checked;

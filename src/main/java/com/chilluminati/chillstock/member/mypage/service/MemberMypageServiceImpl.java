@@ -7,6 +7,7 @@ import com.chilluminati.chillstock.member.mypage.repository.MemberMypageRepo;
 import com.chilluminati.chillstock.member.mypage.vo.BizVO;
 import com.chilluminati.chillstock.member.mypage.vo.UserVO;
 import com.chilluminati.chillstock.security.EmailUserDetails;
+import com.chilluminati.chillstock.security.encryption.Encrypt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class MemberMypageServiceImpl implements MemberMypageService {
 
     private final MemberMypageRepo memberMypageRepo;
+    private final Encrypt encrypt;
 
     /***
      * 회원 정보 조회
@@ -56,10 +58,9 @@ public class MemberMypageServiceImpl implements MemberMypageService {
      */
     @Override
     public void updateMemberPassword(UserPasswordDTO userPasswordDTO) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encryptPassword = encoder.encode(userPasswordDTO.getUserPassword());
-
-        userPasswordDTO.setUserPassword(encryptPassword);
+        // 암호화된 비밀번호
+        String encryptedPassword = encrypt.encryptPassword(userPasswordDTO.getUserPassword());
+        userPasswordDTO.setUserPassword(encryptedPassword);
 
         log.debug("#########################");
         log.debug("userPassword: {}", userPasswordDTO.getUserPassword());

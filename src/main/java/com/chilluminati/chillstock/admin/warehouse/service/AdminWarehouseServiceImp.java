@@ -1,15 +1,22 @@
 package com.chilluminati.chillstock.admin.warehouse.service;
 
+import com.chilluminati.chillstock.admin.user.repository.AdminUserRepo;
+import com.chilluminati.chillstock.admin.warehouse.dto.AdminAreaDto;
 import com.chilluminati.chillstock.admin.warehouse.dto.AdminAreaWithRemainDistanceDto;
 import com.chilluminati.chillstock.admin.warehouse.dto.AdminWarehouseDto;
 import com.chilluminati.chillstock.admin.warehouse.dto.AdminWarehouseRemainSpaceDto;
 import com.chilluminati.chillstock.admin.warehouse.repository.AdminAreaRepository;
 import com.chilluminati.chillstock.admin.warehouse.repository.AdminWareHouseRepository;
+import com.chilluminati.chillstock.admin.warehouse.service.func.ListMapperService;
+import com.chilluminati.chillstock.admin.warehouse.service.func.WarehouseDtoToVo;
 import com.chilluminati.chillstock.admin.warehouse.vo.AdminAreaSpaceRemainVo;
+import com.chilluminati.chillstock.admin.warehouse.vo.AdminAreaVo;
 import com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseSpaceRemainVo;
 import com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseVo;
 import com.chilluminati.chillstock.common.ResultList;
 import com.chilluminati.chillstock.security.EmailUserDetails;
+import com.chilluminati.chillstock.webclient.GeoPoint;
+import com.chilluminati.chillstock.webclient.KakaoGeoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +26,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,36 +37,24 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
 
     private final AdminWareHouseRepository adminWareHouseRepository;
     private final AdminAreaRepository adminAreaRepository;
+    private final AdminUserRepo adminUserRepo;
+    private final KakaoGeoService kakaoGeoService;
+
+    private final Function<AdminWarehouseDto, AdminWarehouseVo> warehouseDtoToVo;
+    private final Function<AdminWarehouseVo, AdminWarehouseDto> warehouseVoToDto;
+    private final BiFunction<List<AdminWarehouseVo>, Function<AdminWarehouseVo, AdminWarehouseDto>, List<AdminWarehouseDto>> listMapperService;
+    private final Supplier<Integer> getAuthUserIdDetails;
 
     @Override
     public void registerWarehouse(AdminWarehouseDto adminWarehouseDto) {
-        AdminWarehouseVo adminWarehouseVo = AdminWarehouseVo.builder()
-                .warehouseName(adminWarehouseDto.getWarehouseName())
-                .warehouseSpace(adminWarehouseDto.getWarehouseSpace())
-                .warehouseId(adminWarehouseDto.getWarehouseId())
-                .warehouseAddress(adminWarehouseDto.getWarehouseAddress())
-                .warehouseAmount(adminWarehouseDto.getWarehouseAmount())
-
-                .build();
-
+        AdminWarehouseVo adminWarehouseVo = warehouseDtoToVo.apply(adminWarehouseDto);
         adminWareHouseRepository.createWarehouse(adminWarehouseVo);
     }
 
     @Override
     public List<AdminWarehouseDto> getAllWarehouses() {
-        return adminWareHouseRepository.adminGetAllWarehouses().stream()
-                .map(adminWarehouseVo -> {
-                    AdminWarehouseDto adminWarehouseDto = AdminWarehouseDto.builder()
-                            .warehouseId(adminWarehouseVo.getWarehouseId())
-                            .warehouseName(adminWarehouseVo.getWarehouseName())
-                            .warehouseSpace(
-                                    adminWarehouseVo.getWarehouseSpace()
-                            )
-                            .warehouseAddress(adminWarehouseVo.getWarehouseAddress())
-                            .warehouseAmount(adminWarehouseVo.getWarehouseAmount())
-                            .build();
-                    return adminWarehouseDto;
-                }).collect(Collectors.toList());
+        return listMapperService.apply(adminWareHouseRepository.adminGetAllWarehouses(),
+                warehouseVoToDto::apply);
     }
 
     @Override
@@ -75,7 +73,7 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
                     return AdminWarehouseRemainSpaceDto.builder()
                             .warehouseId(adminWarehouseVo.getWarehouseId())
                             .warehouseName(adminWarehouseVo.getWarehouseName())
-                            .warehouseSpaceRemain(remainSpace) // 여기 변경됨
+                            .warehouseSpaceRemain(remainSpace) // 남은공간
                             .warehouseAddress(adminWarehouseVo.getWarehouseAddress())
                             .warehouseAmount(adminWarehouseVo.getWarehouseAmount())
                             .build();
@@ -94,13 +92,7 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
 
     @Override
     public void updateWarehouse(AdminWarehouseDto adminWarehouseDto) {
-        AdminWarehouseVo adminWarehouseVo = AdminWarehouseVo.builder()
-                .warehouseId(adminWarehouseDto.getWarehouseId())
-                .warehouseName(adminWarehouseDto.getWarehouseName())
-                .warehouseSpace(adminWarehouseDto.getWarehouseSpace())
-                .warehouseAddress(adminWarehouseDto.getWarehouseAddress())
-                .warehouseAmount(adminWarehouseDto.getWarehouseAmount())
-                .build();
+        AdminWarehouseVo adminWarehouseVo = warehouseDtoToVo.apply(adminWarehouseDto);
         adminWareHouseRepository.adminUpdateWarehouseById(adminWarehouseVo);
     }
 
@@ -113,13 +105,7 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
     public AdminWarehouseDto getAdminWarehouseById(Integer warehouseId) {
         Optional<AdminWarehouseVo> adminWarehouseVo = adminWareHouseRepository.adminGetWarehouseById(warehouseId);
         return adminWarehouseVo
-                .map(vo -> AdminWarehouseDto.builder()
-                        .warehouseId(vo.getWarehouseId())
-                        .warehouseName(vo.getWarehouseName())
-                        .warehouseSpace(vo.getWarehouseSpace())
-                        .warehouseAddress(vo.getWarehouseAddress())
-                        .warehouseAmount(vo.getWarehouseAmount())
-                        .build())
+                .map(warehouseVoToDto::apply)
                 .orElseThrow(() -> new NoSuchElementException("해당 ID의 창고 없음: " + warehouseId));
     }
 
@@ -136,9 +122,13 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
 
     @Override
     public List<AdminAreaWithRemainDistanceDto> getAllAdminAreaWithRemainDistance() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        EmailUserDetails userDetails = (EmailUserDetails) authentication.getPrincipal();
-        Integer userId = userDetails.getUserId();
+        Integer userId = getAuthUserIdDetails.get();
+
+        String userAddress = adminUserRepo.getUserBizById(userId).getBusinessAddress();
+
+        GeoPoint userGeoPoint = kakaoGeoService.getGeoByAddress(userAddress).orElseThrow(()->
+                new RuntimeException("해당 주소 유효하지 않음"));
+
 
         Map<Integer, Integer> remainSpaceMap = adminAreaRepository.getAllAdminAreaSpaceUsage().stream()
                 .collect(Collectors.toMap(
@@ -146,7 +136,7 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
                         AdminAreaSpaceRemainVo::getRemainSpace
                 ));
 
-        adminAreaRepository.AdminGetAllAreas().stream().map(
+        return adminAreaRepository.AdminGetAllAreas().stream().map(
                 vo -> AdminAreaWithRemainDistanceDto.builder()
                         .areaId(vo.getAreaId())
                         .areaSpace(vo.getAreaSpace())
@@ -155,9 +145,18 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
                         .warehouseId(vo.getWarehouseId())
                         .storageId(vo.getStorageId())
                         .remainSpace(remainSpaceMap.get(vo.getAreaId()))
-                        .distance()
+                        .distance(userGeoPoint.distanceTo(kakaoGeoService.getGeoByAddress(
+                                adminWareHouseRepository.adminGetWarehouseById(vo.getAreaId())
+                                        .orElseThrow(()->new RuntimeException("해당 창고아이디 없음"))
+                                        .getWarehouseAddress()
+                                ).orElseThrow(()->new NoSuchElementException("해당 유저아이디 없음")
+                        )))
                 .build()
-        )
-
+        ).collect(Collectors.toList());
     }
+
+//    List<AdminAreaDto> getAllArea(){
+//        List<AdminAreaVo> adminAreaVos = adminAreaRepository.AdminGetAllAreas();
+//
+//    }
 }

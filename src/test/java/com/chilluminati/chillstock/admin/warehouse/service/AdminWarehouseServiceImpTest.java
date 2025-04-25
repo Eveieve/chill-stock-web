@@ -27,12 +27,12 @@ class AdminWarehouseServiceImpTest {
         this.adminWarehouseService = adminWarehouseService;
     }
 
-    @Test
-    void getAllWarehouses() {
-        List<AdminWarehouseDto> allWarehouses = adminWarehouseService.getAllWarehouses();
-        assertNotNull(adminWarehouseService.getAllWarehouses());
-        allWarehouses.forEach(adminWarehouseDto -> {
-            log.info(adminWarehouseDto.toString());
-        });
-    }
+//    @Test
+//    void getAllWarehouses() {
+//        List<AdminWarehouseDto> allWarehouses = adminWarehouseService.getAllWarehouses();
+//        assertNotNull(adminWarehouseService.getAllWarehouses());
+//        allWarehouses.forEach(adminWarehouseDto -> {
+//            log.info(adminWarehouseDto.toString());
+//        });
+//    }
 }

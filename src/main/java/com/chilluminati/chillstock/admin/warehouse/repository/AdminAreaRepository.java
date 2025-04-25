@@ -2,6 +2,7 @@ package com.chilluminati.chillstock.admin.warehouse.repository;
 
 import com.chilluminati.chillstock.admin.warehouse.vo.AdminAreaSpaceRemainVo;
 import com.chilluminati.chillstock.admin.warehouse.vo.AdminAreaVo;
+import com.chilluminati.chillstock.admin.warehouse.vo.AdminStorageVo;
 import com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseSpaceRemainVo;
 
 import java.util.List;
@@ -23,5 +24,5 @@ public interface AdminAreaRepository {
      */
     List<AdminAreaVo> AdminGetAllAreas();
 
-
+    List<AdminStorageVo> AdminGetAllStorages();
 }

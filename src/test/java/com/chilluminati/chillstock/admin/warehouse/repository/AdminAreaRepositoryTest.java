@@ -1,6 +1,7 @@
 package com.chilluminati.chillstock.admin.warehouse.repository;
 
 import com.chilluminati.chillstock.admin.warehouse.vo.AdminAreaVo;
+import com.chilluminati.chillstock.admin.warehouse.vo.AdminStorageVo;
 import com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseSpaceRemainVo;
 import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
@@ -47,5 +48,11 @@ class AdminAreaRepositoryTest {
     void getAllArea(){
         List<AdminAreaVo> adminAreaVos = adminAreaRepository.AdminGetAllAreas();
         assertNotNull(adminAreaVos);
+    }
+
+    @Test
+    void getALlStorages(){
+        List<AdminStorageVo> adminStorageVos = adminAreaRepository.AdminGetAllStorages();
+        assertNotNull(adminStorageVos);
     }
 }

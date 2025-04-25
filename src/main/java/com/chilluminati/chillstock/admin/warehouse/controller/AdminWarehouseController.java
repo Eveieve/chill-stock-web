@@ -1,6 +1,7 @@
 package com.chilluminati.chillstock.admin.warehouse.controller;
 
 
+import com.chilluminati.chillstock.admin.warehouse.dto.AdminAreaWithRemainDistanceDto;
 import com.chilluminati.chillstock.admin.warehouse.dto.AdminWarehouseDto;
 import com.chilluminati.chillstock.admin.warehouse.service.AdminWarehouseService;
 import com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseVo;
@@ -57,8 +58,10 @@ public class AdminWarehouseController {
     public String detailWarehouse(@RequestParam Integer warehouseId, Model model) {
         AdminWarehouseDto adminWarehouseById = adminWarehouseService.getAdminWarehouseById(warehouseId);
         Integer remainSpace = adminWarehouseService.getAdminWarehouseRemainSpaceById(warehouseId).getWarehouseSpaceRemain();
+//        List<AdminAreaWithRemainDistanceDto> areaList = adminWarehouseService.getAllAdminAreaWithRemainDistance();
         model.addAttribute("warehouse", adminWarehouseById);
         model.addAttribute("remainSpace", remainSpace);
+//        model.addAttribute("areaList", areaList);
         return "admin/warehouse-detail";
     }
 

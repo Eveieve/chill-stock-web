@@ -53,14 +53,25 @@
     <select id="AdminGetAllAreas"
             resultType="com.chilluminati.chillstock.admin.warehouse.vo.AdminAreaVo">
         SELECT
-            area_id,
-            area_space,
-            area_code,
-            area_price,
-            warehouse_id,
-            storage_id
+            area_id as areaId,
+            area_space as areaSpace,
+            area_code as areaCode,
+            area_price as areaPrice,
+            warehouse_id as warehouseId,
+            storage_id as storageId
         FROM
             area_table
+    </select>
+
+    <select id = "AdminGetAllStorages"
+            resultType="com.chilluminati.chillstock.admin.warehouse.vo.AdminStorageVo">
+        SELECT
+            storage_id AS storageId,
+            storage_name AS storageName,
+            min_temp AS minTemp,
+            max_temp AS maxTemp,
+            description
+        FROM storage_condition
     </select>
 
 

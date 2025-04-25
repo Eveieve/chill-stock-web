@@ -16,5 +16,5 @@ public interface AdminWarehouseService {
     List<AdminWarehouseRemainSpaceDto> getAllWarehousesWithRemain();
     AdminWarehouseDto getAdminWarehouseById(Integer warehouseId);
     AdminWarehouseRemainSpaceDto getAdminWarehouseRemainSpaceById(Integer warehouseId);
-//    List<AdminAreaWithRemainDistanceDto> getAllAdminAreaWithRemainDistance();
+    List<AdminAreaWithRemainDistanceDto> getAllAdminAreaWithRemainDistance();
 }

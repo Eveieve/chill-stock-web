@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @Data
-public class UserVO {
+public class  UserVO {
     private Integer userId;
     private String userLoginId;
     private String userEmail;

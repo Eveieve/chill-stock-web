@@ -1,4 +1,4 @@
-
+use chillstockDb;
 -- 외래키 무시하고 삭제 (초기화용)
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -88,7 +88,7 @@ CREATE TABLE inbound_table (
                                admin_id INT,
                                inbound_amount INT NOT NULL,
                                product_id INT NOT NULL,
-                               reject_reason_code CHAR(10)
+                               reject_reason_message CHAR(10)
 );
 
 -- ✅ 출고 테이블
@@ -96,11 +96,11 @@ CREATE TABLE outbound_table (
                                 outbound_id INT AUTO_INCREMENT PRIMARY KEY,
                                 outbound_date TIMESTAMP,
                                 outbound_request_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                                outbound_status ENUM('승인', '대기', '취소') DEFAULT '대기',
+                                outbound_status ENUM('승인', '대기', '반려') DEFAULT '대기',
                                 admin_id INT,
                                 outbound_amount INT NOT NULL,
                                 product_id INT NOT NULL,
-                                reject_reason_code CHAR(10)
+                                reject_reason_message CHAR(10)
 );
 
 -- ✅ 창고 테이블

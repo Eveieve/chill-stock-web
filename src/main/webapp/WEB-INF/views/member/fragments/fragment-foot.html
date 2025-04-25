@@ -19,56 +19,7 @@
     <!-- Main Template JS File -->
     <script th:src="@{/static/assets/js/main.js}"></script>
 
-<!--    <script th:inline="javascript">-->
-<!--        document.addEventListener("DOMContentLoaded", function () {-->
-<!--            const alert = document.getElementById("successAlert");-->
-<!--            if (alert) {-->
-<!--                setTimeout(function () {-->
-<!--                    alert.classList.remove("show"); // 트랜지션 시작-->
-<!--                    setTimeout(() => alert.remove(), 500); // 서서히 사라진 후 완전 제거-->
-<!--                }, 3000); // 3초 후 시작-->
-<!--            }-->
-<!--        });-->
-<!--    </script>-->
 
-<!--    <script th:if="${pageName == 'product-register'}">-->
-<!--        document.addEventListener("DOMContentLoaded", function () {-->
-<!--            console.log("✅ 제품 등록 JS 작동 중");-->
-
-<!--            const mainSelect = document.getElementById('mainCategory');-->
-<!--            const midSelect = document.getElementById('midCategory');-->
-<!--            const checkAll = document.getElementById('selectAll');-->
-
-<!--            // ✅ 중분류 필터링-->
-<!--            if (mainSelect && midSelect) {-->
-<!--                filterMidCategories(mainSelect.value); // 페이지 최초 진입 시 필터링-->
-
-<!--                mainSelect.addEventListener('change', function () {-->
-<!--                    filterMidCategories(this.value);-->
-<!--                });-->
-
-<!--                function filterMidCategories(selectedMainId) {-->
-<!--                    const midOptions = midSelect.querySelectorAll('option');-->
-
-<!--                    midOptions.forEach(opt => {-->
-<!--                        const mainId = opt.getAttribute('data-main-id');-->
-<!--                        const isDefault = opt.value === "";-->
-<!--                        opt.style.display = (!mainId || mainId === selectedMainId || isDefault) ? 'block' : 'none';-->
-<!--                    });-->
-
-<!--                    midSelect.value = '';-->
-<!--                }-->
-<!--            }-->
-
-<!--            // ✅ 전체 선택/해제 체크박스-->
-<!--            if (checkAll) {-->
-<!--                checkAll.addEventListener('change', function () {-->
-<!--                    const checkboxes = document.querySelectorAll('input[name="productIdList"]');-->
-<!--                    checkboxes.forEach(cb => cb.checked = this.checked);-->
-<!--                });-->
-<!--            }-->
-<!--        });-->
-<!--    </script>-->
 
 </th:block>
 </body>

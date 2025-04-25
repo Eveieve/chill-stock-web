@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layouts/layout-admin :: layout(~{::main})}">
+<body>
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>출고관리</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item active">출고관리</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section dashboard">
+    <div class="row">
+      <form th:action="@{/admin/outbound/sort}" method="get">
+        <div class="input-group mb-3" style="max-width: 300px;">
+          <input type="text" class="form-control" name="productName" placeholder="상품명 검색" th:value="${productName}">
+          <button class="btn btn-primary" type="submit">검색</button>
+        </div>
+      </form>
+      <!-- 출고 요청 폼 -->
+      <form id="outboundForm" method="post" th:action="@{/member/outbound-request}">
+        <table border="1" class="table table-bordered table-hover align-middle text-center">
+          <thead class="table-light">
+          <tr>
+            <th>재고 ID</th>
+            <th>상품 ID</th>
+            <th>상품명</th>
+            <th>유통기한</th>
+            <th>재고량</th>
+            <th>입고일</th>
+            <th>선택</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="stock : ${stockList}">
+            <td th:text="${stock.stock_id}"></td>
+            <td th:text="${stock.product_id}"></td>
+            <td th:text="${stock.product_name}"></td>
+            <td th:text="${#dates.format(stock.expiration_date, 'yyyy-MM-dd')}"></td>
+            <td th:text="${stock.stock_amount}"></td>
+            <td th:text="${stock.inbound_date}"></td>
+            <td>
+              <!-- 라디오버튼 (동일한 name으로 하나만 선택됨) -->
+              <input type="radio" class="stock-radio" name="productId" th:value="${stock.product_id}" required/>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-end align-items-center gap-2 mt-3">
+          <label for="outboundAmount" class="mb-0">출고 수량:</label>
+          <input type="number"
+                 id="outboundAmount"
+                 name="outboundAmount"
+                 min="1"
+                 th:attr="max=${selectedStock?.stock_amount}"
+                 style="width: 100px;"
+                 required
+                 class="form-control d-inline-block" />
+          <button type="submit" id="requestOutbound" class="btn btn-primary">출고요청</button>
+        </div>
+      </form>
+      <nav>
+        <ul class="pagination justify-content-center mt-4">
+          <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+            <a class="page-link" th:href="@{/member/outbound-request(page=${currentPage - 1})}">이전</a>
+          </li>
+
+          <th:block th:with="startPage=${((currentPage - 1) / 10) * 10 + 1}, endPage=${(startPage + 9) > totalPages ? totalPages : (startPage + 9)}">
+            <li class="page-item" th:each="i : ${#numbers.sequence(startPage, endPage)}"
+                th:classappend="${i == currentPage} ? 'active'">
+              <a class="page-link" th:href="@{/member/outbound-request(page=${i})}" th:text="${i}"></a>
+            </li>
+          </th:block>
+
+          <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+            <a class="page-link" th:href="@{/member/outbound-request(page=${currentPage + 1})}">다음</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

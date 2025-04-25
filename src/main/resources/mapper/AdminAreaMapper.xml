@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chilluminati.chillstock.admin.warehouse.repository.AdminAreaRepository">
+
+    <select id = "getAllAdminWarehouseSpaceUsage"
+    resultType= "com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseSpaceRemainVo">
+        SELECT
+            w.warehouse_id AS warehouseId,
+            (w.warehouse_space - IFNULL(SUM(a.area_space), 0)) AS remainSpace
+        FROM
+            warehouse_table w
+                LEFT JOIN
+            area_table a ON w.warehouse_id = a.warehouse_id
+        GROUP BY
+            w.warehouse_id, w.warehouse_space;
+    </select>
+
+    <select id="getAdminWarehouseSpaceUsageById"
+            parameterType="Integer"
+            resultType="com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseSpaceRemainVo">
+        SELECT remainSpace
+        FROM (
+                 SELECT
+                     w.warehouse_id AS warehouseId,
+                     (w.warehouse_space - IFNULL(SUM(a.area_space), 0)) AS remainSpace
+                 FROM
+                     warehouse_table w
+                         LEFT JOIN
+                     area_table a ON w.warehouse_id = a.warehouse_id
+                 GROUP BY
+                     w.warehouse_id, w.warehouse_space
+             ) AS sub
+        WHERE warehouseId = #{warehouseId}
+    </select>
+
+    <select id = "getAllAdminAreaSpaceUsage"
+    resultType="com.chilluminati.chillstock.admin.warehouse.vo.AdminAreaSpaceRemainVo">
+        select
+            a.area_id as areaId,
+            a.area_space - ifnull(sum(s.stock_amount * p.product_size), 0) as remainSpace
+        from
+            area_table a
+                left join
+            stock_table s ON a.area_id = s.area_id
+                left join
+            product p ON s.product_id = p.product_id
+        group by
+            a.area_id;
+    </select>
+
+    <select id="AdminGetAllAreas"
+            resultType="com.chilluminati.chillstock.admin.warehouse.vo.AdminAreaVo">
+        SELECT
+            area_id as areaId,
+            area_space as areaSpace,
+            area_code as areaCode,
+            area_price as areaPrice,
+            warehouse_id as warehouseId,
+            storage_id as storageId
+        FROM
+            area_table
+    </select>
+
+    <select id = "AdminGetAllStorages"
+            resultType="com.chilluminati.chillstock.admin.warehouse.vo.AdminStorageVo">
+        SELECT
+            storage_id AS storageId,
+            storage_name AS storageName,
+            min_temp AS minTemp,
+            max_temp AS maxTemp,
+            description
+        FROM storage_condition
+    </select>
+
+
+</mapper>

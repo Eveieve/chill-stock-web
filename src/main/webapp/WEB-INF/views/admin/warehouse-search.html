@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layouts/layout-admin :: layout(~{::main})}">
+
+<body>
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>창고관리</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item active">창고관리</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section dashboard">
+    <div class="row">
+      <h5>창고 목록</h5>
+      <div class="col-12 mb-3">
+        <!-- 창고 버튼 -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#warehouseModal">
+          창고 생성
+        </button>
+        <!-- 수정 버튼 -->
+        <button type="button" class="btn btn-primary" onclick="openUpdateModal()">
+          수정 하기
+        </button>
+      </div>
+
+      <!--      검색창-->
+      <form th:action="@{/admin/warehouse/search-address}" method="get" class="row g-2 align-items-center mb-3">
+        <div class="col-auto">
+          <input type="text" name="address" class="form-control" placeholder="주소로 검색" required>
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-outline-primary">검색</button>
+        </div>
+      </form>
+      <!-- 창고 리스트 테이블 -->
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-light">
+            <tr>
+              <th>번호</th>
+              <th>창고 이름</th>
+              <th>창고 크기 (㎡)</th>
+              <th>창고 주소</th>
+              <th>고정 지출 금액</th>
+              <th>체크박스</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="warehouse, stat : ${warehouseList}">
+              <td th:text="${warehouse.warehouseId}">1</td>
+              <td th:text="${warehouse.warehouseName}">창고 A</td>
+              <td th:text="${warehouse.warehouseSpace}">500</td>
+              <td th:text="${warehouse.warehouseAddress}">서울특별시...</td>
+              <td th:text="${#numbers.formatInteger(warehouse.warehouseAmount, 3, 'COMMA')} + '만원'">100,000원</td>
+              <td>
+                <input type="radio" name="selectedWarehouse" th:value="${warehouse.warehouseId}" onclick="populateUpdateModal(this)">
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(warehouseList)}">
+              <td colspan="5">등록된 창고가 없습니다.</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 수정 모달 -->
+  <div class="modal fade" id="warehouseUpdateModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" th:action="@{/admin/warehouse/update}" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title">창고 수정</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="updateWarehouseId" name="warehouseId">
+
+          <div class="mb-3">
+            <label class="form-label">창고 이름</label>
+            <input type="text" class="form-control" id="updateWarehouseName" name="warehouseName" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">창고 크기 (㎡)</label>
+            <input type="number" class="form-control" id="updateWarehouseSpace" name="warehouseSpace" min="100" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">창고 주소</label>
+            <input type="text" class="form-control" id="updateWarehouseAddress" name="warehouseAddress" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">고정 지출 금액</label>
+            <input type="number" class="form-control" id="updateWarehouseAmount" name="warehouseAmount">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">수정</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript 로직 -->
+  <script>
+    let selectedWarehouseData = {};
+
+    function populateUpdateModal(radio) {
+      const row = radio.closest("tr");
+      selectedWarehouseData = {
+        warehouseId: row.cells[0].innerText,
+        warehouseName: row.cells[1].innerText,
+        warehouseSpace: row.cells[2].innerText,
+        warehouseAddress: row.cells[3].innerText,
+        warehouseAmount: row.cells[4].innerText.replace(/[^0-9]/g, '')
+      };
+    }
+
+    function openUpdateModal() {
+      if (!selectedWarehouseData.warehouseId) {
+        alert("수정할 창고를 선택해주세요.");
+        return;
+      }
+      document.getElementById("updateWarehouseId").value = selectedWarehouseData.warehouseId;
+      document.getElementById("updateWarehouseName").value = selectedWarehouseData.warehouseName;
+      document.getElementById("updateWarehouseSpace").value = selectedWarehouseData.warehouseSpace;
+      document.getElementById("updateWarehouseAddress").value = selectedWarehouseData.warehouseAddress;
+      document.getElementById("updateWarehouseAmount").value = selectedWarehouseData.warehouseAmount;
+
+      const modal = new bootstrap.Modal(document.getElementById("warehouseUpdateModal"));
+      modal.show();
+    }
+  </script>
+
+  <!-- 창고 생성 모달 -->
+  <div class="modal fade" id="warehouseModal" tabindex="-1" aria-labelledby="warehouseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form class="modal-content" th:action="@{/admin/warehouse/register}" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="warehouseModalLabel">창고 생성</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="warehouseName" class="form-label">창고 이름</label>
+            <input type="text" class="form-control" id="warehouseName" name="warehouseName" required>
+          </div>
+          <div class="mb-3">
+            <label for="warehouseSpace" class="form-label">창고 크기 (㎡)</label>
+            <input type="number" class="form-control" id="warehouseSpace" name="warehouseSpace" min="100" required>
+          </div>
+          <!--         주소-->
+          <div class="mb-3">
+            <label for="warehouseAddress" class="form-label">창고 주소</label>
+            <div class="input-group mb-2">
+              <input type="text" class="form-control" id="warehouseAddress" name="warehouseAddress" placeholder="도로명주소" readonly required>
+              <button type="button" class="btn btn-outline-secondary" onclick="execDaumPostcode()">주소 검색</button>
+            </div>
+          </div>
+
+          <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+          <script>
+            function execDaumPostcode() {
+              new daum.Postcode({
+                oncomplete: function(data) {
+                  // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                  // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                  // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                  var roadAddr = data.roadAddress; // 도로명 주소 변수
+                  // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                  document.getElementById("warehouseAddress").value = roadAddr;
+                }
+              }).open();
+            }
+          </script>
+
+          <!--         주소-->
+          <div class="mb-3">
+            <label for="warehouseAmount" class="form-label">고정 지출 금액</label>
+            <input type="number" class="form-control" id="warehouseAmount" name="warehouseAmount">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">등록</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>
+<!--<!DOCTYPE html>-->
+<!--<html lang="ko" xmlns:th="http://www.thymeleaf.org"-->
+<!--      th:replace="~{admin/layouts/layout-admin :: layout(~{::main})}">-->
+
+<!--<body>-->
+
+<!--<main id="main" class="main">-->
+<!--  <div class="pagetitle">-->
+<!--    <h1>창고관리</h1>-->
+<!--    <nav>-->
+<!--      <ol class="breadcrumb">-->
+<!--        <li class="breadcrumb-item"><a href="#">Home</a></li>-->
+<!--        <li class="breadcrumb-item active">창고관리</li>-->
+<!--      </ol>-->
+<!--    </nav>-->
+<!--  </div>-->
+
+<!--  <section class="section dashboard">-->
+<!--    <div class="row">-->
+<!--      <h5>창고 목록</h5>-->
+<!--      <div class="col-12 mb-3">-->
+<!--        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#warehouseModal">-->
+<!--          창고 생성-->
+<!--        </button>-->
+<!--      </div>-->
+<!--&lt;!&ndash;      검색창&ndash;&gt;-->
+<!--      <form th:action="@{/admin/warehouse/search-address}" method="get" class="row g-2 align-items-center mb-3">-->
+<!--        <div class="col-auto">-->
+<!--          <input type="text" name="address" class="form-control" placeholder="주소로 검색" required>-->
+<!--        </div>-->
+<!--        <div class="col-auto">-->
+<!--          <button type="submit" class="btn btn-outline-primary">검색</button>-->
+<!--        </div>-->
+<!--      </form>-->
+
+<!--      &lt;!&ndash; 창고 리스트 테이블 &ndash;&gt;-->
+<!--      <div class="col-12">-->
+<!--        <div class="table-responsive">-->
+<!--          <table class="table table-bordered table-hover align-middle text-center">-->
+<!--            <thead class="table-light">-->
+<!--            <tr>-->
+<!--              <th>번호</th>-->
+<!--              <th>창고 이름</th>-->
+<!--              <th>창고 크기 (㎡)</th>-->
+<!--              <th>창고 주소</th>-->
+<!--              <th>고정 지출 금액</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="warehouse, stat : ${warehouseList}">-->
+<!--              <td th:text="${warehouse.warehouseId}">1</td>-->
+<!--              <td th:text="${warehouse.warehouseName}">창고 A</td>-->
+<!--              <td th:text="${warehouse.warehouseSpace}">500</td>-->
+<!--              <td th:text="${warehouse.warehouseAddress}">서울특별시...</td>-->
+<!--              <td th:text="${#numbers.formatInteger(warehouse.warehouseAmount, 3, 'COMMA')} + '만원'">100,000원</td>-->
+<!--            </tr>-->
+<!--            <tr th:if="${#lists.isEmpty(warehouseList)}">-->
+<!--              <td colspan="5">등록된 창고가 없습니다.</td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--          </table>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </section>-->
+
+<!--  &lt;!&ndash; 창고 생성 모달 &ndash;&gt;-->
+<!--  <div class="modal fade" id="warehouseModal" tabindex="-1" aria-labelledby="warehouseModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog">-->
+<!--      <form class="modal-content" th:action="@{/admin/warehouse/register}" method="post">-->
+<!--        <div class="modal-header">-->
+<!--          <h5 class="modal-title" id="warehouseModalLabel">창고 생성</h5>-->
+<!--          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>-->
+<!--        </div>-->
+<!--        <div class="modal-body">-->
+<!--          <div class="mb-3">-->
+<!--            <label for="warehouseName" class="form-label">창고 이름</label>-->
+<!--            <input type="text" class="form-control" id="warehouseName" name="warehouseName" required>-->
+<!--          </div>-->
+<!--          <div class="mb-3">-->
+<!--            <label for="warehouseSpace" class="form-label">창고 크기 (㎡)</label>-->
+<!--            <input type="number" class="form-control" id="warehouseSpace" name="warehouseSpace" min="100" required>-->
+<!--          </div>-->
+<!--          &lt;!&ndash;         주소&ndash;&gt;-->
+<!--          <div class="mb-3">-->
+<!--            <label for="warehouseAddress" class="form-label">창고 주소</label>-->
+<!--            <div class="input-group mb-2">-->
+<!--              <input type="text" class="form-control" id="warehouseAddress" name="warehouseAddress" placeholder="도로명주소" readonly required>-->
+<!--              <button type="button" class="btn btn-outline-secondary" onclick="execDaumPostcode()">주소 검색</button>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>-->
+<!--          <script>-->
+<!--            function execDaumPostcode() {-->
+<!--              new daum.Postcode({-->
+<!--                oncomplete: function(data) {-->
+<!--                  // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.-->
+
+<!--                  // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.-->
+<!--                  // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.-->
+<!--                  var roadAddr = data.roadAddress; // 도로명 주소 변수-->
+<!--                  // 우편번호와 주소 정보를 해당 필드에 넣는다.-->
+<!--                  document.getElementById("warehouseAddress").value = roadAddr;-->
+<!--                }-->
+<!--              }).open();-->
+<!--            }-->
+<!--          </script>-->
+
+<!--          &lt;!&ndash;         주소&ndash;&gt;-->
+<!--          <div class="mb-3">-->
+<!--            <label for="warehouseAmount" class="form-label">고정 지출 금액</label>-->
+<!--            <input type="number" class="form-control" id="warehouseAmount" name="warehouseAmount">-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="modal-footer">-->
+<!--          <button type="submit" class="btn btn-primary">등록</button>-->
+<!--          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</main>-->
+<!--</body>-->
+<!--</html>-->

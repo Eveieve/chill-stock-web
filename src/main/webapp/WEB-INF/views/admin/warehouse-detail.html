@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/layouts/layout-admin :: layout(~{::main})}">
+<body>
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>창고 상세정보</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item active">창고 상세정보</li>
+      </ol>
+    </nav>
+  </div>
+
+  <section class="section dashboard">
+    <div class="row g-3 justify-content-start">
+
+      <div class="col-md-2">
+        <div class="p-3 text-white rounded-4 text-center shadow-sm"
+             style="background-color: rgba(13, 110, 253, 0.8);">
+          <div class="fw-bold">창고 ID</div>
+          <div class="mt-1" th:text="${warehouse.warehouseId}">1</div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="p-3 text-white rounded-4 text-center shadow-sm"
+             style="background-color: rgba(13, 110, 253, 0.8);">
+          <div class="fw-bold">창고 이름</div>
+          <div class="mt-1" th:text="${warehouse.warehouseName}">창고 A</div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="p-3 text-white rounded-4 text-center shadow-sm"
+             style="background-color: rgba(13, 110, 253, 0.8);">
+          <div class="fw-bold">창고 크기</div>
+          <div class="mt-1" th:text="${warehouse.warehouseSpace + ' ㎡'}">500 ㎡</div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="p-3 text-white rounded-4 text-center shadow-sm"
+             style="background-color: rgba(13, 110, 253, 0.8);">
+          <div class="fw-bold">창고 주소</div>
+          <div class="mt-1" th:text="${warehouse.warehouseAddress}">서울특별시...</div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="p-3 text-white rounded-4 text-center shadow-sm"
+             style="background-color: rgba(13, 110, 253, 0.8);">
+          <div class="fw-bold">고정 지출 금액</div>
+          <div class="mt-1" th:text="${#numbers.formatInteger(warehouse.warehouseAmount, 3, 'COMMA') + ' 원'}">100,000 원</div>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="p-3 text-white rounded-4 text-center shadow-sm"
+             style="background-color: rgba(13, 110, 253, 0.8);">
+          <div class="fw-bold">남은 공간</div>
+          <div class="mt-1" th:text="${remainSpace + ' ㎡'}">300 ㎡</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

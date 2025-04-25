@@ -49,8 +49,8 @@
         <result property="userName" column="user_name"/>
         <result property="userPhone" column="user_phone"/>
         <result property="userType" column="user_type"/>
-        <result property="deletedAt" column="deleted_at"/>
-        <result property="approvedAt" column="approved_at"/>
+        <result property="userDeletedAt" column="user_deleted_at"/>
+        <result property="userApprovedAt" column="user_approved_at"/>
         <result property="requestedAt" column="requested_at"/>
         <result property="businessRegistNum" column="business_regist_num"/>
         <result property="businessName" column="business_name"/>
@@ -164,8 +164,8 @@
             user_name,
             user_phone,
             user_type,
-            deleted_at,
-            approved_at,
+            user_deleted_at,
+            user_approved_at,
             requested_at,
             business_regist_num,
             business_name,
@@ -188,14 +188,6 @@
             #{id}
         </foreach>
     </delete>
-    <!-- 대기 회원 한 명 승인 -->
-    <update id="approveUserById">
-        UPDATE user_table
-        SET user_status = 'APPROVED',
-            user_approved_at = NOW()
-        WHERE user_id = #{userId}
-          AND user_status = 'PENDING'
-    </update>
 
     <!-- 대기 회원 여러 명 승인 -->
     <update id="approveUsersByIds">

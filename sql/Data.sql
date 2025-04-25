@@ -7,16 +7,14 @@ VALUES
     ('member002', 'mem2@example.com', '이당근', 'pw4', '010-0004-0004', 'ROLE_member', 'approve', NOW(), NOW()),
     ('member003', 'mem3@example.com', '박마늘', 'pw5', '010-0005-0005', 'ROLE_member', 'approve', NOW(), NOW()),
     ('member004', 'mem4@example.com', '최고기', 'pw6', '010-0006-0006', 'ROLE_member', 'approve', NOW(), NOW()),
-    ('member005', 'mem5@example.com', '장과일', 'pw7', '010-0007-0007', 'ROLE_member', 'approve', NOW(), NOW()),
-    ('member006', 'mem6@example.com', '하해산', 'pw8', '010-0008-0008', 'ROLE_member', 'approve', NOW(), NOW());
+    ('member005', 'mem5@example.com', '장과일', 'pw7', '010-0007-0007', 'ROLE_member', 'pending', NOW(), NULL),
+    ('member006', 'mem6@example.com', '하해산', 'pw8', '010-0008-0008', 'ROLE_member', 'pending', NOW(), NULL);
 
 -- ✅ 2. admin_table
 INSERT INTO admin_table (admin_hire_date, admin_position, user_id)
 VALUES
-    (CURDATE(), '관리자', 1), (CURDATE(), '입고담당', 2),
-    (CURDATE(), '출고담당', 3), (CURDATE(), '재고관리', 4),
-    (CURDATE(), '품질담당', 5), (CURDATE(), '검수', 6),
-    (CURDATE(), '배송담당', 7), (CURDATE(), '창고장', 8);
+    (CURDATE(), '관리자', 1),
+    (CURDATE(), '입고담당', 2);
 
 -- ✅ 3. business_table
 INSERT INTO business_table (
@@ -126,7 +124,7 @@ VALUES
     (NOW(), NULL, '대기', 8, 12, 8, NULL);
 
 -- ✅ 14. user_backup_table
-INSERT INTO user_backup_table (user_login_id, user_email, user_name, user_phone, deleted_at, approved_at, requested_at)
+INSERT INTO user_backup_table (user_login_id, user_email, user_name, user_phone, deleted_at,user_approved_at, user_requested_at)
 VALUES
     ('olduser1', 'old1@ex.com', '삭제유저1', '010-8888-0001', NOW(), NOW(), NOW()),
     ('olduser2', 'old2@ex.com', '삭제유저2', '010-8888-0002', NOW(), NOW(), NOW()),

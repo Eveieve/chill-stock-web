@@ -12,8 +12,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -32,7 +34,10 @@ public class MemberMypageServiceImpl implements MemberMypageService {
         EmailUserDetails userDetails = getEmailUserDetails();
         Integer userId = userDetails.getUserId(); // extract userId
 
+        log.info("###User ID: {}", userId);
+
         UserVO user = memberMypageRepo.findUserById(userId);
+        log.info("###User: {}", user);
         BizVO biz = memberMypageRepo.findBizByUserId(userId);
 
         UserBizDTO dto = new UserBizDTO();
@@ -56,20 +61,37 @@ public class MemberMypageServiceImpl implements MemberMypageService {
 
     /**
      * 회원 비번 변경
+     *
+     * @return
      */
     @Override
-    public void updateMemberPassword(UserPasswordDTO userPasswordDTO) {
-        // 암호화된 비밀번호
-        String encryptedPassword = encrypt.encryptPassword(userPasswordDTO.getUserPassword());
-        userPasswordDTO.setUserPassword(encryptedPassword);
+    public Map<String, Object> updateMemberPassword(UserPasswordDTO userPasswordDTO) {
+        Map<String, Object> result = new HashMap<>();
 
-        log.debug("#########################");
-        log.debug("userPassword: {}", userPasswordDTO.getUserPassword());
+        try {
 
-        EmailUserDetails userDetails = getEmailUserDetails();
-        Integer userId = userDetails.getUserId();
-        // 1. userId를 기준으로 회원 비밀번호 수정
-        memberMypageRepo.updateUserPassword(userId, userPasswordDTO);
+            // 암호화된 비밀번호
+            String encryptedPassword = encrypt.encryptPassword(userPasswordDTO.getUserPassword());
+            userPasswordDTO.setUserPassword(encryptedPassword);
+
+            log.debug("#########################");
+            log.debug("userPassword: {}", userPasswordDTO.getUserPassword());
+
+            EmailUserDetails userDetails = getEmailUserDetails();
+            Integer userId = userDetails.getUserId();
+
+            // 1. userId를 기준으로 회원 비밀번호 수정
+            memberMypageRepo.updateUserPassword(userId, userPasswordDTO);
+        } catch (Exception e) {
+            log.error("Error while updating user password", e);
+            log.error(e.getMessage());
+
+            result.put("success", false); //실패
+            return result;
+        }
+
+        result.put("success", true); // 성공
+        return result;
     }
 
     /***

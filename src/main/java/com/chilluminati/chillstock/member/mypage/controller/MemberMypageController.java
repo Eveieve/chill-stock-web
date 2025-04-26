@@ -90,15 +90,17 @@ public class MemberMypageController {
         return result;
     }
 
-
-
     /***
      * 비밀번호 변경
      */
-    @PostMapping("/updatepassword")
-    public String updatePassword(@ModelAttribute UserPasswordDTO userPasswordDTO) {
-        memberMypageService.updateMemberPassword(userPasswordDTO);
-        return "redirect:/member/mypage";
+    @PostMapping("/update-password")
+    @ResponseBody
+    public Map<String, Object> updatePassword(@RequestBody UserPasswordDTO userPasswordDTO) {
+        Map<String, Object> result = new HashMap<>();
+
+        result = memberMypageService.updateMemberPassword(userPasswordDTO);
+
+        return result;
     }
 
 

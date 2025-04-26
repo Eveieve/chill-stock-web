@@ -35,6 +35,8 @@
                 <div class="col-lg-9 col-md-8" th:text="${user.userName}">홍길동</div>
               </div>
 
+              <button type="button" onclick="handleUpdatePassword()" class="btn btn-primary">비밀번호 변경</button>
+
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">이메일</div>
                 <div class="col-lg-9 col-md-8" th:text="${user.userEmail}">example@email.com</div>
@@ -77,8 +79,8 @@
               </div>
 
 <!--              수정하기 버튼 -->
-              <button type="button" onclick="handleEdit()">수정</button>
-              <button type="button" onclick="handleDelete()">탈퇴</button>
+              <button type="button" onclick="handleEdit()" class="btn btn-primary">수정</button>
+              <button type="button" onclick="handleDelete()" class="btn btn-danger">탈퇴</button>
             </div>
           </div>
         </div>
@@ -133,8 +135,88 @@
     </div>
   </div>
 
+  <!-- 비밀번호 변경 모달 -->
+  <div class="modal fade" id="passwordUpdateModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">비밀번호 변경</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="newPassword" class="form-label">새 비밀번호</label>
+            <input type="password" class="form-control" id="newPassword" placeholder="새 비밀번호 입력">
+          </div>
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">비밀번호 확인</label>
+            <input type="password" class="form-control" id="confirmPassword" placeholder="다시 입력">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="submitPasswordChange()">변경하기</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 
   <script>
+
+    // 비밀번호 변경하기
+    // 비밀번호 변경 모달 열기
+    function handleUpdatePassword() {
+      const modal = new bootstrap.Modal(document.getElementById('passwordUpdateModal'));
+      modal.show();
+    }
+
+    // 비밀번호 변경 요청
+    function submitPasswordChange() {
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (!newPassword || !confirmPassword) {
+        alert('모든 필드를 입력해주세요.');
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        alert('새 비밀번호가 일치하지 않습니다.');
+        return;
+      }
+
+      fetch('/member/update-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userPassword: newPassword
+        })
+      })
+              .then(response => response.json())
+              .then(data => {
+                console.log(data);
+                if (data.success) {
+                  alert('비밀번호가 성공적으로 변경되었습니다.');
+                  window.location.href = '/member/mypage'; // 마이페이지로 이동
+                } else {
+                  alert('비밀번호 변경에 실패했습니다. 다시 시도해주세요.');
+                }
+              })
+              .catch(error => {
+                console.error('오류 발생:', error);
+                alert('서버 오류가 발생했습니다.');
+              });
+    }
+
+
+
 
     // 탈퇴하기
     // 삭제 버튼 클릭 시

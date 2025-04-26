@@ -14,100 +14,101 @@
         </nav>
     </div>
 
-    <section class="section profile">
-        <div class="row">
-            <div class="col-xl-8">
+    <section class="section">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
                 <div class="card">
-                    <div class="card-body pt-3">
+                    <div class="card-body p-4">
 
-                        <form th:action="@{/signup}" th:object="${signUpDTO}" method="post">
+                        <h5 class="card-title mb-4">회원 정보</h5>
 
-                            <h5 class="card-title">회원 정보</h5>
+                        <form th:action="@{/signup}" th:object="${signUpDTO}" method="post" class="needs-validation" novalidate>
 
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 label">로그인 아이디</div>
-                                <div class="col-lg-9 col-md-8">
-                                    <input type="text" th:field="*{userLoginId}" class="form-control" />
-                                    <p th:if="${#fields.hasErrors('userLoginId')}" th:errors="*{userLoginId}" class="text-danger"></p>
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label text-end">로그인 아이디</label>
+                                <div class="col-sm-9">
+                                    <input type="text" th:field="*{userLoginId}" class="form-control" placeholder="아이디를 입력하세요" required>
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('userLoginId')}" th:errors="*{userLoginId}"></div>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 label">이름</div>
-                                <div class="col-lg-9 col-md-8">
-                                    <input type="text" th:field="*{userName}" class="form-control" />
-                                    <p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="text-danger"></p>
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label text-end">이름</label>
+                                <div class="col-sm-9">
+                                    <input type="text" th:field="*{userName}" class="form-control" placeholder="이름을 입력하세요" required>
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></div>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 label">이메일</div>
-                                <div class="col-lg-9 col-md-8">
-                                    <input type="email" th:field="*{userEmail}" class="form-control" />
-                                    <p th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}" class="text-danger"></p>
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label text-end">이메일</label>
+                                <div class="col-sm-9">
+                                    <input type="email" th:field="*{userEmail}" class="form-control" placeholder="example@email.com" required>
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}"></div>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 label">전화번호</div>
-                                <div class="col-lg-9 col-md-8">
-                                    <input type="text" th:field="*{userPhone}" class="form-control" />
-                                    <p th:if="${#fields.hasErrors('userPhone')}" th:errors="*{userPhone}" class="text-danger"></p>
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label text-end">전화번호</label>
+                                <div class="col-sm-9">
+                                    <input type="text" th:field="*{userPhone}" class="form-control" placeholder="010-1234-5678" required>
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('userPhone')}" th:errors="*{userPhone}"></div>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 label">비밀번호</div>
-                                <div class="col-lg-9 col-md-8">
-                                    <input type="password" th:field="*{userPassword}" class="form-control" />
-                                    <p th:if="${#fields.hasErrors('userPassword')}" th:errors="*{userPassword}" class="text-danger"></p>
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label text-end">비밀번호</label>
+                                <div class="col-sm-9">
+                                    <input type="password" th:field="*{userPassword}" class="form-control" placeholder="비밀번호를 입력하세요" required>
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('userPassword')}" th:errors="*{userPassword}"></div>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 label">비밀번호 확인</div>
-                                <div class="col-lg-9 col-md-8">
-                                    <input type="password" th:field="*{userPasswordCheck}" class="form-control" />
-                                    <p th:if="${#fields.hasErrors('userPasswordCheck')}" th:errors="*{userPasswordCheck}" class="text-danger"></p>
+                            <div class="row mb-4">
+                                <label class="col-sm-3 col-form-label text-end">비밀번호 확인</label>
+                                <div class="col-sm-9">
+                                    <input type="password" th:field="*{userPasswordCheck}" class="form-control" placeholder="비밀번호를 다시 입력하세요" required>
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('userPasswordCheck')}" th:errors="*{userPasswordCheck}"></div>
                                 </div>
                             </div>
 
-                            <h5 class="card-title mt-4">사업체 정보</h5>
 
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 label">사업체명</div>
-                                <div class="col-lg-9 col-md-8">
-                                    <input type="text" th:field="*{businessName}" class="form-control" />
-                                    <p th:if="${#fields.hasErrors('businessName')}" th:errors="*{businessName}" class="text-danger"></p>
+                            <h5 class="card-title mb-4">사업체 정보</h5>
+
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label text-end">사업체명</label>
+                                <div class="col-sm-9">
+                                    <input type="text" th:field="*{businessName}" class="form-control" placeholder="사업체명을 입력하세요" required>
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('businessName')}" th:errors="*{businessName}"></div>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 label">사업자번호</div>
-                                <div class="col-lg-9 col-md-8">
-                                    <input type="text" th:field="*{businessRegistNum}" class="form-control" />
-                                    <p th:if="${#fields.hasErrors('businessRegistNum')}" th:errors="*{businessRegistNum}" class="text-danger"></p>
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label text-end">사업자번호</label>
+                                <div class="col-sm-9">
+                                    <input type="text" th:field="*{businessRegistNum}" class="form-control" placeholder="000-00-00000" required>
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('businessRegistNum')}" th:errors="*{businessRegistNum}"></div>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 label">사업장 주소</div>
-                                <div class="col-lg-9 col-md-8">
-                                    <input type="text" th:field="*{businessAddress}" class="form-control" />
-                                    <p th:if="${#fields.hasErrors('businessAddress')}" th:errors="*{businessAddress}" class="text-danger"></p>
+                            <div class="row mb-3">
+                                <label class="col-sm-3 col-form-label text-end">사업장 주소</label>
+                                <div class="col-sm-9">
+                                    <input type="text" th:field="*{businessAddress}" class="form-control" placeholder="주소를 입력하세요" required>
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('businessAddress')}" th:errors="*{businessAddress}"></div>
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-lg-3 col-md-4 label">우편번호</div>
-                                <div class="col-lg-9 col-md-8">
-                                    <input type="text" th:field="*{businessPost}" class="form-control" />
-                                    <p th:if="${#fields.hasErrors('businessPost')}" th:errors="*{businessPost}" class="text-danger"></p>
+                            <div class="row mb-4">
+                                <label class="col-sm-3 col-form-label text-end">우편번호</label>
+                                <div class="col-sm-9">
+                                    <input type="text" th:field="*{businessPost}" class="form-control" placeholder="우편번호를 입력하세요" required>
+                                    <div class="text-danger small" th:if="${#fields.hasErrors('businessPost')}" th:errors="*{businessPost}"></div>
                                 </div>
                             </div>
 
-                            <div class="text-center mt-4">
-                                <button type="submit" class="btn btn-primary">가입하기</button>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary w-50">가입하기</button>
                             </div>
 
                         </form>

@@ -1,10 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{member/layouts/layout-user :: layout(~{::main})}">
 <body>
+<main id="main" class="main">
 
+    <div class="pagetitle">
+        <h1>회원가입</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">회원가입</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section profile">
+        <div class="row">
+            <div class="col-xl-8">
+                <div class="card">
+                    <div class="card-body pt-3">
+
+                        <form th:action="@{/signup}" th:object="${signUpDTO}" method="post">
+
+                            <h5 class="card-title">회원 정보</h5>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">로그인 아이디</div>
+                                <div class="col-lg-9 col-md-8">
+                                    <input type="text" th:field="*{userLoginId}" class="form-control" />
+                                    <p th:if="${#fields.hasErrors('userLoginId')}" th:errors="*{userLoginId}" class="text-danger"></p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">이름</div>
+                                <div class="col-lg-9 col-md-8">
+                                    <input type="text" th:field="*{userName}" class="form-control" />
+                                    <p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="text-danger"></p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">이메일</div>
+                                <div class="col-lg-9 col-md-8">
+                                    <input type="email" th:field="*{userEmail}" class="form-control" />
+                                    <p th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}" class="text-danger"></p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">전화번호</div>
+                                <div class="col-lg-9 col-md-8">
+                                    <input type="text" th:field="*{userPhone}" class="form-control" />
+                                    <p th:if="${#fields.hasErrors('userPhone')}" th:errors="*{userPhone}" class="text-danger"></p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">비밀번호</div>
+                                <div class="col-lg-9 col-md-8">
+                                    <input type="password" th:field="*{userPassword}" class="form-control" />
+                                    <p th:if="${#fields.hasErrors('userPassword')}" th:errors="*{userPassword}" class="text-danger"></p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">비밀번호 확인</div>
+                                <div class="col-lg-9 col-md-8">
+                                    <input type="password" th:field="*{userPasswordCheck}" class="form-control" />
+                                    <p th:if="${#fields.hasErrors('userPasswordCheck')}" th:errors="*{userPasswordCheck}" class="text-danger"></p>
+                                </div>
+                            </div>
+
+                            <h5 class="card-title mt-4">사업체 정보</h5>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">사업체명</div>
+                                <div class="col-lg-9 col-md-8">
+                                    <input type="text" th:field="*{businessName}" class="form-control" />
+                                    <p th:if="${#fields.hasErrors('businessName')}" th:errors="*{businessName}" class="text-danger"></p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">사업자번호</div>
+                                <div class="col-lg-9 col-md-8">
+                                    <input type="text" th:field="*{businessRegistNum}" class="form-control" />
+                                    <p th:if="${#fields.hasErrors('businessRegistNum')}" th:errors="*{businessRegistNum}" class="text-danger"></p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">사업장 주소</div>
+                                <div class="col-lg-9 col-md-8">
+                                    <input type="text" th:field="*{businessAddress}" class="form-control" />
+                                    <p th:if="${#fields.hasErrors('businessAddress')}" th:errors="*{businessAddress}" class="text-danger"></p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">우편번호</div>
+                                <div class="col-lg-9 col-md-8">
+                                    <input type="text" th:field="*{businessPost}" class="form-control" />
+                                    <p th:if="${#fields.hasErrors('businessPost')}" th:errors="*{businessPost}" class="text-danger"></p>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary">가입하기</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
 </body>
 </html>

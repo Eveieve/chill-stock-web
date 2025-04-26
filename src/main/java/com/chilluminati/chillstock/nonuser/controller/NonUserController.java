@@ -90,8 +90,9 @@ public class NonUserController {
      * @return
      */
     @GetMapping("/signup")
-    public String showSignUpForm() {
-        return "nonuser/signupForm";
+    public String showSignUpForm(Model model) {
+        model.addAttribute("signUpDTO", new SignUpDTO());
+        return "nonuser/signup";
     }
 
     /**

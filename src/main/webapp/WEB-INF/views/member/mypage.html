@@ -35,7 +35,14 @@
                 <div class="col-lg-9 col-md-8" th:text="${user.userName}">홍길동</div>
               </div>
 
-              <button type="button" onclick="handleUpdatePassword()" class="btn btn-primary">비밀번호 변경</button>
+              <div class="row mb-3 align-items-center">
+                <div class="col-lg-3 col-md-4 label">비밀번호</div>
+                <div class="col-lg-9 col-md-8">
+                  <button type="button" onclick="handleUpdatePassword()" class="btn btn-outline-primary btn-sm">
+                    비밀번호 변경
+                  </button>
+                </div>
+              </div>
 
               <div class="row">
                 <div class="col-lg-3 col-md-4 label">이메일</div>
@@ -234,7 +241,7 @@
                   if (data.success) {
                     alert('회원 탈퇴되었습니다. chillStock 을 이용해 주셔서 감사합니다. ');
                     // 여기서 로그아웃 처리나 홈 이동
-                    window.location.href = '/logout'; // 예: Spring Security 로그아웃 URL
+                    window.location.href = '/logout'; // 나중에 바꿔야할수도:  로그아웃 URL
                   } else {
                     alert('회원 탈퇴에 실패했습니다. 다시 시도해주세요');
                   }

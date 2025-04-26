@@ -78,6 +78,7 @@
 
 <!--              수정하기 버튼 -->
               <button type="button" onclick="handleEdit()">수정</button>
+              <button type="button" onclick="handleDelete()">탈퇴</button>
             </div>
           </div>
         </div>
@@ -135,6 +136,34 @@
 
   <script>
 
+    // 탈퇴하기
+    // 삭제 버튼 클릭 시
+    function handleDelete() {
+      if (confirm('회원 탈퇴하시겠습니까?')) {
+        fetch('/member/delete', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({}) // 필요없으면 빈 객체
+        })
+                .then(response => response.json())
+                .then(data => {
+                  if (data.success) {
+                    alert('회원 탈퇴되었습니다. chillStock 을 이용해 주셔서 감사합니다. ');
+                    // 여기서 로그아웃 처리나 홈 이동
+                    window.location.href = '/logout'; // 예: Spring Security 로그아웃 URL
+                  } else {
+                    alert('회원 탈퇴에 실패했습니다. 다시 시도해주세요');
+                  }
+                })
+                .catch(error => {
+                  console.error('오류 발생:', error);
+                });
+      }
+    }
+
+    // 수정하기
     function submitEditForm() {
       const updateData = {
         userLoginId: document.getElementById('editMemberLoginId').value,

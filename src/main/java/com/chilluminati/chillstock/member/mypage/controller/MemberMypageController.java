@@ -76,11 +76,21 @@ public class MemberMypageController {
      * @return
      */
     @PostMapping("/delete")
-    public String deleteAccount() {
-        memberMypageService.deleteMyAccount();
+    @ResponseBody
+    public Map<String, Object> deleteAccount() {
+        Map<String, Object> result = new HashMap<>();
 
-        return "redirect:/nonuser"; // 탈퇴 후 로그아웃 또는 홈 이동
+        try {
+            memberMypageService.deleteMyAccount();
+            result.put("success", true);
+        } catch (Exception e) {
+            result.put("success", false);
+        }
+
+        return result;
     }
+
+
 
     /***
      * 비밀번호 변경

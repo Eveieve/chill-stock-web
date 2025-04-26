@@ -74,5 +74,26 @@
         FROM storage_condition
     </select>
 
+    <select id="AdminGetAreaById"
+            parameterType="Integer"
+            resultType="com.chilluminati.chillstock.admin.warehouse.vo.AdminAreaVo">
+        SELECT
+            area_id as areaId,
+            area_space as areaSpace,
+            area_code as areaCode,
+            area_price as areaPrice,
+            warehouse_id as warehouseId,
+            storage_id as storageId
+        FROM
+            area_table
+        WHERE warehouse_id = #{warehouseId}
+    </select>
+
+    <update id="updateStorageIdByAreaId">
+        UPDATE area_table
+        SET storage_id = #{storageId}
+        WHERE area_id = #{areaId}
+    </update>
+
 
 </mapper>

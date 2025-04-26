@@ -1,8 +1,10 @@
 package com.chilluminati.chillstock.admin.warehouse.service;
 
+import com.chilluminati.chillstock.admin.warehouse.dto.AdminAreaDto;
 import com.chilluminati.chillstock.admin.warehouse.dto.AdminAreaWithRemainDistanceDto;
 import com.chilluminati.chillstock.admin.warehouse.dto.AdminWarehouseDto;
 import com.chilluminati.chillstock.admin.warehouse.dto.AdminWarehouseRemainSpaceDto;
+import com.chilluminati.chillstock.admin.warehouse.vo.AdminAreaSpaceRemainVo;
 import com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseVo;
 import com.chilluminati.chillstock.common.ResultList;
 
@@ -17,4 +19,6 @@ public interface AdminWarehouseService {
     AdminWarehouseDto getAdminWarehouseById(Integer warehouseId);
     AdminWarehouseRemainSpaceDto getAdminWarehouseRemainSpaceById(Integer warehouseId);
     List<AdminAreaWithRemainDistanceDto> getAllAdminAreaWithRemainDistance();
+    List<AdminAreaDto> getAreasByWarehouseId(Integer warehouseId);
+    void updateStorageIdByAreaId(Integer areaId, Integer storageId);
 }

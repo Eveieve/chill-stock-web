@@ -193,22 +193,28 @@
         <div class="modal-body">
           <div class="mb-3">
             <label for="newPassword" class="form-label">새 비밀번호</label>
-            <input type="password" class="form-control" id="newPassword" placeholder="새 비밀번호 입력">
+            <input type="password" class="form-control" id="newPassword" placeholder="새 비밀번호 입력" oninput="validatePassword()">
+            <div id="newPasswordFeedback" class="valid-feedback">사용 가능한 비밀번호입니다.</div>
+            <div id="newPasswordError" class="invalid-feedback">8~20자, 영문, 숫자, 특수문자를 포함해야 합니다.</div>
           </div>
+
           <div class="mb-3">
             <label for="confirmPassword" class="form-label">비밀번호 확인</label>
-            <input type="password" class="form-control" id="confirmPassword" placeholder="다시 입력">
+            <input type="password" class="form-control" id="confirmPassword" placeholder="다시 입력" oninput="validateConfirmPassword()">
+            <div id="confirmPasswordFeedback" class="valid-feedback">비밀번호가 일치합니다.</div>
+            <div id="confirmPasswordError" class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="submitPasswordChange()">변경하기</button>
+          <button type="button" class="btn btn-primary" id="submitBtn" onclick="submitPasswordChange()" disabled>변경하기</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
         </div>
 
       </div>
     </div>
   </div>
+<!--  비밀번호 변경 모달 끝 -->
   <!-- 수정 성공 토스트 -->
   <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055;">
     <div id="editSuccessToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
@@ -292,6 +298,57 @@
       modal.show();
     }
 
+
+    function validatePassword() {
+      const passwordInput = document.getElementById('newPassword');
+      const password = passwordInput.value;
+      const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^_-])[A-Za-z\d@$!%*#?&^_-]{8,20}$/;
+
+      if (passwordRegex.test(password)) {
+        passwordInput.classList.add('is-valid');
+        passwordInput.classList.remove('is-invalid');
+      } else {
+        passwordInput.classList.add('is-invalid');
+        passwordInput.classList.remove('is-valid');
+      }
+
+      validateConfirmPassword(); // 비밀번호 확인까지 함께 체크
+    }
+
+    function validateConfirmPassword() {
+      const passwordInput = document.getElementById('newPassword');
+      const confirmPasswordInput = document.getElementById('confirmPassword');
+      const password = passwordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+
+      if (confirmPassword.length === 0) {
+        confirmPasswordInput.classList.remove('is-valid', 'is-invalid');
+        updateSubmitButton();
+        return;
+      }
+
+      if (password === confirmPassword && passwordInput.classList.contains('is-valid')) {
+        confirmPasswordInput.classList.add('is-valid');
+        confirmPasswordInput.classList.remove('is-invalid');
+      } else {
+        confirmPasswordInput.classList.add('is-invalid');
+        confirmPasswordInput.classList.remove('is-valid');
+      }
+
+      updateSubmitButton();
+    }
+
+    function updateSubmitButton() {
+      const passwordValid = document.getElementById('newPassword').classList.contains('is-valid');
+      const confirmPasswordValid = document.getElementById('confirmPassword').classList.contains('is-valid');
+      const submitBtn = document.getElementById('submitBtn');
+
+      if (passwordValid && confirmPasswordValid) {
+        submitBtn.disabled = false;
+      } else {
+        submitBtn.disabled = true;
+      }
+    }
     // 비밀번호 변경 요청
     function submitPasswordChange() {
       const newPassword = document.getElementById('newPassword').value;

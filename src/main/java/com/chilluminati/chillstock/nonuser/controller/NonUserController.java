@@ -1,6 +1,5 @@
 package com.chilluminati.chillstock.nonuser.controller;
 
-import com.chilluminati.chillstock.member.mypage.dto.UserPasswordDTO;
 import com.chilluminati.chillstock.nonuser.dto.EmailDupDTO;
 import com.chilluminati.chillstock.nonuser.dto.LoginIdDupDTO;
 import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
@@ -8,17 +7,12 @@ import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.exception.SignUpException;
 import com.chilluminati.chillstock.nonuser.service.NonUserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
-@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/nonuser")
@@ -30,13 +24,9 @@ public class NonUserController {
      * @param email
      * @return loginId
      */
-    @PostMapping("/find-login-id")
-    private String findLoginId(@RequestParam("email") String email, Model model) {
-        String loginId = nonUserService.findLoginIdByEmail(email);
-
-        // 로그인 아이디 뷰로 전달
-        model.addAttribute("loginId", loginId);
-        return  "nonuser/find-login-id";
+    @PostMapping("login/find-login-id")
+    private String findLoginId(@RequestParam("email") String email) {
+        return nonUserService.findLoginIdByEmail(email); // 로그인 아이디만 문자열로 응답하기. 로그인 아이디는 모달로 알려줌.
     }
 
 
@@ -96,8 +86,7 @@ public class NonUserController {
      * @return
      */
     @GetMapping("/signup")
-    public String showSignUpForm(Model model) {
-        model.addAttribute("signUpDTO", new SignUpDTO());
+    public String showSignUpForm() {
         return "nonuser/signup";
     }
 
@@ -106,14 +95,9 @@ public class NonUserController {
      * @param emailDupDto 사용자가 입력한 이메일 Dto
      * @return 중복이면 true, 중복이 아니면 false
      */
-    @PostMapping("/signup/check-email")
-    public String checkEmailDuplicate(@RequestBody @Valid EmailDupDTO emailDupDto, Model model) {
-
-        boolean isDuplicate = nonUserService.checkEmailDuplicate(emailDupDto);
-        // true/false 값담은 isDuplicate
-        model.addAttribute("isDuplicate", isDuplicate);
-
-        return "nonuser/signup"; // 같은 페이지에서 모달만 변경하기
+    @PostMapping("signup/check-email")
+    public boolean checkEmailDuplicate(@RequestBody @Valid EmailDupDTO emailDupDto) {
+        return nonUserService.checkEmailDuplicate(emailDupDto);
         // 앞으로 넘겨줄때 true 이면 중복 메시지 사용자에게 띄우고, false 이면 중복 아니라는 메시지를 보여준다
     }
 
@@ -122,46 +106,28 @@ public class NonUserController {
      * @param loginIdDupDto 사용자가 입력한 로그인 아이디 Dto
      * @return 중복이면 true, 중복이 아니면 false
      */
-    @PostMapping("/signup/check-login-id")
-    public String checkLoginIdDuplicate(@RequestBody @Valid LoginIdDupDTO loginIdDupDto, Model model) {
-        boolean isDuplicate = nonUserService.checkLoginIdDuplicate(loginIdDupDto);
-
-        model.addAttribute("isDuplicate", isDuplicate);
-        return "nonuser/signup"; // 페이지 그대로
+    @PostMapping("signup/check-login-id")
+    public boolean checkLoginIdDuplicate(@RequestBody @Valid LoginIdDupDTO loginIdDupDto) {
+        return nonUserService.checkLoginIdDuplicate(loginIdDupDto);
         // 앞으로 넘겨줄때 true 이면 중복 메시지 사용자에게 띄우고, false 이면 중복 아니라는 메시지를 보여준다
     }
 
     /**
      * 회원가입 한다
      * @param signUpDto
-     * @param
+     * @param model
      * @return
      */
     @PostMapping("/signup-submit")
-    @ResponseBody
-    public ResponseEntity<?> signUp(@RequestBody SignUpDTO signUpDto) {
+    public String signUp(SignUpDTO signUpDto, Model model) {
         try {
             nonUserService.signUp(signUpDto);
-            return ResponseEntity.ok().build();
+            return "nonuser/login"; // 성공할시 로그인 페이지로 이동
         } catch (SignUpException e) {
-            return ResponseEntity.badRequest().body(e.getErrorCode().getMessage());
+            model.addAttribute("errorMessage", e.getErrorCode().getMessage());
+            return "nonuser/signup"; // 실패할 시 회원가입 페이지로 다시 감
         }
     }
-
-
-//    /***
-//     * 비밀번호 변경
-//     */
-//    @PostMapping("/update-password")
-//    @ResponseBody
-//    public Map<String, Object> updatePassword(@RequestBody UserPasswordDTO userPasswordDTO) {
-//        Map<String, Object> result = new HashMap<>();
-//
-//        result = memberMypageService.updateMemberPassword(userPasswordDTO);
-//
-//        return result;
-//    }
-
 
     /**
      * 로그인 아이디 입력후, 비밀번호 재설정 단계로 넘어왔는지 확인한다

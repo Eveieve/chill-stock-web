@@ -3,7 +3,6 @@ package com.chilluminati.chillstock.nonuser.dto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 
 import javax.validation.constraints.Email;
@@ -12,7 +11,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
-@NoArgsConstructor
+@Builder
 public class SignUpDTO {
 
     @NotBlank(message = "{loginId.required}")

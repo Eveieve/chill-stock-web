@@ -88,10 +88,11 @@
             b.business_post
         FROM user_table u
                  LEFT JOIN business_table b ON u.user_id = b.user_id
-        WHERE u.user_name = #{userName}
+        WHERE u.user_name LIKE CONCAT('%', #{userName}, '%')
     </select>
 
-<!--    회원+ 사업자 정보르 한꺼번에 조회하는 쿼리 -->
+
+    <!--    회원+ 사업자 정보르 한꺼번에 조회하는 쿼리 -->
     <select id="getUserBizById" resultMap="UserWithBizMap" parameterType="Integer">
         SELECT
             u.user_id, u.user_login_id, u.user_name, u.user_email,

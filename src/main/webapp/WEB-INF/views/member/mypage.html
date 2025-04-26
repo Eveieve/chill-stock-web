@@ -97,50 +97,88 @@
   </section>
 
 <!--  마이페이지 수정모달-->
-  <div id="editModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeEditModal()">&times;</span>
-      <h2>회원 정보 수정</h2>
-      <form onsubmit="event.preventDefault(); submitEditForm();">
+  <!-- 마이페이지 수정 모달 -->
+  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
 
-        <label for="editMemberName">이름:</label>
-        <input type="text" id="editMemberName" name="name" th:value="${user.userName}" required />
-        <br><br>
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">회원 정보 수정</h5>
+          <button type="button" class="btn-close" onclick="closeEditModal()" aria-label="Close"></button>
+        </div>
 
+        <div class="modal-body">
+          <!-- form 제거하고 div로 -->
+          <div id="editFormFields">
 
-        <label for="editMemberLoginId">아이디:</label>
-        <input type="text" id="editMemberLoginId" name="name" th:value="${user.userLoginId}" readonly />
-        <br><br>
+            <div class="row mb-3">
+              <label for="editMemberName" class="col-sm-3 col-form-label text-end">이름</label>
+              <div class="col-sm-9">
+                <input type="text" id="editMemberName" class="form-control" th:value="${user.userName}" required>
+              </div>
+            </div>
 
-        <label for="editMemberPhone">전화번호:</label>
-        <input type="text" id="editMemberPhone" name="phone" th:value="${user.userPhone}" required />
-        <br><br>
+            <div class="row mb-3">
+              <label for="editMemberLoginId" class="col-sm-3 col-form-label text-end">아이디</label>
+              <div class="col-sm-9">
+                <input type="text" id="editMemberLoginId" class="form-control" th:value="${user.userLoginId}" readonly>
+              </div>
+            </div>
 
-        <label for="editMemberEmail">이메일:</label>
-        <input type="text" id="editMemberEmail" name="email" th:value="${user.userEmail}" readonly/>
-        <br><br>
+            <div class="row mb-3">
+              <label for="editMemberPhone" class="col-sm-3 col-form-label text-end">전화번호</label>
+              <div class="col-sm-9">
+                <input type="text" id="editMemberPhone" class="form-control" th:value="${user.userPhone}" required>
+              </div>
+            </div>
 
-        <label for="editBusinessName">사업체명:</label>
-        <input type="text" id="editBusinessName" name="businessName" th:value="${user.businessName}" required />
-        <br><br>
+            <div class="row mb-3">
+              <label for="editMemberEmail" class="col-sm-3 col-form-label text-end">이메일</label>
+              <div class="col-sm-9">
+                <input type="text" id="editMemberEmail" class="form-control" th:value="${user.userEmail}" readonly>
+              </div>
+            </div>
 
-        <label for="editBusinessRegistNum">사업자번호:</label>
-        <input type="text" id="editBusinessRegistNum" name="businessRegistNum" th:value="${user.businessRegistNum}" required />
-        <br><br>
+            <div class="row mb-3">
+              <label for="editBusinessName" class="col-sm-3 col-form-label text-end">사업체명</label>
+              <div class="col-sm-9">
+                <input type="text" id="editBusinessName" class="form-control" th:value="${user.businessName}" required>
+              </div>
+            </div>
 
-        <label for="editBusinessAddress">사업장 주소:</label>
-        <input type="text" id="editBusinessAddress" name="businessAddress" th:value="${user.businessAddress}" required />
-        <br><br>
+            <div class="row mb-3">
+              <label for="editBusinessRegistNum" class="col-sm-3 col-form-label text-end">사업자번호</label>
+              <div class="col-sm-9">
+                <input type="text" id="editBusinessRegistNum" class="form-control" th:value="${user.businessRegistNum}" required>
+              </div>
+            </div>
 
-        <label for="editBusinessPost">우편번호:</label>
-        <input type="text" id="editBusinessPost" name="businessPost" th:value="${user.businessPost}" required />
-        <br><br>
+            <div class="row mb-3">
+              <label for="editBusinessAddress" class="col-sm-3 col-form-label text-end">사업장 주소</label>
+              <div class="col-sm-9">
+                <input type="text" id="editBusinessAddress" class="form-control" th:value="${user.businessAddress}" required>
+              </div>
+            </div>
 
-        <button type="button" onclick="submitEditForm()">수정</button>
-        <button type="button" onclick="closeEditModal()">취소</button>
-      </form>
+            <div class="row mb-4">
+              <label for="editBusinessPost" class="col-sm-3 col-form-label text-end">우편번호</label>
+              <div class="col-sm-9">
+                <input type="text" id="editBusinessPost" class="form-control" th:value="${user.businessPost}" required>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary w-25" onclick="submitEditForm()">수정</button>
+          <button type="button" class="btn btn-secondary w-25" onclick="closeEditModal()">취소</button>
+        </div>
+
+      </div>
     </div>
   </div>
+
 
   <!-- 비밀번호 변경 모달 -->
   <div class="modal fade" id="passwordUpdateModal" tabindex="-1" aria-hidden="true">
@@ -171,9 +209,81 @@
       </div>
     </div>
   </div>
+  <!-- 수정 성공 토스트 -->
+  <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+    <div id="editSuccessToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          회원 정보가 성공적으로 수정되었습니다.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 수정 실패 토스트 -->
+  <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+    <div id="editErrorToast" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          회원 정보 수정에 실패했습니다. 다시 시도해주세요.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
 
 
   <script>
+    function submitEditForm() {
+      const updateData = {
+        userLoginId: document.getElementById('editMemberLoginId').value.trim(),
+        userName: document.getElementById('editMemberName').value.trim(),
+        userEmail: document.getElementById('editMemberEmail').value.trim(),
+        userPhone: document.getElementById('editMemberPhone').value.trim(),
+        businessName: document.getElementById('editBusinessName').value.trim(),
+        businessRegistNum: document.getElementById('editBusinessRegistNum').value.trim(),
+        businessAddress: document.getElementById('editBusinessAddress').value.trim(),
+        businessPost: document.getElementById('editBusinessPost').value.trim()
+      };
+
+      fetch('/member/mypage-edit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updateData)
+      })
+              .then(response => {
+                if (!response.ok) throw new Error('수정 실패');
+
+                // ✅ 성공하면: 토스트 먼저 띄우고
+                showSuccessToast();
+
+                // ✅ 토스트 띄운 후 1.5초 뒤에 마이페이지로 이동
+                setTimeout(() => {
+                  window.location.href = '/member/mypage';
+                }, 1500); // 1500ms = 1.5초
+              })
+              .catch(error => {
+                console.error('오류:', error);
+                showErrorToast(); // 실패하면 토스트로 알림
+              });
+    }
+
+
+    function showSuccessToast() {
+      const toastEl = document.getElementById('editSuccessToast');
+      const toast = new bootstrap.Toast(toastEl, { delay: 3000 }); // 3초 후 자동 사라짐
+      toast.show();
+    }
+
+    function showErrorToast() {
+      const toastEl = document.getElementById('editErrorToast');
+      const toast = new bootstrap.Toast(toastEl, { delay: 3000 }); // 3초 후 자동 사라짐
+      toast.show();
+    }
+
 
     // 비밀번호 변경하기
     // 비밀번호 변경 모달 열기
@@ -253,35 +363,35 @@
     }
 
     // 수정하기
-    function submitEditForm() {
-      const updateData = {
-        userLoginId: document.getElementById('editMemberLoginId').value,
-        userName: document.getElementById('editMemberName').value,
-        userEmail: document.getElementById('editMemberEmail').value,
-        userPhone: document.getElementById('editMemberPhone').value,
-        businessName: document.getElementById('editBusinessName').value,
-        businessRegistNum: document.getElementById('editBusinessRegistNum').value,
-        businessAddress: document.getElementById('editBusinessAddress').value,
-        businessPost: document.getElementById('editBusinessPost').value
-      };
-
-      fetch('/member/mypage-edit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updateData)
-      })
-              .then(response => {
-                if (!response.ok) throw new Error('수정 실패');
-                // 성공하면 마이페이지로 이동
-                window.location.href = '/member/mypage';
-              })
-              .catch(error => {
-                console.error('오류:', error);
-                alert('수정에 실패했습니다.');
-              });
-    }
+    // function submitEditForm() {
+    //   const updateData = {
+    //     userLoginId: document.getElementById('editMemberLoginId').value,
+    //     userName: document.getElementById('editMemberName').value,
+    //     userEmail: document.getElementById('editMemberEmail').value,
+    //     userPhone: document.getElementById('editMemberPhone').value,
+    //     businessName: document.getElementById('editBusinessName').value,
+    //     businessRegistNum: document.getElementById('editBusinessRegistNum').value,
+    //     businessAddress: document.getElementById('editBusinessAddress').value,
+    //     businessPost: document.getElementById('editBusinessPost').value
+    //   };
+    //
+    //   fetch('/member/mypage-edit', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(updateData)
+    //   })
+    //           .then(response => {
+    //             if (!response.ok) throw new Error('수정 실패');
+    //             // 성공하면 마이페이지로 이동
+    //             window.location.href = '/member/mypage';
+    //           })
+    //           .catch(error => {
+    //             console.error('오류:', error);
+    //             alert('수정에 실패했습니다.');
+    //           });
+    // }
 
     // 서버에서 데이터 불러오기
     function handleEdit() {
@@ -307,7 +417,9 @@
                 document.getElementById('editBusinessPost').value = userInfo.businessPost;
 
                 // 모달 보이기
-                document.getElementById('editModal').style.display = 'block';
+                const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+                editModal.show();
+
               })
               .catch(error => {
                 console.error('오류 발생:', error);
@@ -316,8 +428,13 @@
     }
 
     function closeEditModal() {
-      document.getElementById('editModal').style.display = 'none';
+      const modalEl = document.getElementById('editModal');
+      const modalInstance = bootstrap.Modal.getInstance(modalEl);
+      if (modalInstance) {
+        modalInstance.hide();
+      }
     }
+
 
   </script>
 </main>

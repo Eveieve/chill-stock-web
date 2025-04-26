@@ -1,5 +1,6 @@
 package com.chilluminati.chillstock.nonuser.controller;
 
+import com.chilluminati.chillstock.member.mypage.dto.UserPasswordDTO;
 import com.chilluminati.chillstock.nonuser.dto.EmailDupDTO;
 import com.chilluminati.chillstock.nonuser.dto.LoginIdDupDTO;
 import com.chilluminati.chillstock.nonuser.dto.PasswordResetDTO;
@@ -7,12 +8,17 @@ import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.exception.SignUpException;
 import com.chilluminati.chillstock.nonuser.service.NonUserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/nonuser")
@@ -128,19 +134,34 @@ public class NonUserController {
     /**
      * 회원가입 한다
      * @param signUpDto
-     * @param model
+     * @param
      * @return
      */
     @PostMapping("/signup-submit")
-    public String signUp(SignUpDTO signUpDto, Model model) {
+    @ResponseBody
+    public ResponseEntity<?> signUp(@RequestBody SignUpDTO signUpDto) {
         try {
             nonUserService.signUp(signUpDto);
-            return "nonuser/login"; // 성공할시 로그인 페이지로 이동
+            return ResponseEntity.ok().build();
         } catch (SignUpException e) {
-            model.addAttribute("errorMessage", e.getErrorCode().getMessage());
-            return "nonuser/signup"; // 실패할 시 회원가입 페이지로 다시 감
+            return ResponseEntity.badRequest().body(e.getErrorCode().getMessage());
         }
     }
+
+
+//    /***
+//     * 비밀번호 변경
+//     */
+//    @PostMapping("/update-password")
+//    @ResponseBody
+//    public Map<String, Object> updatePassword(@RequestBody UserPasswordDTO userPasswordDTO) {
+//        Map<String, Object> result = new HashMap<>();
+//
+//        result = memberMypageService.updateMemberPassword(userPasswordDTO);
+//
+//        return result;
+//    }
+
 
     /**
      * 로그인 아이디 입력후, 비밀번호 재설정 단계로 넘어왔는지 확인한다

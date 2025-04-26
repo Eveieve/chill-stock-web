@@ -22,93 +22,82 @@
 
                         <h5 class="card-title mb-4">회원 정보</h5>
 
-                        <form th:action="@{/signup}" th:object="${signUpDTO}" method="post" class="needs-validation" novalidate>
+                        <form id="signUpForm" method="post" class="needs-validation" novalidate>
 
                             <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label text-end">로그인 아이디</label>
                                 <div class="col-sm-9">
-                                    <input type="text" th:field="*{userLoginId}" class="form-control" placeholder="아이디를 입력하세요" required>
-                                    <div class="text-danger small" th:if="${#fields.hasErrors('userLoginId')}" th:errors="*{userLoginId}"></div>
+                                    <input type="text" id="userLoginId" name="userLoginId" class="form-control" placeholder="아이디를 입력하세요" required>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label text-end">이름</label>
                                 <div class="col-sm-9">
-                                    <input type="text" th:field="*{userName}" class="form-control" placeholder="이름을 입력하세요" required>
-                                    <div class="text-danger small" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></div>
+                                    <input type="text" id="userName" name="userName" class="form-control" placeholder="이름을 입력하세요" required>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label text-end">이메일</label>
                                 <div class="col-sm-9">
-                                    <input type="email" th:field="*{userEmail}" class="form-control" placeholder="example@email.com" required>
-                                    <div class="text-danger small" th:if="${#fields.hasErrors('userEmail')}" th:errors="*{userEmail}"></div>
+                                    <input type="email" id="userEmail" name="userEmail" class="form-control" placeholder="example@email.com" required>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label text-end">전화번호</label>
                                 <div class="col-sm-9">
-                                    <input type="text" th:field="*{userPhone}" class="form-control" placeholder="010-1234-5678" required>
-                                    <div class="text-danger small" th:if="${#fields.hasErrors('userPhone')}" th:errors="*{userPhone}"></div>
+                                    <input type="text" id="userPhone" name="userPhone" class="form-control" placeholder="010-1234-5678">
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label text-end">비밀번호</label>
                                 <div class="col-sm-9">
-                                    <input type="password" th:field="*{userPassword}" class="form-control" placeholder="비밀번호를 입력하세요" required>
-                                    <div class="text-danger small" th:if="${#fields.hasErrors('userPassword')}" th:errors="*{userPassword}"></div>
+                                    <input type="password" id="userPassword" name="userPassword" class="form-control" placeholder="비밀번호를 입력하세요" required>
                                 </div>
                             </div>
 
                             <div class="row mb-4">
                                 <label class="col-sm-3 col-form-label text-end">비밀번호 확인</label>
                                 <div class="col-sm-9">
-                                    <input type="password" th:field="*{userPasswordCheck}" class="form-control" placeholder="비밀번호를 다시 입력하세요" required>
-                                    <div class="text-danger small" th:if="${#fields.hasErrors('userPasswordCheck')}" th:errors="*{userPasswordCheck}"></div>
+                                    <input type="password" id="userPasswordCheck" name="userPasswordCheck" class="form-control" placeholder="비밀번호를 다시 입력하세요" required>
                                 </div>
                             </div>
-
 
                             <h5 class="card-title mb-4">사업체 정보</h5>
 
                             <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label text-end">사업체명</label>
                                 <div class="col-sm-9">
-                                    <input type="text" th:field="*{businessName}" class="form-control" placeholder="사업체명을 입력하세요" required>
-                                    <div class="text-danger small" th:if="${#fields.hasErrors('businessName')}" th:errors="*{businessName}"></div>
+                                    <input type="text" id="businessName" name="businessName" class="form-control" placeholder="사업체명을 입력하세요">
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label text-end">사업자번호</label>
                                 <div class="col-sm-9">
-                                    <input type="text" th:field="*{businessRegistNum}" class="form-control" placeholder="000-00-00000" required>
-                                    <div class="text-danger small" th:if="${#fields.hasErrors('businessRegistNum')}" th:errors="*{businessRegistNum}"></div>
+                                    <input type="text" id="businessRegistNum" name="businessRegistNum" class="form-control" placeholder="000-00-00000">
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label text-end">사업장 주소</label>
                                 <div class="col-sm-9">
-                                    <input type="text" th:field="*{businessAddress}" class="form-control" placeholder="주소를 입력하세요" required>
-                                    <div class="text-danger small" th:if="${#fields.hasErrors('businessAddress')}" th:errors="*{businessAddress}"></div>
+                                    <input type="text" id="businessAddress" name="businessAddress" class="form-control" placeholder="주소를 입력하세요">
                                 </div>
                             </div>
 
                             <div class="row mb-4">
                                 <label class="col-sm-3 col-form-label text-end">우편번호</label>
                                 <div class="col-sm-9">
-                                    <input type="text" th:field="*{businessPost}" class="form-control" placeholder="우편번호를 입력하세요" required>
-                                    <div class="text-danger small" th:if="${#fields.hasErrors('businessPost')}" th:errors="*{businessPost}"></div>
+                                    <input type="text" id="businessPost" name="businessPost" class="form-control" placeholder="우편번호를 입력하세요">
                                 </div>
                             </div>
 
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary w-50">가입하기</button>
+                                <button type="button" class="btn btn-primary w-50" onclick="handleSignUp()">가입하기</button>
                             </div>
 
                         </form>
@@ -118,6 +107,66 @@
             </div>
         </div>
     </section>
+
+    <script>
+        function handleSignUp() {
+            const userLoginId = document.getElementById('userLoginId').value.trim();
+            const userPassword = document.getElementById('userPassword').value.trim();
+            const userPasswordCheck = document.getElementById('userPasswordCheck').value.trim();
+            const userName = document.getElementById('userName').value.trim();
+            const userEmail = document.getElementById('userEmail').value.trim();
+            const userPhone = document.getElementById('userPhone').value.trim();
+            const businessName = document.getElementById('businessName').value.trim();
+            const businessRegistNum = document.getElementById('businessRegistNum').value.trim();
+            const businessAddress = document.getElementById('businessAddress').value.trim();
+            const businessPost = document.getElementById('businessPost').value.trim();
+
+            if (!userLoginId || !userPassword || !userPasswordCheck || !userName || !userEmail) {
+                alert('필수 입력값을 모두 입력해주세요.');
+                return;
+            }
+
+            if (userPassword !== userPasswordCheck) {
+                alert('비밀번호가 일치하지 않습니다.');
+                return;
+            }
+
+            const signUpData = {
+                userLoginId,
+                userPassword,
+                userPasswordCheck,
+                userName,
+                userEmail,
+                userPhone,
+                businessName,
+                businessRegistNum,
+                businessAddress,
+                businessPost
+            };
+
+            fetch('/nonuser/signup-submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(signUpData)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('회원가입이 완료되었습니다.');
+                        window.location.href = '/nonuser/login';
+                    } else {
+                        return response.text().then(text => {
+                            alert('회원가입 실패: ' + text);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('오류 발생:', error);
+                    alert('회원가입 중 오류가 발생했습니다.');
+                });
+        }
+    </script>
 
 </main>
 </body>

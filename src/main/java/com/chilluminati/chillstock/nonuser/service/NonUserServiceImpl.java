@@ -86,6 +86,8 @@ public class NonUserServiceImpl implements NonUserService {
             bizVO.setUserId(userVo.getUserId());  // 명시적으로 userId 세팅
             bizRepo.insertBiz(bizVO);  // 이제는 userId가 null이 아님
             System.out.println(bizVO.getUserId());
+
+            log.info("##############Sign up successful");
         } catch (Exception e) {
             throw new SignUpException(SignUpErrorCode.DATABASE_ERROR);
         }

@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum RejectCode {
     RJ201("유통기한 만료", "RJ201"),
     RJ202("출고 한도 초과", "RJ202"),
-    RJ203("기타", "RJ203"),;
+    RJ203("기타", "RJ203");
 
     private final String msg;
     private final String code;

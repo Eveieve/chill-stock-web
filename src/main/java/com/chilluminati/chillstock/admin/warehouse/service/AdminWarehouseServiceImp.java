@@ -146,7 +146,7 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
                         .storageId(vo.getStorageId())
                         .remainSpace(remainSpaceMap.get(vo.getAreaId()))
                         .distance(userGeoPoint.distanceTo(kakaoGeoService.getGeoByAddress(
-                                adminWareHouseRepository.adminGetWarehouseById(vo.getAreaId())
+                                adminWareHouseRepository.adminGetWarehouseById(vo.getWarehouseId())
                                         .orElseThrow(()->new RuntimeException("해당 창고아이디 없음"))
                                         .getWarehouseAddress()
                                 ).orElseThrow(()->new NoSuchElementException("해당 유저아이디 없음")

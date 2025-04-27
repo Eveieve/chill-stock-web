@@ -55,4 +55,11 @@ class AdminAreaRepositoryTest {
         List<AdminStorageVo> adminStorageVos = adminAreaRepository.AdminGetAllStorages();
         assertNotNull(adminStorageVos);
     }
+
+    @Test
+    void getBusinessAddress(){
+        String businessAddressByInboundId = adminAreaRepository.getBusinessAddressByInboundId(2);
+        assertNotNull(businessAddressByInboundId);
+        log.info(businessAddressByInboundId);
+    }
 }

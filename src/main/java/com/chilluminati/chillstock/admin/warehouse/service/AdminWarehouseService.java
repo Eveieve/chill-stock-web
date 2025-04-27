@@ -18,7 +18,8 @@ public interface AdminWarehouseService {
     List<AdminWarehouseRemainSpaceDto> getAllWarehousesWithRemain();
     AdminWarehouseDto getAdminWarehouseById(Integer warehouseId);
     AdminWarehouseRemainSpaceDto getAdminWarehouseRemainSpaceById(Integer warehouseId);
-    List<AdminAreaWithRemainDistanceDto> getAllAdminAreaWithRemainDistance();
+    List<AdminAreaWithRemainDistanceDto> getAllAdminAreaWithRemainDistance(Integer inboundId);
     List<AdminAreaDto> getAreasByWarehouseId(Integer warehouseId);
     void updateStorageIdByAreaId(Integer areaId, Integer storageId);
+    void registerAdminArea(AdminAreaDto adminAreaDto);
 }

@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AdminAreaRepository {
+    /**
+     * 창고별 남은공간 리스트
+     * @return
+     */
     List<AdminWarehouseSpaceRemainVo> getAllAdminWarehouseSpaceUsage();
     Optional<AdminWarehouseSpaceRemainVo> getAdminWarehouseSpaceUsageById(Integer warehouseId);
 
@@ -37,4 +41,8 @@ public interface AdminAreaRepository {
     List<AdminStorageVo> AdminGetAllStorages();
 
     void updateStorageIdByAreaId(@Param("areaId") Integer areaId, @Param("storageId") Integer storageId);
+
+    void createArea(AdminAreaVo adminAreaVo);
+
+    String getBusinessAddressByInboundId(Integer inboundId);
 }

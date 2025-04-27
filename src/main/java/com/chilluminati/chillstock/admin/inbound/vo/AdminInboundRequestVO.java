@@ -1,24 +1,23 @@
-//package com.chilluminati.chillstock.admin.inbound.vo;
-//
-//import lombok.AllArgsConstructor;
-//import lombok.Builder;
-//import lombok.Getter;
-//import lombok.NoArgsConstructor;
-//
-//import java.time.LocalDateTime;
-//
-//
-//@Builder
-//@Getter
-//@NoArgsConstructor
-//@AllArgsConstructor
-//public class AdminInboundRequestVO {
-//    private Integer inboundId;
-//    private LocalDateTime inboundDate;
-//    private LocalDateTime inboundRequestDate;
-//    private String inboundStatus;
-//    private Integer adminId;
-//    private Integer inboundAmount;
-//    private Integer productId;
-//    private String rejectReasonMessage;
-//}
+package com.chilluminati.chillstock.admin.inbound.vo;
+
+import lombok.*;
+
+import java.time.LocalDateTime;
+
+
+@Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class AdminInboundRequestVO {
+    private Integer inboundId;
+    private LocalDateTime inboundDate;
+    private LocalDateTime inboundRequestDate;
+    private String inboundStatus;
+    private Integer businessId;
+    private Integer inboundAmount;
+    private String productName;
+    private Integer productId;
+    private String rejectReasonMessage;
+}

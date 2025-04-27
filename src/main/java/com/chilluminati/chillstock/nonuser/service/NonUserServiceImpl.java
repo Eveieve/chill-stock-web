@@ -74,6 +74,11 @@ public class NonUserServiceImpl implements NonUserService {
         if (userRepo.existsByEmail(signupDto.getUserEmail())){
             throw new SignUpException(SignUpErrorCode.DUPLICATE_EMAIL);
         }
+
+        // 사업자 번호 중복 체크
+        if (userRepo.existsByEmail(signupDto.getUserEmail())){
+            throw new SignUpException(SignUpErrorCode.DUPLICATE_BUSINESS_REGIST_NUM);
+        }
         try {
             // 비밀번호 암호화
 

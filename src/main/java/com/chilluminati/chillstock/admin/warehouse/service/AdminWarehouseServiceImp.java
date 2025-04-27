@@ -9,6 +9,7 @@ import com.chilluminati.chillstock.admin.warehouse.exception.OverRemainSpaceExce
 import com.chilluminati.chillstock.admin.warehouse.exception.StorageConditionNotFoundException;
 import com.chilluminati.chillstock.admin.warehouse.repository.AdminAreaRepository;
 import com.chilluminati.chillstock.admin.warehouse.repository.AdminWareHouseRepository;
+import com.chilluminati.chillstock.admin.warehouse.service.cache.StorageCache;
 import com.chilluminati.chillstock.admin.warehouse.vo.*;
 import com.chilluminati.chillstock.common.ResultList;
 import com.chilluminati.chillstock.webclient.GeoPoint;
@@ -38,6 +39,7 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
     private final Function<List<AdminStorageVo>, Map<Integer,String>> listToMapStorage;
     private final Function<List<AdminStorageVo>, Map<String,Integer>> listToMapStorageReverse;
     private final BiFunction< Integer,Integer, String> createAreaCode;
+    private final StorageCache storageCache;
 
     @Override
     public void registerWarehouse(AdminWarehouseDto adminWarehouseDto) {
@@ -203,10 +205,7 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
 
     @Override
     public Integer findStorageIdByTemperature(Integer temperature) {
-        return adminAreaRepository.AdminGetAllStorages().stream()
-                .filter(adminStorageVo ->
-                        adminStorageVo.getMinTemp() <= temperature && temperature <= adminStorageVo.getMaxTemp())
-                .findFirst()
+        return storageCache.findSuitableStorage(temperature)
                 .map(AdminStorageVo::getStorageId)
                 .orElseThrow(() -> new StorageConditionNotFoundException("해당하는 온도를 만족하는 보관조건이 없습니다."));
     }

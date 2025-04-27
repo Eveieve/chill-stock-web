@@ -8,6 +8,7 @@ import com.chilluminati.chillstock.member.mypage.service.MemberMypageService;
 import com.chilluminati.chillstock.nonuser.service.NonUserService;
 import com.chilluminati.chillstock.security.EmailUserDetails;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
@@ -68,6 +70,8 @@ public class MemberMypageController {
 
 //        EmailUserDetails emailUserDetails = getEmailUserDetails();
         UserBizDTO user = memberMypageService.viewMyInfo();
+        log.info(user.toString());
+
         result.put("data", user);
         return result;
     }

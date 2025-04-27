@@ -74,5 +74,50 @@
         FROM storage_condition
     </select>
 
+    <select id="AdminGetAreaById"
+            parameterType="Integer"
+            resultType="com.chilluminati.chillstock.admin.warehouse.vo.AdminAreaVo">
+        SELECT
+            area_id as areaId,
+            area_space as areaSpace,
+            area_code as areaCode,
+            area_price as areaPrice,
+            warehouse_id as warehouseId,
+            storage_id as storageId
+        FROM
+            area_table
+        WHERE warehouse_id = #{warehouseId}
+    </select>
+
+    <update id="updateStorageIdByAreaId">
+        UPDATE area_table
+        SET storage_id = #{storageId}
+        WHERE area_id = #{areaId}
+    </update>
+
+    <insert id="createArea" parameterType="com.chilluminati.chillstock.admin.warehouse.vo.AdminAreaVo">
+        INSERT INTO area_table (
+            area_space,
+            area_code,
+            area_price,
+            warehouse_id,
+            storage_id
+        )
+        VALUES (
+                   #{areaSpace},
+                   #{areaCode},
+                   #{areaPrice},
+                   #{warehouseId},
+                   #{storageId}
+               )
+    </insert>
+
+    <select id="getBusinessAddressByInboundId" parameterType="int" resultType="string">
+        SELECT b.business_address
+        FROM inbound_table i
+                 JOIN product p ON i.product_id = p.product_id
+                 JOIN business_table b ON p.business_id = b.business_id
+        WHERE i.inbound_id = #{inboundId}
+    </select>
 
 </mapper>

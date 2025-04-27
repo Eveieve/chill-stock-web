@@ -78,11 +78,13 @@ public class AdminInboundServiceImpl implements AdminInboundService{
             throw new RuntimeException("관리자 정보를 찾을 수 없습니다. userId = " + userId);
         }
 
-        // 3. 추천 가능한 창고 구역 리스트 조회
-        List<AdminAreaWithRemainDistanceDto> areaList = adminWarehouseService.getAllAdminAreaWithRemainDistance();
+
 
 
         for (Integer inboundId : inboundIds) {
+
+            // 3. 추천 가능한 창고 구역 리스트 조회
+            List<AdminAreaWithRemainDistanceDto> areaList = adminWarehouseService.getAllAdminAreaWithRemainDistance(inboundId);
             // 4. 입고 요청 상세 조회
             AdminInboundRequestVO inbound = adminInboundRepository.findInboundById(inboundId);
             if (inbound == null) {

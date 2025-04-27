@@ -4,6 +4,9 @@
 <body>
 
 <main id="main" class="main">
+    <div id="successAlert" class="alert alert-success fade show text-center mt-3" th:if="${successMessage}">
+        <span th:text="${successMessage}">처리 완료되었습니다.</span>
+    </div>
 
     <div class="pagetitle">
         <h1>입고관리</h1>
@@ -104,7 +107,10 @@
                     </div>
                     <div class="modal-body">
                         <select name="rejectCode" class="form-select" required>
-                            <option th:each="code : ${rejectCodes}" th:value="${code.code}" th:text="${code.msg}"></option>
+                            <option th:each="code : ${rejectCodes}"
+                                    th:value="${code.code}"
+                                    th:text="${code.code + ' - ' + code.msg}">
+                            </option>
                         </select>
                         <!-- ✅ 다중 체크를 고려해서 multiple 선택 가능 -->
                         <input type="hidden" name="inboundIds" id="rejectInboundId"/>
@@ -117,6 +123,8 @@
         </div>
     </div>
 
+
+
     <!-- JavaScript: 모달 띄우기 및 체크된 ID 넘기기 -->
     <script>
         document.getElementById("InboundReject").addEventListener("click", function (e) {
@@ -128,6 +136,18 @@
             }
             document.getElementById("rejectInboundId").value = selected.value.trim();
             new bootstrap.Modal(document.getElementById("rejectModal")).show();
+        });
+    </script>
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const alert = document.getElementById("successAlert");
+            if (alert) {
+                setTimeout(function () {
+                    alert.classList.remove("show"); // 부트스트랩 show 클래스 제거 → 트랜지션 시작
+                    setTimeout(() => alert.remove(), 500); // 0.5초 후 완전히 DOM에서 제거
+                }, 3000); // 3초 후 시작
+            }
         });
     </script>
 

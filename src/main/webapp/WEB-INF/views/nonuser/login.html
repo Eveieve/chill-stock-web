@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="~{admin/fragments/fragment-head :: head}"></head>
     <title>로그인</title>
     <meta charset="UTF-8"/>
-    <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
-    <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.js"></script>
-
 </head>
 <body>
 <h2>로그인</h2>
@@ -26,5 +23,7 @@
     <p style="color:red;">로그인 실패!</p>
 </div>
 
+
+<div th:replace="~{admin/fragments/fragment-foot :: foot}"></div>
 </body>
 </html>

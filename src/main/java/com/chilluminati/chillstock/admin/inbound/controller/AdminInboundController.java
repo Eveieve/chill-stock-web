@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -64,15 +65,17 @@ public class AdminInboundController {
     }
 
     @PostMapping("/inbound/approve")
-    public String approveInbound(@RequestParam("inboundIds") List<Integer> inboundIds) {
+    public String approveInbound(@RequestParam("inboundIds") List<Integer> inboundIds,  RedirectAttributes redirectAttributes) {
         adminInboundService.approveInboundRequests(inboundIds);
+        redirectAttributes.addFlashAttribute("successMessage", "입고 요청이 성공적으로 승인되었습니다.");
         return "redirect:/admin/inbound"; // 승인 후 목록 페이지로 리다이렉트
     }
 
     @PostMapping("/inbound/reject")
     public String rejectInbound(@RequestParam("inboundIds") List<Integer> inboundIds,
-                                @RequestParam("rejectCode") String rejectCode) {
+                                @RequestParam("rejectCode") String rejectCode, RedirectAttributes redirectAttributes) {
         adminInboundService.rejectInboundRequests(inboundIds, rejectCode);
+        redirectAttributes.addFlashAttribute("successMessage", "입고 요청이 반려되었습니다.");
         return "redirect:/admin/inbound"; // 반려 후 목록 페이지로 리다이렉트
     }
 

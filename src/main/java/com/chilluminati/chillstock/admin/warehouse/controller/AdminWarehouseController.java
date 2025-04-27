@@ -1,6 +1,7 @@
 package com.chilluminati.chillstock.admin.warehouse.controller;
 
 
+import com.chilluminati.chillstock.admin.warehouse.dto.AdminAreaDto;
 import com.chilluminati.chillstock.admin.warehouse.dto.AdminAreaWithRemainDistanceDto;
 import com.chilluminati.chillstock.admin.warehouse.dto.AdminWarehouseDto;
 import com.chilluminati.chillstock.admin.warehouse.service.AdminWarehouseService;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -58,25 +60,28 @@ public class AdminWarehouseController {
     public String detailWarehouse(@RequestParam Integer warehouseId, Model model) {
         AdminWarehouseDto adminWarehouseById = adminWarehouseService.getAdminWarehouseById(warehouseId);
         Integer remainSpace = adminWarehouseService.getAdminWarehouseRemainSpaceById(warehouseId).getWarehouseSpaceRemain();
-//        List<AdminAreaWithRemainDistanceDto> areaList = adminWarehouseService.getAllAdminAreaWithRemainDistance();
+        List<AdminAreaDto> areaList = adminWarehouseService.getAreasByWarehouseId(warehouseId);
         model.addAttribute("warehouse", adminWarehouseById);
         model.addAttribute("remainSpace", remainSpace);
-//        model.addAttribute("areaList", areaList);
+        model.addAttribute("areaList", areaList);
         return "admin/warehouse-detail";
     }
 
-    //test
-    @RestController
-    @RequestMapping("/admin/geo")
-    @RequiredArgsConstructor
-    public class GeoController {
-
-        private final GeoService geoService;
-
-        @GetMapping
-        public GeoPoint getGeo(@RequestParam String address) {
-            return geoService.getGeoByAddress(address)
-                    .orElseThrow(() -> new RuntimeException("오오류우"));
-        }
+    /**
+     * 온도 업데이트 기능
+     * @param areaId
+     * @param storageId
+     * @param warehouseId
+     * @param redirectAttributes
+     * @return
+     */
+    @PostMapping("admin/area/update-storage")
+    public String updateStorage(@RequestParam Integer areaId,
+                                @RequestParam Integer storageId,
+                                @RequestParam Integer warehouseId,
+                                RedirectAttributes redirectAttributes) {
+        adminWarehouseService.updateStorageIdByAreaId(areaId, storageId);
+        redirectAttributes.addAttribute("warehouseId", warehouseId);
+        return "redirect:/admin/warehouse/detail";
     }
 }

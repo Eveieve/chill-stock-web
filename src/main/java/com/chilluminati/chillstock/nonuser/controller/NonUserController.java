@@ -89,7 +89,9 @@ public class NonUserController {
      * @return
      */
     @GetMapping("/signup")
-    public String showSignUpForm() {
+    public String showSignUpForm(Model model) {
+        SignUpDTO signupDto = SignUpDTO.builder().build();
+        model.addAttribute("signUpDTO", signupDto);
         return "nonuser/signup";
     }
 
@@ -122,7 +124,7 @@ public class NonUserController {
      * @return
      */
     @PostMapping("/signup") // fetch 아닌 form 방식
-    public String signUp(SignUpDTO signUpDto, Model model) {
+    public String signUp(@ModelAttribute SignUpDTO signUpDto, Model model) {
         try {
             nonUserService.signUp(signUpDto);
             // 같은 뷰에 성공 플래그 전달
@@ -130,6 +132,7 @@ public class NonUserController {
             log.info("회원가입 성공 ##################");
         } catch (SignUpException e) {
             model.addAttribute("errorMessage", e.getErrorCode().getMessage());
+            model.addAttribute("signUpDTO", signUpDto);
             log.info("회원가입 실패 #############");
             log.error(e.getMessage());
 

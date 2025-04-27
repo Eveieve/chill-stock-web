@@ -37,7 +37,7 @@ public class AdminInboundServiceImpl implements AdminInboundService{
     public List<AdminInboundRequestDTO> getInboundList(String status, int page, int size) {
         int offset = (page - 1) * size;
 
-        List<AdminInboundRequestVO> voList = adminInboundRepository.selectInboundList(status, offset, size);
+        List<AdminInboundRequestVO> voList = adminInboundRepository.selectInboundList(status, size , offset);
 
         return voList.stream().map(vo -> AdminInboundRequestDTO.builder()
                 .inboundId(vo.getInboundId())
@@ -129,6 +129,15 @@ public class AdminInboundServiceImpl implements AdminInboundService{
 
         }
 
+    }
+
+    @Override
+    @Transactional
+    public void rejectInboundRequests(List<Integer> inboundIds, String rejectCode) {
+        String rejectMessage = getRejectMessage(rejectCode);
+        for (Integer inboundId : inboundIds) {
+            adminInboundRepository.rejectInbound(inboundId, rejectMessage);
+        }
     }
 
     private String getRejectMessage(String code) {

@@ -123,7 +123,6 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
     @Override
     public List<AdminAreaWithRemainDistanceDto> getAllAdminAreaWithRemainDistance() {
         Integer userId = getAuthUserIdDetails.get();
-
         String userAddress = adminUserRepo.getUserBizById(userId).getBusinessAddress();
 
         GeoPoint userGeoPoint = kakaoGeoService.getGeoByAddress(userAddress).orElseThrow(()->

@@ -14,6 +14,8 @@ public interface AdminInboundService {
     // 입고요청 승인 처리
     void approveInboundRequests(List<Integer> inboundIds);
 
+    void rejectInboundRequests(List<Integer> inboundIds, String rejectCode);
+
 
 
 }

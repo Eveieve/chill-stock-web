@@ -15,4 +15,5 @@ public class AdminAreaDto {
     private Integer areaPrice;    // 구역 가격
     private Integer warehouseId;  // 창고 ID (FK)
     private String storageMessage;    // 보관온도 상세메시지
+    private Integer remainSpace; // 남은공간
 }

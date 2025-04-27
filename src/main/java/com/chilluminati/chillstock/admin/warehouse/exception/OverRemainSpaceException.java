@@ -5,9 +5,6 @@ import lombok.Getter;
 
 @Getter
 public class OverRemainSpaceException extends RuntimeException {
-
-
-
     public OverRemainSpaceException(String message) {
         super(message);
     }

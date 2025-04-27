@@ -6,6 +6,7 @@ import com.chilluminati.chillstock.admin.warehouse.dto.AdminAreaWithRemainDistan
 import com.chilluminati.chillstock.admin.warehouse.dto.AdminWarehouseDto;
 import com.chilluminati.chillstock.admin.warehouse.dto.AdminWarehouseRemainSpaceDto;
 import com.chilluminati.chillstock.admin.warehouse.exception.OverRemainSpaceException;
+import com.chilluminati.chillstock.admin.warehouse.exception.StorageConditionNotFoundException;
 import com.chilluminati.chillstock.admin.warehouse.repository.AdminAreaRepository;
 import com.chilluminati.chillstock.admin.warehouse.repository.AdminWareHouseRepository;
 import com.chilluminati.chillstock.admin.warehouse.vo.*;
@@ -198,8 +199,15 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
                         .warehouseId(adminAreaDto.getWarehouseId()) //히든값 받아야함 **
                         .storageId(createdStorageId) //온도 아이디 **
                 .build());
+    }
 
-
-
+    @Override
+    public Integer findStorageIdByTemperature(Integer temperature) {
+        return adminAreaRepository.AdminGetAllStorages().stream()
+                .filter(adminStorageVo ->
+                        adminStorageVo.getMinTemp() <= temperature && temperature <= adminStorageVo.getMaxTemp())
+                .findFirst()
+                .map(AdminStorageVo::getStorageId)
+                .orElseThrow(() -> new StorageConditionNotFoundException("해당하는 온도를 만족하는 보관조건이 없습니다."));
     }
 }

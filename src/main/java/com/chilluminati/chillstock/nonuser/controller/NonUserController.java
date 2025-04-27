@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -95,11 +97,15 @@ public class NonUserController {
      * @param emailDupDto 사용자가 입력한 이메일 Dto
      * @return 중복이면 true, 중복이 아니면 false
      */
-    @PostMapping("signup/check-email")
-    public boolean checkEmailDuplicate(@RequestBody @Valid EmailDupDTO emailDupDto) {
-        return nonUserService.checkEmailDuplicate(emailDupDto);
-        // 앞으로 넘겨줄때 true 이면 중복 메시지 사용자에게 띄우고, false 이면 중복 아니라는 메시지를 보여준다
-    }
+//    @PostMapping(value = "/signup/check-email", produces = "application/json") // 이 메서드만 제이슨 응답 강제
+//    @ResponseBody
+//    public Map<String, Boolean> checkEmailDuplicate(@RequestBody @Valid EmailDupDTO emailDupDto) {
+//        boolean isDuplicate = nonUserService.checkEmailDuplicate(emailDupDto);
+//        Map<String, Boolean> result = new HashMap<>();
+//        result.put("duplicate", isDuplicate);
+//        return result;
+//    }
+
 
     /**
      * 로그인 아이디 중복 여부를 확인한다

@@ -14,6 +14,5 @@ import javax.validation.constraints.Pattern;
 @Builder
 public class EmailDupDTO {
     @NotBlank(message = "{email.required}")
-    @Email(message = "{email.invalid)")
     private String userEmail;
 }

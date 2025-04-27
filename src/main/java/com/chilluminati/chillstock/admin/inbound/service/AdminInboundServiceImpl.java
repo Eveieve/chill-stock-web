@@ -79,7 +79,7 @@ public class AdminInboundServiceImpl implements AdminInboundService{
         }
 
         // 3. 추천 가능한 창고 구역 리스트 조회
-        List<AdminAreaWithRemainDistanceDto> areaList = adminWarehouseService.getAllAdminAreaWithRemainDistance();
+        List<AdminAreaWithRemainDistanceDto> areaList = adminWarehouseService.getAllAdminAreaWithRemainDistance(2);
 
 
         for (Integer inboundId : inboundIds) {

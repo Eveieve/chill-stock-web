@@ -156,7 +156,7 @@
             <div class="row mb-3">
               <label for="editBusinessAddress" class="col-sm-3 col-form-label text-end">사업장 주소</label>
               <div class="col-sm-9">
-                <input type="text" id="editBusinessAddress" class="form-control" th:value="${user.businessAddress}" required>
+                <input type="text" id="editBusinessAddress" class="form-control" th:value="${user.businessAddress}" required readonly>
                 <button type="button" class="btn btn-outline-secondary mt-2" onclick="execDaumPostcode()">주소 검색</button>
               </div>
             </div>
@@ -164,7 +164,7 @@
             <div class="row mb-4">
               <label for="editBusinessPost" class="col-sm-3 col-form-label text-end">우편번호</label>
               <div class="col-sm-9">
-                <input type="text" id="editBusinessPost" class="form-control" th:value="${user.businessPost}" required>
+                <input type="text" id="editBusinessPost" class="form-control" th:value="${user.businessPost}" required readonly>
               </div>
             </div>
 

@@ -22,7 +22,31 @@
 
                         <h5 class="card-title mb-4">회원 정보</h5>
 
-                        <form id="signUpForm" method="post" class="needs-validation" novalidate>
+                        <!-- signup.html 중폼 위에 추가 -->
+                        <div th:if="${signupSuccess}" class="modal-backdrop fade show"></div>
+                        <div th:if="${signupSuccess}" class="modal fade show" id="signupSuccessModal" tabindex="-1" style="display:block;" aria-modal="true" role="dialog">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content rounded-2xl shadow-lg p-4">
+                                    <div class="modal-header border-0">
+                                        <h5 class="modal-title fw-bold">회원가입 완료</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="mb-0">회원가입이 성공적으로 완료되었습니다.</p>
+                                    </div>
+                                    <div class="modal-footer border-0">
+                                        <!-- 클릭 시 로그인 페이지로 이동 -->
+                                        <button type="button" class="btn btn-primary rounded-2xl px-4 py-2"
+                                                onclick="location.href='/nonuser/login'">
+                                            로그인하러 가기
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <form id="signUpForm" th:action="@{/nonuser/signup}" method="post" class="needs-validation" novalidate>
 
                             <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label text-end">로그인 아이디</label>
@@ -107,7 +131,7 @@
                             </div>
 
                             <div class="text-center">
-                                <button type="button" class="btn btn-primary w-50" onclick="handleSignUp()">가입하기</button>
+                                <button type="submit" class="btn btn-primary w-50">가입하기</button>
                             </div>
 
                         </form>
@@ -118,6 +142,26 @@
         </div>
     </section>
 
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // 폼이 렌더링된 직후 모달을 자동으로 띄워준다
+        if (/*[[${signupSuccess}]]*/ false) {
+            const modalEl = document.getElementById('signupSuccessModal');
+            // 이미 display:block 상태이므로 그냥 모달 배경 제거 없이 닫아도 된다
+            // 필요 시 bootstrap.Modal API 사용 가능
+        }
+        /*]]>*/
+    </script>
+<!--    <script th:inline="javascript">-->
+<!--        /*<![CDATA[*/-->
+<!--        // 플래시 속성으로 넘어온 signupSuccess 값을 확인-->
+<!--        let signupSuccess = /*[[${signupSuccess}]]*/ false;-->
+<!--        if (signupSuccess) {-->
+<!--            const modal = new bootstrap.Modal(document.getElementById('signupSuccessModal'));-->
+<!--            modal.show();-->
+<!--        }-->
+<!--        /*]]>*/-->
+<!--    </script>-->
     <script>
 
 
@@ -316,6 +360,16 @@
         });
     </script>
 
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        // signupSuccess가 true면 모달을 띄운다
+        if (/*[[${signupSuccess}]]*/ false) {
+            const modalEl = document.getElementById('signupSuccessModal');
+            const bsModal = new bootstrap.Modal(modalEl);
+            bsModal.show();
+        }
+        /*]]>*/
+    </script>
 </main>
 </body>
 </html>

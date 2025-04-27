@@ -69,6 +69,11 @@ public class NonUserServiceImpl implements NonUserService {
         if (!signupDto.getUserPassword().equals(signupDto.getUserPasswordCheck())) {
             throw new SignUpException(SignUpErrorCode.PASSWORD_MISMATCH);
         }
+
+        // 중복 로그인 이메일 체크
+        if (userRepo.existsByEmail(signupDto.getUserEmail())){
+            throw new SignUpException(SignUpErrorCode.DUPLICATE_EMAIL);
+        }
         try {
             // 비밀번호 암호화
 
@@ -89,6 +94,7 @@ public class NonUserServiceImpl implements NonUserService {
 
             log.info("##############Sign up successful");
         } catch (Exception e) {
+            log.info(e.getMessage());
             throw new SignUpException(SignUpErrorCode.DATABASE_ERROR);
         }
     }

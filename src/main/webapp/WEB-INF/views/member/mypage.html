@@ -157,6 +157,7 @@
               <label for="editBusinessAddress" class="col-sm-3 col-form-label text-end">사업장 주소</label>
               <div class="col-sm-9">
                 <input type="text" id="editBusinessAddress" class="form-control" th:value="${user.businessAddress}" required>
+                <button type="button" class="btn btn-outline-secondary mt-2" onclick="execDaumPostcode()">주소 검색</button>
               </div>
             </div>
 
@@ -493,6 +494,25 @@
     }
 
 
+  </script>
+
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script>
+    function execDaumPostcode() {
+      new daum.Postcode({
+        oncomplete: function(data) {
+          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+          // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+          var businessAddr = data.roadAddress; // 도로명 주소 변수
+          var businessPost = data.zonecode;
+          // 우편번호와 주소 정보를 해당 필드에 넣는다.
+          document.getElementById("editBusinessAddress").value = businessAddr;
+          document.getElementById("editBusinessPost").value = businessPost;
+        }
+      }).open();
+    }
   </script>
 </main>
 </body>

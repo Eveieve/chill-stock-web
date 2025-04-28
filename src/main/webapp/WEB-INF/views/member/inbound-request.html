@@ -39,6 +39,7 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <!-- ✅ 등록된 제품이 있을 때 -->
                         <tr th:each="product : ${myProducts}">
                             <td th:text="${product.productName}">제품명</td>
                             <td th:text="${product.productSize}">2</td>
@@ -48,39 +49,40 @@
                                 <input type="radio" name="productId" th:value="${product.productId}" required>
                             </td>
                         </tr>
+
+                        <!-- ✅ 등록된 제품이 없을 때 -->
+                        <tr th:if="${#lists.isEmpty(myProducts)}">
+                            <td colspan="5">등록된 제품이 없습니다.</td>
+                        </tr>
                         </tbody>
                     </table>
 
-                    <div class="d-flex justify-content-end">
-                        <label for="amount" class="me-2 align-self-center">수량입력:</label>
-                        <input type="number" id="amount" name="amount" class="form-control w-auto me-2" min="1" required>
-                        <button type="submit" class="btn btn-primary">입고요청</button>
-                    </div>
+                    <!-- ✅ 페이지네이션 (총 페이지 수가 0 이상일 때만 표시) -->
+                    <nav th:if="${totalPages > 0}">
+                        <ul class="pagination justify-content-center mt-4">
 
-                </form>
-                <!-- ✅ 폼 끝 -->
+                            <!-- 이전 버튼 -->
+                            <li class="page-item" th:classappend="${startPage == 1} ? 'disabled'">
+                                <a class="page-link" th:href="@{/member/inbound-request(page=${startPage - 1})}">이전</a>
+                            </li>
 
-                <!-- ✅ 페이지네이션 -->
-                <nav>
-                    <ul class="pagination justify-content-center mt-4">
-                        <!-- 이전 버튼 -->
-                        <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                            <a class="page-link" th:href="@{/member/inbound-request(page=${currentPage - 1})}">이전</a>
-                        </li>
+                            <!-- 페이지 번호 반복 -->
+                            <th:block th:with="startPage=${((currentPage - 1) / 10) * 10 + 1},
+                           endPage=${(startPage + 9) > totalPages ? totalPages : (startPage + 9)}">
+                                <li class="page-item" th:each="i : ${#numbers.sequence(startPage, endPage)}"
+                                    th:classappend="${i == currentPage} ? 'active'">
+                                    <a class="page-link" th:href="@{/member/inbound-request(page=${i})}" th:text="${i}">1</a>
+                                </li>
+                            </th:block>
 
-                        <!-- 페이지 번호 반복 -->
-                        <li class="page-item"
-                            th:each="i : ${#numbers.sequence(1, totalPages)}"
-                            th:classappend="${i == currentPage} ? 'active'">
-                            <a class="page-link" th:href="@{/member/inbound-request(page=${i})}" th:text="${i}">1</a>
-                        </li>
+                            <!-- 다음 버튼 -->
+                            <li class="page-item" th:classappend="${endPage == totalPages} ? 'disabled'">
+                                <a class="page-link" th:href="@{/member/inbound-request(page=${endPage + 1})}">다음</a>
+                            </li>
 
-                        <!-- 다음 버튼 -->
-                        <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                            <a class="page-link" th:href="@{/member/inbound-request(page=${currentPage + 1})}">다음</a>
-                        </li>
-                    </ul>
-                </nav>
+                        </ul>
+                    </nav>
+
 
             </div>
         </div>

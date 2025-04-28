@@ -26,13 +26,11 @@ public class AdminInboundServiceImpl implements AdminInboundService{
     /**
      * 입고 요청 목록 조회
      * @param status 상태 필터 (대기/승인/반려)
-     * @param page 현재 페이지 번호 (1부터 시작)
      * @param size 한 페이지당 조회 수
      * @return 상태에 따른 입고 요청 DTO 리스트
      */
     @Override
-    public List<AdminInboundRequestDTO> getInboundList(String status, int page, int size) {
-        int offset = (page - 1) * size;
+    public List<AdminInboundRequestDTO> getInboundList(String status, int offset, int size) {
 
         List<AdminInboundRequestVO> voList = adminInboundRepository.selectInboundList(status, size , offset);
 

@@ -32,14 +32,13 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item active">메인관리</li>
+        <li class="breadcrumb-item active">출고요청</li>
       </ol>
     </nav>
   </div>
 
   <section class="section dashboard">
     <div class="row">
-      <h5>여기에 메인 화면 구성할 예정</h5>
       <h1>재고 목록</h1>
       <!-- 검색 폼 -->
       <form th:action="@{/member/outbound-request/search}" method="get">
@@ -90,7 +89,7 @@
           <button type="submit" id="requestOutbound" class="btn btn-primary">출고요청</button>
         </div>
       </form>
-      <nav>
+      <nav th:if="${totalPages > 0}">
         <ul class="pagination justify-content-center mt-4">
           <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
             <a class="page-link" th:href="@{/member/outbound-request(page=${currentPage - 1})}">이전</a>

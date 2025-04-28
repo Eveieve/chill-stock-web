@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chilluminati.chillstock.admin.dashboard.DashBoardRepository">
+    <select id="countInbounds" resultType="int">
+        SELECT COUNT(*)
+        FROM inbound_table
+        WHERE inbound_status = '대기'
+    </select>
+
+    <select id="countOutbounds" resultType="int">
+        SELECT COUNT(*)
+        from outbound_table
+        WHERE outbound_status = "대기"
+    </select>
+
+    <select id="countTodayInboundRequests" resultType="int">
+        SELECT COUNT(*)
+        FROM inbound_table
+        WHERE DATE(inbound_request_date) = CURDATE()
+    </select>
+
+    <select id="countTodayOutboundRequests" resultType="int">
+        SELECT COUNT(*)
+        FROM outbound_table
+        WHERE DATE(outbound_request_date) = CURDATE()
+    </select>
+</mapper>

@@ -4,19 +4,17 @@ VALUES
     ('admin001', 'admin1@example.com', '관리자홍', 'pw1', '010-0001-0001', 'ROLE_admin', 'approve', NOW(), NOW()),
     ('admin002', 'admin2@example.com', '관리자이', 'pw2', '010-0002-0002', 'ROLE_admin', 'approve', NOW(), NOW()),
     ('member001', 'mem1@example.com', '김상추', 'pw3', '010-0003-0003', 'ROLE_member', 'approve', NOW(), NOW()),
-    ('member002', 'mem2@example.com', '이당근', 'pw4', '010-0004-0004', 'ROLE_member', 'approve', NOW(), NOW()),
-    ('member003', 'mem3@example.com', '박마늘', 'pw5', '010-0005-0005', 'ROLE_member', 'approve', NOW(), NOW()),
-    ('member004', 'mem4@example.com', '최고기', 'pw6', '010-0006-0006', 'ROLE_member', 'approve', NOW(), NOW()),
-    ('member005', 'mem5@example.com', '장과일', 'pw7', '010-0007-0007', 'ROLE_member', 'approve', NOW(), NOW()),
-    ('member006', 'mem6@example.com', '하해산', 'pw8', '010-0008-0008', 'ROLE_member', 'approve', NOW(), NOW());
+    ('member002', 'mem2@example.com', '이당근', 'pw4', '010-0004-0004', 'ROLE_member', 'pending', NOW(), NOW()),
+    ('member003', 'mem3@example.com', '박마늘', 'pw5', '010-0005-0005', 'ROLE_member', 'pending', NOW(), NOW()),
+    ('member004', 'mem4@example.com', '최고기', 'pw6', '010-0006-0006', 'ROLE_member', 'pending', NOW(), NOW()),
+    ('member005', 'mem5@example.com', '장과일', 'pw7', '010-0007-0007', 'ROLE_member', 'pending', NOW(), NULL),
+    ('member006', 'mem6@example.com', '하해산', 'pw8', '010-0008-0008', 'ROLE_member', 'pending', NOW(), NULL);
 
 -- ✅ 2. admin_table
 INSERT INTO admin_table (admin_hire_date, admin_position, user_id)
 VALUES
-    (CURDATE(), '관리자', 1), (CURDATE(), '입고담당', 2),
-    (CURDATE(), '출고담당', 3), (CURDATE(), '재고관리', 4),
-    (CURDATE(), '품질담당', 5), (CURDATE(), '검수', 6),
-    (CURDATE(), '배송담당', 7), (CURDATE(), '창고장', 8);
+    (CURDATE(), '관리자', 1),
+    (CURDATE(), '입고담당', 2);
 
 -- ✅ 3. business_table
 INSERT INTO business_table (
@@ -105,28 +103,28 @@ VALUES
 INSERT INTO inbound_table (inbound_request_date, inbound_date, inbound_status, admin_id, inbound_amount, product_id, reject_reason_message)
 VALUES
     (NOW(), NOW(), '승인', 1, 10, 1, NULL),
-    (NOW(), NULL, '대기', 2, 15, 2, NULL),
-    (NOW(), NOW(), '반려', 3, 20, 3, 'ERR01'),
-    (NOW(), NOW(), '승인', 4, 25, 4, NULL),
-    (NOW(), NULL, '대기', 5, 30, 5, NULL),
-    (NOW(), NOW(), '반려', 6, 35, 6, 'ERR02'),
-    (NOW(), NOW(), '승인', 7, 40, 7, NULL),
-    (NOW(), NULL, '대기', 8, 45, 8, NULL);
+    (NOW(), NULL, '대기', NULL, 15, 2, NULL),
+    (NOW(), NOW(), '반려', 1, 20, 3, 'ERR01'),
+    (NOW(), NOW(), '승인', 1, 25, 4, NULL),
+    (NOW(), NULL, '대기', NULL, 30, 5, NULL),
+    (NOW(), NOW(), '반려', 1, 35, 6, 'ERR02'),
+    (NOW(), NOW(), '승인', 1, 40, 7, NULL),
+    (NOW(), NULL, '대기', NULL, 45, 8, NULL);
 
 -- ✅ 13. outbound_table
 INSERT INTO outbound_table (outbound_request_date, outbound_date, outbound_status, admin_id, outbound_amount, product_id, reject_reason_message)
 VALUES
     (NOW(), NOW(), '승인', 1, 5, 1, NULL),
-    (NOW(), NULL, '대기', 2, 6, 2, NULL),
-    (NOW(), NOW(), '반려', 3, 7, 3, 'ERR10'),
-    (NOW(), NOW(), '승인', 4, 8, 4, NULL),
-    (NOW(), NULL, '대기', 5, 9, 5, NULL),
-    (NOW(), NOW(), '반려', 6, 10, 6, 'ERR11'),
-    (NOW(), NOW(), '승인', 7, 11, 7, NULL),
-    (NOW(), NULL, '대기', 8, 12, 8, NULL);
+    (NOW(), NULL, '대기', NULL, 6, 2, NULL),
+    (NOW(), NOW(), '반려', 1, 7, 3, 'ERR10'),
+    (NOW(), NOW(), '승인', 1, 8, 4, NULL),
+    (NOW(), NULL, '대기', NULL, 9, 5, NULL),
+    (NOW(), NOW(), '반려', NULL, 10, 6, 'ERR11'),
+    (NOW(), NOW(), '승인', 1, 11, 7, NULL),
+    (NOW(), NULL, '대기', NULL, 12, 8, NULL);
 
 -- ✅ 14. user_backup_table
-INSERT INTO user_backup_table (user_login_id, user_email, user_name, user_phone, deleted_at, approved_at, requested_at)
+INSERT INTO user_backup_table (user_login_id, user_email, user_name, user_phone, deleted_at, user_approved_at, user_requested_at)
 VALUES
     ('olduser1', 'old1@ex.com', '삭제유저1', '010-8888-0001', NOW(), NOW(), NOW()),
     ('olduser2', 'old2@ex.com', '삭제유저2', '010-8888-0002', NOW(), NOW(), NOW()),

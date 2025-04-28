@@ -20,12 +20,12 @@ public class SignUpExceptionHandler {
     @ExceptionHandler(SignUpException.class)
     public String handleSignUpException(SignUpException e, Model model) {
         model.addAttribute("errorMessage", e.getErrorCode().getMessage());
-        return "/nonuser/signupForm"; // 실패 시 다시 회원가입 폼으로
+        return "nonuser/signup"; // 실패 시 다시 회원가입 폼으로
     }
 
     @ExceptionHandler(Exception.class)
     public String handleUnexpectedException(Exception e, Model model) {
         model.addAttribute("errorMessage", "알 수 없는 오류가 발생했습니다.");
-        return "/nonuser/signupForm";
+        return "nonuser/signup";
     }
 }

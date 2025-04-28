@@ -7,12 +7,15 @@ import com.chilluminati.chillstock.member.mypage.repository.MemberMypageRepo;
 import com.chilluminati.chillstock.member.mypage.vo.BizVO;
 import com.chilluminati.chillstock.member.mypage.vo.UserVO;
 import com.chilluminati.chillstock.security.EmailUserDetails;
+import com.chilluminati.chillstock.security.encryption.Encrypt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Service;
 public class MemberMypageServiceImpl implements MemberMypageService {
 
     private final MemberMypageRepo memberMypageRepo;
+    private final Encrypt encrypt;
 
     /***
      * 회원 정보 조회
@@ -30,7 +34,10 @@ public class MemberMypageServiceImpl implements MemberMypageService {
         EmailUserDetails userDetails = getEmailUserDetails();
         Integer userId = userDetails.getUserId(); // extract userId
 
+        log.info("###User ID: {}", userId);
+
         UserVO user = memberMypageRepo.findUserById(userId);
+        log.info("###User: {}", user);
         BizVO biz = memberMypageRepo.findBizByUserId(userId);
 
         UserBizDTO dto = new UserBizDTO();
@@ -48,26 +55,43 @@ public class MemberMypageServiceImpl implements MemberMypageService {
         dto.setBusinessAddress(biz.getBusinessAddress());
         dto.setBusinessPost(biz.getBusinessPost());
 
+        log.info(dto.toString());
         return dto;
     }
 
     /**
      * 회원 비번 변경
+     *
+     * @return
      */
     @Override
-    public void updateMemberPassword(UserPasswordDTO userPasswordDTO) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encryptPassword = encoder.encode(userPasswordDTO.getUserPassword());
+    public Map<String, Object> updateMemberPassword(UserPasswordDTO userPasswordDTO) {
+        Map<String, Object> result = new HashMap<>();
 
-        userPasswordDTO.setUserPassword(encryptPassword);
+        try {
 
-        log.debug("#########################");
-        log.debug("userPassword: {}", userPasswordDTO.getUserPassword());
+            // 암호화된 비밀번호
+            String encryptedPassword = encrypt.encryptPassword(userPasswordDTO.getUserPassword());
+            userPasswordDTO.setUserPassword(encryptedPassword);
 
-        EmailUserDetails userDetails = getEmailUserDetails();
-        Integer userId = userDetails.getUserId();
-        // 1. userId를 기준으로 회원 비밀번호 수정
-        memberMypageRepo.updateUserPassword(userId, userPasswordDTO);
+            log.debug("#########################");
+            log.debug("userPassword: {}", userPasswordDTO.getUserPassword());
+
+            EmailUserDetails userDetails = getEmailUserDetails();
+            Integer userId = userDetails.getUserId();
+
+            // 1. userId를 기준으로 회원 비밀번호 수정
+            memberMypageRepo.updateUserPassword(userId, userPasswordDTO);
+        } catch (Exception e) {
+            log.error("Error while updating user password", e);
+            log.error(e.getMessage());
+
+            result.put("success", false); //실패
+            return result;
+        }
+
+        result.put("success", true); // 성공
+        return result;
     }
 
     /***

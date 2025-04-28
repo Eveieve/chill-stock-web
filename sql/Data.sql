@@ -9,6 +9,7 @@ VALUES
     ('member004', 'mem4@example.com', '최고기', 'pw6', '010-0006-0006', 'ROLE_member', 'pending', NOW(), NOW()),
     ('member005', 'mem5@example.com', '장과일', 'pw7', '010-0007-0007', 'ROLE_member', 'pending', NOW(), NULL),
     ('member006', 'mem6@example.com', '하해산', 'pw8', '010-0008-0008', 'ROLE_member', 'pending', NOW(), NULL);
+update user_table set user_password = '$2a$12$Hxg35ViIW4zrgyvjHV.k6.rz1IxTV6pCMmc2ONNjhz6GWoq8p25v.' where user_login_id = 'admin001';
 
 -- ✅ 2. admin_table
 INSERT INTO admin_table (admin_hire_date, admin_position, user_id)

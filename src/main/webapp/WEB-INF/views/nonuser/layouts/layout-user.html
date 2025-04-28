@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
+
+<div th:replace="~{nonuser/fragments/fragment-head :: head}"></div>
+<body>
+
+<!-- ======= Header ======= -->
+<div th:replace="~{nonuser/fragments/fragment-header :: header}"></div>
+
+<!-- ======= Sidebar ======= -->
+<div th:replace="~{nonuser/fragments/fragment-sidebar :: sidebar}"></div>
+
+<main>
+    <div th:replace="${content}"></div>
+</main>
+
+<!-- ======= Footer ======= -->
+<div th:replace="~{nonuser/fragments/fragment-footer :: footer}"></div>
+
+<div th:replace="~{nonuser/fragments/fragment-foot :: foot}"></div>
+
+
+
+
+</body>
+
+</html>

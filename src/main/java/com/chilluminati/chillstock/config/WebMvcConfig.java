@@ -17,14 +17,6 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 @ComponentScan(basePackages = "com.chilluminati.chillstock")
 public class WebMvcConfig implements WebMvcConfigurer {
 
-//    @Bean
-//    public InternalResourceViewResolver viewResolver() {
-//        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-//        resolver.setPrefix("/WEB-INF/views/");
-//        resolver.setSuffix(".jsp");
-//        return resolver;
-//    }
-
 
 
 

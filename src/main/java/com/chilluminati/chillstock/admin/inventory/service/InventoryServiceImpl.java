@@ -14,9 +14,12 @@ import java.util.stream.Collectors;
 public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
+
     @Override
-    public List<InventoryHistoryDTO> getInventoryHistoryList() {
-        List<InventoryHistoryVO> voList = inventoryRepository.selectInventoryHistory();
+    public List<InventoryHistoryDTO> getInventoryHistoryPaged(int page, int pageSize) {
+        int offset = (page - 1) * pageSize; // 시작 지점 계싼
+
+        List<InventoryHistoryVO> voList = inventoryRepository.selectInventoryHistoryPaged(pageSize,offset);
 
         return voList.stream()
                 .map(vo -> InventoryHistoryDTO.builder()
@@ -29,5 +32,10 @@ public class InventoryServiceImpl implements InventoryService {
                         .handledAt(vo.getHandledAt())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public int getTotalHistoryCount() {
+        return inventoryRepository.countInventoryHistory();
     }
 }

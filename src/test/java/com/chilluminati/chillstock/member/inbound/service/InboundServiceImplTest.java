@@ -3,6 +3,7 @@ package com.chilluminati.chillstock.member.inbound.service;
 import com.chilluminati.chillstock.config.AppConfig;
 import com.chilluminati.chillstock.config.HikariCPConfig;
 import com.chilluminati.chillstock.config.MybatisConfig;
+import com.chilluminati.chillstock.config.WebClientConfig;
 import com.chilluminati.chillstock.member.inbound.dto.InboundRequestDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @ContextConfiguration(classes = {
         AppConfig.class,
         MybatisConfig.class,
-        HikariCPConfig.class  // ← 필요하다면 추가
+        HikariCPConfig.class,  // ← 필요하다면 추가
+        WebClientConfig.class
 })
 @ExtendWith(SpringExtension.class)
 @Slf4j

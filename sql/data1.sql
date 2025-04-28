@@ -48,36 +48,36 @@ VALUES
     (CURDATE(), '관리자', 1);
 
 INSERT INTO business_table (business_regist_num, business_name, business_address, business_post, user_id) VALUES
-                                                                                                              ('123-12-12345', 'SSG', '서울특별시 강남구 가로수길 5', '06035', 2),
-                                                                                                              ('234-23-23456', '롯데', '부산광역시 해운대구 센텀남대로 35', '48058', 3),
-                                                                                                              ('345-34-34567', '신세계', '대구광역시 동구 동대구로 455', '41101', 4),
-                                                                                                              ('456-45-45678', '이마트', '광주광역시 서구 상무대로 884', '61949', 5),
-                                                                                                              ('567-56-56789', '현대백화점', '인천광역시 연수구 송도국제대로 123', '21984', 6),
-                                                                                                              ('678-67-67890', 'CJ', '대전광역시 유성구 대덕대로 512', '34126', 7),
-                                                                                                              ('789-78-78901', 'GS리테일', '울산광역시 남구 삼산로 261', '44719', 8),
-                                                                                                              ('890-89-89012', '코스트코', '경기도 수원시 영통구 덕영대로 1556', '16511', 9),
-                                                                                                              ('901-90-90123', '홈플러스', '경기도 성남시 분당구 판교역로 146', '13524', 10),
+                                                                                                              ('123-12-12345', 'SSG', '서울 강남구 가로수길 5', '06035', 2),
+                                                                                                              ('234-23-23456', '롯데', '부산 해운대구 센텀남대로 35', '48058', 3),
+                                                                                                              ('345-34-34567', '신세계', '대구 동구 동대구로 454', '41101', 4),
+                                                                                                              ('456-45-45678', '이마트', '광주 서구 상무대로 884', '61949', 5),
+                                                                                                              ('567-56-56789', '현대백화점', '인천 연수구 송도국제대로 123', '21984', 6),
+                                                                                                              ('678-67-67890', 'CJ', '대전 유성구 대덕대로 512', '34126', 7),
+                                                                                                              ('789-78-78901', 'GS리테일', '울산 남구 삼산로 261', '44719', 8),
+                                                                                                              ('890-89-89012', '코스트코', '경기 수원시 영통구 덕영대로1556번길 16', '16511', 9),
+                                                                                                              ('901-90-90123', '홈플러스', '경기 성남시 분당구 판교역로146번길 2', '13524', 10),
                                                                                                               ('012-01-01234', '쿠팡', '제주특별자치도 제주시 첨단로 242', '63309', 11),
-                                                                                                              ('123-02-12345', '배달의민족', '서울특별시 마포구 월드컵북로 400', '03925', 12),
-                                                                                                              ('234-03-23456', '마켓컬리', '경기도 용인시 수지구 문인로 45', '16833', 13),
-                                                                                                              ('345-04-34567', '네이버', '경기도 성남시 분당구 불정로 6', '13561', 14),
-                                                                                                              ('456-05-45678', '카카오', '경기도 성남시 분당구 판교역로 235', '13494', 15),
-                                                                                                              ('567-06-56789', '토스', '서울특별시 강남구 테헤란로 142', '06236', 16),
-                                                                                                              ('678-07-67890', '무신사', '서울특별시 성동구 성수일로 77', '04782', 17),
-                                                                                                              ('789-08-78901', '야놀자', '서울특별시 강남구 테헤란로 415', '06160', 18),
-                                                                                                              ('890-09-89012', '쏘카', '서울특별시 마포구 월드컵북로 396', '03925', 19),
-                                                                                                              ('901-10-90123', '11번가', '서울특별시 중구 한강대로 416', '04637', 20),
-                                                                                                              ('012-11-01234', 'G마켓', '서울특별시 구로구 디지털로 300', '08379', 21),
-                                                                                                              ('123-12-22345', '옥션', '서울특별시 구로구 디지털로26길 111', '08380', 22),
-                                                                                                              ('234-13-33456', '티몬', '대전광역시 서구 대덕대로 325', '35229', 23),
-                                                                                                              ('345-14-44567', '위메프', '광주광역시 북구 첨단연신로 160', '61088', 24),
-                                                                                                              ('456-15-55678', 'SSG.COM', '부산광역시 사상구 사상로 310', '46972', 25),
-                                                                                                              ('567-16-66789', '롯데ON', '인천광역시 부평구 경원대로 1367', '21417', 26),
-                                                                                                              ('678-17-77890', '쿠팡이츠', '서울특별시 강서구 공항대로 227', '07803', 27),
-                                                                                                              ('789-18-88901', '배민B마트', '경기도 고양시 일산동구 중앙로 1205', '10442', 28),
-                                                                                                              ('890-19-99012', '배민상회', '경기도 부천시 부천로 3', '14623', 29),
-                                                                                                              ('901-20-00123', '컬리넥스트마일', '경기도 하남시 미사강변서로 20', '12945', 30),
-                                                                                                              ('012-21-11234', '오아시스마켓', '경기도 성남시 수정구 위례광장로 21', '13637', 31);
+                                                                                                              ('123-02-12345', '배달의민족', '서울 마포구 월드컵북로 400', '03925', 12),
+                                                                                                              ('234-03-23456', '마켓컬리', '경기도 용인시 수지구 경부고속도로 ', '16833', 13),
+                                                                                                              ('345-04-34567', '네이버', '경기 성남시 분당구 불정로 6', '13561', 14),
+                                                                                                              ('456-05-45678', '카카오', '경기 성남시 분당구 판교역로 235', '13494', 15),
+                                                                                                              ('567-06-56789', '토스', '서울 강남구 테헤란로 142', '06236', 16),
+                                                                                                              ('678-07-67890', '무신사', '서울 성동구 성수일로 77', '04782', 17),
+                                                                                                              ('789-08-78901', '야놀자', '서울 강남구 테헤란로 415', '06160', 18),
+                                                                                                              ('890-09-89012', '쏘카', '서울 마포구 월드컵북로 396', '03925', 19),
+                                                                                                              ('901-10-90123', '11번가', '서울 중구 한강대로 416', '04637', 20),
+                                                                                                              ('012-11-01234', 'G마켓', '서울 구로구 디지털로 300', '08379', 21),
+                                                                                                              ('123-12-22345', '옥션', '서울 구로구 디지털로26길 111', '08380', 22),
+                                                                                                              ('234-13-33456', '티몬', '대전 서구 대덕대로 325', '35229', 23),
+                                                                                                              ('345-14-44567', '위메프', '광주 북구 첨단연신로107번길 16', '61088', 24),
+                                                                                                              ('456-15-55678', 'SSG.COM', '부산 사상구 사상로 310', '46972', 25),
+                                                                                                              ('567-16-66789', '롯데ON', '인천 부평구 경원대로 1367', '21417', 26),
+                                                                                                              ('678-17-77890', '쿠팡이츠', '서울 강서구 공항대로 227', '07803', 27),
+                                                                                                              ('789-18-88901', '배민B마트', '경기 고양시 일산동구 중앙로 1205', '10442', 28),
+                                                                                                              ('890-19-99012', '배민상회', '경기 부천시 오정구 부천로410번길 3', '14623', 29),
+                                                                                                              ('901-20-00123', '컬리넥스트마일', '경기 하남시 미사강변서로 22', '12945', 30),
+                                                                                                              ('012-21-11234', '오아시스마켓', '경기 성남시 수정구 위례광장로 21', '13637', 31);
 
 INSERT INTO category_main (category_name) VALUES
                                               ('채소'),
@@ -363,16 +363,16 @@ VALUES (11, '바나나', 3, 5, '2025-11-07', 21);
 INSERT INTO product (product_size, product_name, category_mid_id, storage_temperature, expiration_date, business_id)
 VALUES (1, '사과', 15, 15, '2025-07-26', 29);
 
-INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('서울창고', 11642, '서울특별시 중구 세종대로 110', 2250);
-INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('경기창고', 19215, '경기도 수원시 팔달구 효원로 241', 1306);
-INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('강원창고', 16786, '강원도 춘천시 금강로 45', 2503);
-INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('충남창고', 15807, '충청남도 홍성군 홍북읍 충남대로 21', 2212);
-INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('충북창고', 11504, '충청북도 청주시 상당구 상당로 82', 2525);
-INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('경남창고', 11204, '경상남도 창원시 의창구 중앙대로 151', 1562);
-INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('경북창고', 17570, '경상북도 안동시 퇴계로 120', 1861);
-INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('전남창고', 17979, '전라남도 무안군 삼향읍 오룡길 1', 763);
-INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('전북창고', 12247, '전라북도 전주시 완산구 기린대로 227', 2621);
-INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('제주창고', 19629, '제주특별자치도 제주시 중앙로 14', 1960);
+INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('서울창고', 11642, '서울 중구 세종대로 110', 2250);
+INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('경기창고', 19215, '경기 수원시 팔달구 효원로 241', 1306);
+INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('강원창고', 16786, '강원특별자치도 춘천시 금강로 45', 2503);
+INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('충남창고', 15807, '충남 홍성군 홍북읍 충남대로 21', 2212);
+INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('충북창고', 11504, '충북 청주시 상당구 상당로 82', 2525);
+INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('경남창고', 11204, '경남 창원시 의창구 중앙대로 300', 1562);
+INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('경북창고', 17570, '경북 안동시 퇴계로 119', 1861);
+INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('전남창고', 17979, '전남 무안군 삼향읍 오룡길 1', 763);
+INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('전북창고', 12247, '전북특별자치도 전주시 완산구 기린대로 227', 2621);
+INSERT INTO warehouse_table (warehouse_name, warehouse_space, warehouse_address, warehouse_amount) VALUES ('제주창고', 19629, '제주특별자치도 제주시 중앙로1길 14', 1960);
 
 
 

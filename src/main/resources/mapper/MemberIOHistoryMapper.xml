@@ -10,7 +10,8 @@
         from outbound_table o
                  join product p on o.product_id = p.product_id
                  join business_table b on b.business_id = p.business_id
-        where b.user_id = #{userId};
+        where b.user_id = #{userId}
+        order by o.outbound_request_date desc
     </select>
 
     <select id="readInboundRequests" resultType="com.chilluminati.chillstock.member.iohistory.vo.MemberIOHistoryInboundVO">
@@ -18,6 +19,7 @@
         from inbound_table i
                  join product p on i.product_id = p.product_id
                  join business_table b on b.business_id = p.business_id
-        where b.user_id = #{userId};
+        where b.user_id = #{userId}
+        order by i.inbound_request_date desc
     </select>
 </mapper>

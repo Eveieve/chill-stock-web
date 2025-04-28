@@ -28,21 +28,19 @@ public class ProductController {
         int pageSize = 10;
 
         int total = productService.getMyProductCount();
-        int totalPages = (int) Math.ceil((double) total / pageSize );
+        int totalPages = (int) Math.ceil((double) total / pageSize);
 
-        if(page < 1) page = 1; // 나중에 람다로 할 것
-        if(page > totalPages) page = totalPages;
+        page = Math.max(page, 1);
+        if (totalPages > 0) {
+            page = Math.min(page, totalPages);
+        }
 
         List<ProductDTO> products = productService.getMyPagedProducts(page, pageSize);
 
         model.addAttribute("productDTO", new ProductDTO());
-        // 대분류 중분류 리스트 넘겨주기
+
         List<CategoryMainDTO> allMainCategories = productService.getAllMainCategories();
         List<CategoryMidDTO> allMidCategories = productService.getAllMidCategories();
-
-        // ✅ 로그 찍기 (혹시 null이나 []인지 확인용)
-        System.out.println("대분류: " + allMainCategories);
-        System.out.println("중분류: " + allMidCategories);
 
         model.addAttribute("mainCategories", allMainCategories);
         model.addAttribute("midCategories", allMidCategories);
@@ -54,6 +52,7 @@ public class ProductController {
 
         return "member/product-register";
     }
+
 
     /**
      * 제품 등록 처리

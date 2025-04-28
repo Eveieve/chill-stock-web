@@ -15,6 +15,7 @@ public class AdminOutboundDTO {
     private LocalDateTime outbound_request_date;
     private String outbound_status;
     private Integer outbound_amount;
+    private Integer stock_amount;
     private String product_name;
     private String reject_reason_message;
 }

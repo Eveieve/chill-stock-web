@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ public class AdminOutboundServiceImpl implements AdminOutboundService {
                     .outbound_request_date(vo.getOutbound_request_date())
                     .outbound_status(vo.getOutbound_status())
                     .outbound_amount(vo.getOutbound_amount())
+                    .stock_amount(vo.getStock_amount())
                     .product_name(vo.getProduct_name())
                     .reject_reason_message(vo.getReject_reason_message())
                     .build();
@@ -46,6 +48,7 @@ public class AdminOutboundServiceImpl implements AdminOutboundService {
                     .outbound_request_date(vo.getOutbound_request_date())
                     .outbound_status(vo.getOutbound_status())
                     .outbound_amount(vo.getOutbound_amount())
+                    .stock_amount(vo.getStock_amount())
                     .product_name(vo.getProduct_name())
                     .reject_reason_message(vo.getReject_reason_message())
                     .build();
@@ -58,6 +61,7 @@ public class AdminOutboundServiceImpl implements AdminOutboundService {
     }
 
     @Override
+    @Transactional
     public void updateOutboundStatus(String newStatus, Integer outboundId, String rejectReason) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         EmailUserDetails userDetails = (EmailUserDetails) authentication.getPrincipal();
@@ -65,13 +69,13 @@ public class AdminOutboundServiceImpl implements AdminOutboundService {
         Integer adminId = adminOutboundRepository.getAdminId(userId);
 
         if (newStatus.equals("승인")) {
-            adminOutboundRepository.updateOutboundStatus(newStatus, adminId, outboundId, rejectReason);
             List<Map<String, Integer>> stockAndOutboundAmount = adminOutboundRepository.getStockAndOutboundAmount(outboundId);
             Integer revenueAmount = stockAndOutboundAmount.get(0).get("stock_amount");
             Integer outboundAmount = stockAndOutboundAmount.get(0).get("outbound_amount");
             if (revenueAmount < outboundAmount) {
                 throw new RuntimeException("출고수량이 재고수량보다 더 많습니다.");
             } else {
+                adminOutboundRepository.updateOutboundStatus(newStatus, adminId, outboundId, rejectReason);
                 adminOutboundRepository.updateStock(outboundId);
                 if ((revenueAmount - outboundAmount) == 0) {
                     adminOutboundRepository.deleteZeroStock();

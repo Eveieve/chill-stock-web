@@ -35,23 +35,23 @@ public class AdminInboundController {
     public String getInboundList(@RequestParam(required = false) String status,
                                  @RequestParam(defaultValue = "1") Integer page,
                                  Model model) {
+
+
         int pageSize = 10;
 
-
-        int offset = (page - 1) * pageSize;
-
-
         int totalCount = adminInboundService.countInbound(status);
-        int totalPages = (int) Math.ceil((double) totalCount/ pageSize);
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+        //  totalPages 0이면 1로
+        if (totalPages == 0) totalPages = 1;
 
-        // 현재 페이지 보정 (1이상 ,최대 페이지 이하)
+        // 현재 페이지 보정 먼저!
         if (page < 1) page = 1;
         if (page > totalPages) page = totalPages;
 
+        int offset = (page - 1) * pageSize;
+
         // 목록 조회
-        List<AdminInboundRequestDTO> inboundList = adminInboundService.getInboundList(status, page, pageSize);
-        // 🔥 디버깅용 로그 찍기
-        System.out.println("조회된 입고요청 리스트 = " + inboundList);
+        List<AdminInboundRequestDTO> inboundList = adminInboundService.getInboundList(status, offset, pageSize);
         // 타임리프로 전달
         model.addAttribute("inboundList", inboundList);
         model.addAttribute("currentPage", page);

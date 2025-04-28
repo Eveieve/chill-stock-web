@@ -68,11 +68,11 @@
                         </div>
                         <form th:object="${signUpDTO}" id="signUpForm" th:action="@{/nonuser/signup}" method="post" class="needs-validation" novalidate>
                             <div class="row mb-3">
-                                <label class="col-sm-3 col-form-label text-end">로그인 아이디
-                                    <span class="text-danger" style="margin-left:4px;">*</span> <!-- 필수 표시 -->
+                                <label class="col-sm-3 col-form-label text-end">아이디
+<!--                                    <span class="text-danger" style="margin-left:4px;">*</span> &lt;!&ndash; 필수 표시 &ndash;&gt;-->
                                 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="userLoginId" th:field="*{userLoginId}" name="userLoginId" class="form-control" placeholder="아이디를 입력하세요" required>
+                                    <input type="text" id="userLoginId" th:field="*{userLoginId}" name="userLoginId" class="form-control" placeholder="아이디를 입력하세요">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
@@ -88,7 +88,7 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label class="col-sm-3 col-form-label text-end">이메일
+                                <label class="col-sm-3 col-form-label text-end"> 로그인 이메일
                                     <span class="text-danger" style="margin-left:4px;">*</span> <!-- 필수 표시 -->
                                 </label>
                                 <div class="col-sm-9">

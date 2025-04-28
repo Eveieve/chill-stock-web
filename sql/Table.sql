@@ -25,8 +25,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ✅ 회원 테이블
 CREATE TABLE user_table (
                             user_id INT AUTO_INCREMENT PRIMARY KEY,
-                            user_login_id VARCHAR(50) NOT NULL UNIQUE,
-                            user_email VARCHAR(100),
+                            user_login_id VARCHAR(50),
+                            user_email VARCHAR(100) NOT NULL UNIQUE,
                             user_name VARCHAR(30) NOT NULL,
                             user_password VARCHAR(255) NOT NULL,
                             user_phone VARCHAR(20),

@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 @Builder
 public class SignUpDTO {
 
-    @NotBlank(message = "{loginId.required}")
+//    @NotBlank(message = "{loginId.required}")
     @Pattern(regexp = "^[a-zA-Z0-9_]{4,20}$", message = "{loginId.format}")
     private String userLoginId;
 

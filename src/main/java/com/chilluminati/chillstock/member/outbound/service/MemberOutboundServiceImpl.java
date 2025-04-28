@@ -34,7 +34,7 @@ public class MemberOutboundServiceImpl implements MemberOutboundService {
                     .outbound_amount(vo.getOutbound_amount())
                     .product_id(vo.getProduct_id())
                     .product_name(vo.getProduct_name())
-                    .reject_reason_code(vo.getReject_reason_code())
+                    .reject_reason_message(vo.getReject_reason_message())
                     .build();
         }).collect(Collectors.toList());
     }

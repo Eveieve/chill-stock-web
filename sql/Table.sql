@@ -142,14 +142,6 @@ CREATE TABLE stock_table (
                              area_id INT NOT NULL
 );
 
--- ✅ 재고 히스토리 테이블 (stock_history)
-CREATE TABLE stock_history_table (
-                                     stock_id INT NOT NULL,
-                                     change_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-                                     stock_quantity INT NOT NULL,
-                                     change_type ENUM('입고', '출고') NOT NULL,
-                                     PRIMARY KEY (stock_id, change_date)
-);
 
 -- ✅ 회원 백업 테이블
 CREATE TABLE user_backup_table (
@@ -205,9 +197,6 @@ ALTER TABLE stock_table
     ADD CONSTRAINT fk_stock_product FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE,
     ADD CONSTRAINT fk_stock_area FOREIGN KEY (area_id) REFERENCES area_table(area_id) ON DELETE CASCADE;
 
--- 재고 히스토리 FK
-ALTER TABLE stock_history_table
-    ADD CONSTRAINT fk_stock_history_inventory FOREIGN KEY (stock_id) REFERENCES stock_table(stock_id) ON DELETE CASCADE;
 
 
 

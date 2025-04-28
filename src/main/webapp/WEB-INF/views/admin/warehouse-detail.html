@@ -3,6 +3,28 @@
       th:replace="~{admin/layouts/layout-admin :: layout(~{::main})}">
 <body>
 <main id="main" class="main">
+  <!-- 에러 메시지 -->
+  <div id="alertBox"
+       th:if="${errorMessage}"
+       class="alert alert-danger text-center"
+       role="alert"
+       style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: 60%; padding: 8px 16px; font-size: 16px;
+            border-radius: 8px; z-index: 9999;">
+    <p th:text="${errorMessage}" style="margin: 0;"></p>
+  </div>
+
+  <!-- 성공 메시지 -->
+  <div id="successBox"
+       th:if="${successMessage}"
+       class="alert alert-success text-center"
+       role="alert"
+       style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: 60%; padding: 8px 16px; font-size: 16px;
+            border-radius: 8px; z-index: 9999;">
+    <p th:text="${successMessage}" style="margin: 0;"></p>
+  </div>
+
   <div class="pagetitle">
     <h1>창고 상세정보</h1>
     <nav>
@@ -14,57 +36,274 @@
   </div>
 
   <section class="section dashboard">
-    <div class="row g-3 justify-content-start">
+    <div class="row g-2 justify-content-start">
 
-      <div class="col-md-2">
-        <div class="p-3 text-white rounded-4 text-center shadow-sm"
-             style="background-color: rgba(13, 110, 253, 0.8);">
-          <div class="fw-bold">창고 ID</div>
-          <div class="mt-1" th:text="${warehouse.warehouseId}">1</div>
+      <div class="col-md-4">
+        <div class="custom-box">
+          <div class="fw-bold fs-6 mb-1" style="color: #0d3c84;">창고 ID</div>
+          <div class="fs-6" style="color: #0d3c84;" th:text="${warehouse.warehouseId}">1</div>
         </div>
       </div>
 
-      <div class="col-md-2">
-        <div class="p-3 text-white rounded-4 text-center shadow-sm"
-             style="background-color: rgba(13, 110, 253, 0.8);">
-          <div class="fw-bold">창고 이름</div>
-          <div class="mt-1" th:text="${warehouse.warehouseName}">창고 A</div>
+      <div class="col-md-4">
+        <div class="custom-box">
+          <div class="fw-bold fs-6 mb-1" style="color: #0d3c84;">창고 이름</div>
+          <div class="fs-6" style="color: #0d3c84;" th:text="${warehouse.warehouseName}">창고 A</div>
         </div>
       </div>
 
-      <div class="col-md-2">
-        <div class="p-3 text-white rounded-4 text-center shadow-sm"
-             style="background-color: rgba(13, 110, 253, 0.8);">
-          <div class="fw-bold">창고 크기</div>
-          <div class="mt-1" th:text="${warehouse.warehouseSpace + ' ㎡'}">500 ㎡</div>
+      <div class="col-md-4">
+        <div class="custom-box">
+          <div class="fw-bold fs-6 mb-1" style="color: #0d3c84;">창고 크기</div>
+          <div class="fs-6" style="color: #0d3c84;" th:text="${warehouse.warehouseSpace + ' ㎡'}">500 ㎡</div>
         </div>
       </div>
 
-      <div class="col-md-2">
-        <div class="p-3 text-white rounded-4 text-center shadow-sm"
-             style="background-color: rgba(13, 110, 253, 0.8);">
-          <div class="fw-bold">창고 주소</div>
-          <div class="mt-1" th:text="${warehouse.warehouseAddress}">서울특별시...</div>
+      <div class="col-md-4">
+        <div class="custom-box">
+          <div class="fw-bold fs-6 mb-1" style="color: #0d3c84;">창고 주소</div>
+          <div class="fs-6" style="color: #0d3c84;" th:text="${warehouse.warehouseAddress}">서울특별시...</div>
         </div>
       </div>
 
-      <div class="col-md-2">
-        <div class="p-3 text-white rounded-4 text-center shadow-sm"
-             style="background-color: rgba(13, 110, 253, 0.8);">
-          <div class="fw-bold">고정 지출 금액</div>
-          <div class="mt-1" th:text="${#numbers.formatInteger(warehouse.warehouseAmount, 3, 'COMMA') + ' 원'}">100,000 원</div>
+      <div class="col-md-4">
+        <div class="custom-box">
+          <div class="fw-bold fs-6 mb-1" style="color: #0d3c84;">고정 지출 금액</div>
+          <div class="fs-6" style="color: #0d3c84;" th:text="${#numbers.formatInteger(warehouse.warehouseAmount, 3, 'COMMA') + ' 원'}">100,000 원</div>
         </div>
       </div>
 
-      <div class="col-md-2">
-        <div class="p-3 text-white rounded-4 text-center shadow-sm"
-             style="background-color: rgba(13, 110, 253, 0.8);">
-          <div class="fw-bold">남은 공간</div>
-          <div class="mt-1" th:text="${remainSpace + ' ㎡'}">300 ㎡</div>
+      <div class="col-md-4">
+        <div class="custom-box">
+          <div class="fw-bold fs-6 mb-1" style="color: #0d3c84;">남은 공간</div>
+          <div class="fs-6" style="color: #0d3c84;" th:text="${remainSpace + ' ㎡'}">300 ㎡</div>
         </div>
       </div>
+
     </div>
   </section>
+
+  <style>
+    .custom-box {
+      background-color: rgba(100, 149, 237, 0.25);
+      height: 80px;
+      width: 80%;
+      padding: 12px;
+      border-radius: 1rem;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      word-break: break-word;
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+
+    .custom-box:hover {
+      background-color: rgba(100, 149, 237, 0.35); /* hover 시 배경 살짝 밝게 */
+      transform: translateY(-4px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+  </style>
+
+
+  <h4 class="col-12 align-center" style="color: #0d3c84; margin-top: 30px;">구역 리스트</h4>
+
+  <div class="col-12 mb-3"></div>
+    <button type="button" class="btn btn-primary" onclick="openStorageModal()">온도 변경</button>
+    <button type="button" class="btn btn-primary" onclick="openRegisterAreaModal()">구역 등록</button>
+  </div>
+
+  <div class="col-12 mt-4">
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle text-center">
+        <thead class="table-light">
+        <tr>
+          <th>구역 번호</th>
+          <th>구역 크기(m2)</th>
+          <th>구역 코드</th>
+          <th>구역 가격(m2/원)</th>
+          <th>보관 온도</th>
+          <th>남은 공간(m2)</th>
+          <th>선택</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="areaList, stat : ${areaList}">
+          <td th:text="${areaList.areaId}">id</td>
+          <td th:text="${areaList.areaSpace}">구역 공간</td>
+          <td th:text="${areaList.areaCode}">구역 코드</td>
+          <td th:text="${areaList.areaPrice}">가격</td>
+          <td th:text="${areaList.storageMessage}">온도</td>
+          <td th:text="${areaList.remainSpace}">남은 공간</td>
+          <td>
+            <input type="radio" name="selectedArea"
+                   th:value="${areaList.areaId}"
+                   th:attr="data-warehouse-id=${areaList.warehouseId}">
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(areaList)}">
+          <td colspan="6">등록된 구역이 없습니다.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 온도 변경 모달 -->
+  <div class="modal fade" id="storageModal" tabindex="-1" aria-labelledby="storageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form id="storageUpdateForm" method="post" th:action="@{/admin/area/update-storage}">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="storageModalLabel">보관 온도 변경</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="selectedAreaId" name="areaId">
+            <input type="hidden" id="selectedStorageId" name="storageId">
+            <input type="hidden" id="selectedWarehouseId" name="warehouseId">
+
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+              <button type="button" class="btn btn-outline-primary storage-btn" data-id="1">Ultra-Low_Temp</button>
+              <button type="button" class="btn btn-outline-primary storage-btn" data-id="2">Frozen_Storage</button>
+              <button type="button" class="btn btn-outline-primary storage-btn" data-id="3">Refrigerated_Storage</button>
+              <button type="button" class="btn btn-outline-primary storage-btn" data-id="4">Cool_Storage</button>
+              <button type="button" class="btn btn-outline-primary storage-btn" data-id="5">Room_Temperature</button>
+              <button type="button" class="btn btn-outline-primary storage-btn" data-id="6">Heated_Storage</button>
+            </div>
+
+            <div class="mt-3 text-center">
+              <small style="color: gray;">변경할 보관 온도를 선택해주세요</small>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="confirmButton" disabled>변경</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 구역 등록 모달 -->
+  <div class="modal fade" id="registerAreaModal" tabindex="-1" aria-labelledby="registerAreaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form id="registerAreaForm" method="post" th:action="@{/admin/area/register}">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="registerAreaModalLabel">구역 등록</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+
+            <!-- 창고 ID (숨김) -->
+            <input type="hidden" name="warehouseId" th:value="${warehouse.warehouseId}">
+
+            <div class="mb-3">
+              <label for="areaSpace" class="form-label">구역 크기 (㎡)</label>
+              <input type="number" class="form-control" id="areaSpace" name="areaSpace" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="areaPrice" class="form-label">구역 가격 (㎡당 원)</label>
+              <input type="number" class="form-control" id="areaPrice" name="areaPrice" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">보관 온도 선택</label>
+              <div class="d-flex flex-wrap gap-2 justify-content-center">
+                <button type="button" class="btn btn-outline-primary storage-select-btn" data-message="Ultra-Low_Temp">Ultra-Low_Temp</button>
+                <button type="button" class="btn btn-outline-primary storage-select-btn" data-message="Frozen_Storage">Frozen_Storage</button>
+                <button type="button" class="btn btn-outline-primary storage-select-btn" data-message="Refrigerated_Storage">Refrigerated_Storage</button>
+                <button type="button" class="btn btn-outline-primary storage-select-btn" data-message="Cool_Storage">Cool_Storage</button>
+                <button type="button" class="btn btn-outline-primary storage-select-btn" data-message="Room_Temperature">Room_Temperature</button>
+                <button type="button" class="btn btn-outline-primary storage-select-btn" data-message="Heated_Storage">Heated_Storage</button>
+              </div>
+            </div>
+
+            <!-- storageMessage (숨겨진 input) -->
+            <input type="hidden" name="storageMessage" id="storageMessage" required>
+
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="registerButton" disabled>등록</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // 온도 버튼 클릭 시 선택
+    document.querySelectorAll('.storage-select-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.storage-select-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById('storageMessage').value = this.getAttribute('data-message');
+        document.getElementById('registerButton').disabled = false;
+      });
+    });
+
+    // 구역 등록 모달 열기 함수
+    function openRegisterAreaModal() {
+      const modal = new bootstrap.Modal(document.getElementById('registerAreaModal'));
+      modal.show();
+    }
+  </script>
+
+  <script>
+    function openStorageModal() {
+      const selectedRadio = document.querySelector('input[name="selectedArea"]:checked');
+      if (!selectedRadio) {
+        alert("변경할 구역을 선택해주세요.");
+        return;
+      }
+      document.getElementById('selectedAreaId').value = selectedRadio.value;
+      document.getElementById('selectedWarehouseId').value = selectedRadio.getAttribute('data-warehouse-id');
+
+      // 초기화
+      document.getElementById('selectedStorageId').value = "";
+      document.querySelectorAll('.storage-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('confirmButton').disabled = true;
+
+      const modal = new bootstrap.Modal(document.getElementById('storageModal'));
+      modal.show();
+    }
+
+    document.querySelectorAll('.storage-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.storage-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById('selectedStorageId').value = this.getAttribute('data-id');
+        document.getElementById('confirmButton').disabled = false;
+      });
+    });
+  </script>
+
+  <script>
+    function fadeOut(element) {
+      let opacity = 1;
+      const timer = setInterval(() => {
+        if (opacity <= 0.1) {
+          clearInterval(timer);
+          element.style.display = 'none';
+        }
+        element.style.opacity = opacity;
+        opacity -= 0.05;
+      }, 50); // 50ms마다 조금씩 투명하게
+    }
+
+    const alertBox = document.getElementById('alertBox');
+    if (alertBox) {
+      setTimeout(() => fadeOut(alertBox), 5000); // 5초 후 부드럽게 사라짐
+    }
+
+    const successBox = document.getElementById('successBox');
+    if (successBox) {
+      setTimeout(() => fadeOut(successBox), 5000);
+    }
+  </script>
+
 </main>
 </body>
 </html>

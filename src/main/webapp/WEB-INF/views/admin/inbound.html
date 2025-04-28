@@ -2,9 +2,16 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{admin/layouts/layout-admin :: layout(~{::main})}">
 <body>
-<main id="main" class="main">
 
-    <!-- ✅ 페이지 타이틀 -->
+<main id="main" class="main">
+    <div id="successAlert" class="alert alert-success fade show text-center mt-3" th:if="${successMessage}">
+        <span th:text="${successMessage}">처리 완료되었습니다.</span>
+    </div>
+    <!-- 에러 메시지 띄우기 추가 -->
+    <div id="errorAlert" class="alert alert-danger fade show text-center mt-3" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">오류가 발생했습니다.</span>
+    </div>
+
     <div class="pagetitle">
         <h1>입고관리</h1>
         <nav>
@@ -15,76 +22,160 @@
         </nav>
     </div>
 
-    <!-- ✅ 본문 컨텐츠 -->
     <section class="section dashboard">
-        <div class="row mb-3">
-            <div class="col-auto">
-                <button class="btn btn-primary">대기중인 요청 보기</button>
-            </div>
-            <div class="col-auto">
-                <button class="btn btn-success">요청 승인</button>
-            </div>
-            <div class="col-auto">
-                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">반려</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">입고 요청 리스트</h5>
-
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>요청ID</th>
-                            <th>화주ID</th>
-                            <th>제품명</th>
-                            <th>수량</th>
-                            <th>요청일</th>
-                            <th>추천구역</th>
-                            <th>상태</th>
-                            <th>체크</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>#103</td>
-                            <td>김00</td>
-                            <td>냉동만두</td>
-                            <td>100</td>
-                            <td>2025-04-14</td>
-                            <td>서울1창고 - A-1</td>
-                            <td><span class="badge bg-warning text-dark">대기</span></td>
-                            <td><input class="form-check-input" type="checkbox"/></td>
-                        </tr>
-                        <!-- 반복 데이터는 이후 타임리프로 구현 -->
-                        </tbody>
-                    </table>
+        <div class="row">
+            <!-- 상태별 조회 (드롭다운) -->
+            <form th:action="@{/admin/inbound}" method="get">
+                <div class="input-group mb-3" style="max-width: 300px;">
+                    <select class="form-select" name="status" onchange="this.form.submit()">
+                        <option value="">전체</option>
+                        <option value="대기" th:selected="${status == '대기'}">대기</option>
+                        <option value="승인" th:selected="${status == '승인'}">승인</option>
+                        <option value="반려" th:selected="${status == '반려'}">반려</option>
+                    </select>
                 </div>
-            </div>
+            </form>
+
+            <!-- 승인/반려 폼 -->
+            <form id="inboundForm" method="post" th:action="@{/admin/inbound/approve}">
+                <table class="table table-bordered table-hover align-middle text-center">
+                    <thead class="table-light">
+                    <tr>
+                        <th>입고 ID</th>
+                        <th>입고 요청일</th>
+                        <th>입고 상태</th>
+                        <th>입고 수량</th>
+                        <th>제품명</th>
+                        <th>사업체 ID</th>
+                        <th>반려 사유</th>
+                        <th>선택</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="inbound : ${inboundList}">
+                        <td th:text="${inbound.inboundId}"></td>
+                        <td th:text="${#temporals.format(inbound.inboundRequestDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:text="${inbound.inboundStatus}"
+                            th:classappend="|
+                             ${inbound.inboundStatus == '대기' ? 'text-warning' : ''}
+                             ${inbound.inboundStatus == '승인' ? 'text-success' : ''}
+                             ${inbound.inboundStatus == '반려' ? 'text-danger' : ''}
+                                |">
+                        </td>
+                        <td th:text="${inbound.inboundAmount}"></td>
+                        <td th:text="${inbound.productName}"></td>
+                        <td th:text="${inbound.businessId}"></td>
+                        <td th:text="${inbound.rejectReasonMessage}"></td>
+                        <td>
+                            <!--  체크박스 multiple 선택 가능하게 수정 -->
+                            <input type="checkbox"
+                                   class="stock-checkbox"
+                                   name="inboundIds"
+                                   th:value="${inbound.inboundId}"
+                                   th:disabled="${inbound.inboundStatus == '승인'}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!-- 버튼 -->
+                <div class="d-flex justify-content-end align-items-center gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary" name="action" value="approve">승인</button>
+                    <button type="button" id="InboundReject" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#rejectModal">반려
+                    </button>
+                </div>
+            </form>
+
+            <!-- 페이징 -->
+            <nav>
+                <ul class="pagination justify-content-center mt-4">
+                    <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/admin/inbound(page=${currentPage - 1})}">이전</a>
+                    </li>
+
+                    <th:block th:with="startPage=${((currentPage - 1) / 10) * 10 + 1},
+                              endPage=${(startPage + 9) > totalPages ? totalPages : (startPage + 9)}">
+                        <li class="page-item" th:each="i : ${#numbers.sequence(startPage, endPage)}"
+                            th:classappend="${i == currentPage} ? 'active'">
+                            <a class="page-link" th:href="@{/admin/inbound(page=${i})}" th:text="${i}"></a>
+                        </li>
+                    </th:block>
+
+                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/admin/inbound(page=${currentPage + 1})}">다음</a>
+                    </li>
+                </ul>
+            </nav>
+
         </div>
     </section>
 
-    <!-- ✅ 반려 모달 -->
-    <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <!-- 반려 모달 -->
+    <div class="modal fade" id="rejectModal" tabindex="-1"
+         aria-labelledby="rejectModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="rejectModalLabel">반려 사유 입력</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <textarea class="form-control" rows="4" placeholder="반려 사유를 입력하세요..."></textarea>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    <button type="button" class="btn btn-danger">반려 확정</button>
-                </div>
+                <form id="rejectForm" method="post" th:action="@{/admin/inbound/reject}">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="rejectModalLabel">반려 사유 선택</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <select name="rejectCode" class="form-select" required>
+                            <option th:each="code : ${rejectCodes}"
+                                    th:value="${code.code}"
+                                    th:text="${code.code + ' - ' + code.msg}">
+                            </option>
+                        </select>
+                        <!-- ✅ 다중 체크를 고려해서 multiple 선택 가능 -->
+                        <input type="hidden" name="inboundIds" id="rejectInboundId"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">반려 확정</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
+
+    <!-- JavaScript: 모달 띄우기 및 체크된 ID 넘기기 -->
+    <script>
+        document.getElementById("InboundReject").addEventListener("click", function (e) {
+            e.preventDefault();
+            const selected = document.querySelector('input[name="inboundIds"]:checked');
+            if (!selected) {
+                alert("입고 요청을 선택하세요.");
+                return;
+            }
+            document.getElementById("rejectInboundId").value = selected.value.trim();
+            new bootstrap.Modal(document.getElementById("rejectModal")).show();
+        });
+    </script>
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const successAlert = document.getElementById("successAlert");
+            const errorAlert = document.getElementById("errorAlert");
+
+            if (successAlert) {
+                setTimeout(function () {
+                    successAlert.classList.remove("show");
+                    setTimeout(() => successAlert.remove(), 500);
+                }, 3000);
+            }
+
+            if (errorAlert) {  // 에러 메시지용 추가
+                setTimeout(function () {
+                    errorAlert.classList.remove("show");
+                    setTimeout(() => errorAlert.remove(), 500);
+                }, 3000);
+            }
+        });
+    </script>
+
 </main>
+
 </body>
 </html>

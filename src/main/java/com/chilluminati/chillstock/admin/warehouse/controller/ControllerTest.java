@@ -17,6 +17,6 @@ public class ControllerTest {
 
     @GetMapping("/member/test")
     public List<AdminAreaWithRemainDistanceDto> getAllAdminAreaWithRemainDistance() {
-        return adminWarehouseService.getAllAdminAreaWithRemainDistance();
+        return adminWarehouseService.getAllAdminAreaWithRemainDistance(2);
     }
 }

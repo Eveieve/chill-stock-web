@@ -5,27 +5,19 @@ import com.chilluminati.chillstock.admin.warehouse.dto.AdminAreaDto;
 import com.chilluminati.chillstock.admin.warehouse.dto.AdminAreaWithRemainDistanceDto;
 import com.chilluminati.chillstock.admin.warehouse.dto.AdminWarehouseDto;
 import com.chilluminati.chillstock.admin.warehouse.dto.AdminWarehouseRemainSpaceDto;
+import com.chilluminati.chillstock.admin.warehouse.exception.OverRemainSpaceException;
+import com.chilluminati.chillstock.admin.warehouse.exception.StorageConditionNotFoundException;
 import com.chilluminati.chillstock.admin.warehouse.repository.AdminAreaRepository;
 import com.chilluminati.chillstock.admin.warehouse.repository.AdminWareHouseRepository;
-import com.chilluminati.chillstock.admin.warehouse.service.func.ListMapperService;
-import com.chilluminati.chillstock.admin.warehouse.service.func.WarehouseDtoToVo;
-import com.chilluminati.chillstock.admin.warehouse.vo.AdminAreaSpaceRemainVo;
-import com.chilluminati.chillstock.admin.warehouse.vo.AdminAreaVo;
-import com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseSpaceRemainVo;
-import com.chilluminati.chillstock.admin.warehouse.vo.AdminWarehouseVo;
+import com.chilluminati.chillstock.admin.warehouse.service.cache.StorageCache;
+import com.chilluminati.chillstock.admin.warehouse.vo.*;
 import com.chilluminati.chillstock.common.ResultList;
-import com.chilluminati.chillstock.security.EmailUserDetails;
 import com.chilluminati.chillstock.webclient.GeoPoint;
 import com.chilluminati.chillstock.webclient.KakaoGeoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -44,6 +36,10 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
     private final Function<AdminWarehouseVo, AdminWarehouseDto> warehouseVoToDto;
     private final BiFunction<List<AdminWarehouseVo>, Function<AdminWarehouseVo, AdminWarehouseDto>, List<AdminWarehouseDto>> listMapperService;
     private final Supplier<Integer> getAuthUserIdDetails;
+    private final Function<List<AdminStorageVo>, Map<Integer,String>> listToMapStorage;
+    private final Function<List<AdminStorageVo>, Map<String,Integer>> listToMapStorageReverse;
+    private final BiFunction< Integer,Integer, String> createAreaCode;
+    private final StorageCache storageCache;
 
     @Override
     public void registerWarehouse(AdminWarehouseDto adminWarehouseDto) {
@@ -121,10 +117,8 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
     }
 
     @Override
-    public List<AdminAreaWithRemainDistanceDto> getAllAdminAreaWithRemainDistance() {
-        Integer userId = getAuthUserIdDetails.get();
-
-        String userAddress = adminUserRepo.getUserBizById(userId).getBusinessAddress();
+    public List<AdminAreaWithRemainDistanceDto> getAllAdminAreaWithRemainDistance(Integer inboundId) {
+        String userAddress = adminAreaRepository.getBusinessAddressByInboundId(inboundId);
 
         GeoPoint userGeoPoint = kakaoGeoService.getGeoByAddress(userAddress).orElseThrow(()->
                 new RuntimeException("해당 주소 유효하지 않음"));
@@ -136,6 +130,8 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
                         AdminAreaSpaceRemainVo::getRemainSpace
                 ));
 
+
+
         return adminAreaRepository.AdminGetAllAreas().stream().map(
                 vo -> AdminAreaWithRemainDistanceDto.builder()
                         .areaId(vo.getAreaId())
@@ -146,8 +142,8 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
                         .storageId(vo.getStorageId())
                         .remainSpace(remainSpaceMap.get(vo.getAreaId()))
                         .distance(userGeoPoint.distanceTo(kakaoGeoService.getGeoByAddress(
-                                adminWareHouseRepository.adminGetWarehouseById(vo.getAreaId())
-                                        .orElseThrow(()->new RuntimeException("해당 창고아이디 없음"))
+                                adminWareHouseRepository.adminGetWarehouseById(vo.getWarehouseId())
+                                        .orElseThrow(()-> new RuntimeException("해당 창고아이디 없음"))
                                         .getWarehouseAddress()
                                 ).orElseThrow(()->new NoSuchElementException("해당 유저아이디 없음")
                         )))
@@ -155,8 +151,62 @@ public class AdminWarehouseServiceImp implements AdminWarehouseService{
         ).collect(Collectors.toList());
     }
 
-//    List<AdminAreaDto> getAllArea(){
-//        List<AdminAreaVo> adminAreaVos = adminAreaRepository.AdminGetAllAreas();
-//
-//    }
+    @Override
+    public List<AdminAreaDto> getAreasByWarehouseId(Integer warehouseId){
+        List<AdminStorageVo> adminStorageVos = adminAreaRepository.AdminGetAllStorages();
+
+        Map<Integer, Integer> remainSpaceMap = adminAreaRepository.getAllAdminAreaSpaceUsage().stream()
+                .collect(Collectors.toMap(
+                        AdminAreaSpaceRemainVo::getAreaId,
+                        AdminAreaSpaceRemainVo::getRemainSpace
+                ));
+
+        //구역리스트 아이디값 메시지로 변환
+        return adminAreaRepository.AdminGetAreaById(warehouseId).stream().map((vo) -> AdminAreaDto.builder()
+                        .areaId(vo.getAreaId())
+                        .areaSpace(vo.getAreaSpace())
+                        .areaCode(vo.getAreaCode())
+                        .areaPrice(vo.getAreaPrice())
+                        .warehouseId(vo.getWarehouseId())
+                        .storageMessage(listToMapStorage.apply(adminStorageVos).get(vo.getStorageId()))
+                        .remainSpace(remainSpaceMap.get(vo.getAreaId()))
+                .build()).collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateStorageIdByAreaId(Integer areaId, Integer storageId) {
+        adminAreaRepository.updateStorageIdByAreaId(areaId, storageId);
+    }
+
+    @Override
+    public void registerAdminArea(AdminAreaDto adminAreaDto) {
+        //보관 온도 테이블
+        List<AdminStorageVo> adminStorageVos = adminAreaRepository.AdminGetAllStorages();
+        Integer createdStorageId = listToMapStorageReverse.apply(adminStorageVos).get(adminAreaDto.getStorageMessage());
+
+        //남은공간
+        Integer remainSpace = adminAreaRepository
+                .getAdminWarehouseSpaceUsageById(adminAreaDto.getWarehouseId())
+                .orElseThrow(() -> new NoSuchElementException("해당 ID에 대한 창고 공간 사용 정보를 찾을 수 없습니다."))
+                .getRemainSpace();
+
+        adminAreaRepository.createArea(AdminAreaVo.builder()
+                        .areaSpace(Optional.of(adminAreaDto.getAreaSpace())
+                                .filter(areaSpace ->
+                                        areaSpace <= remainSpace)
+                                .orElseThrow(() ->
+                                        new OverRemainSpaceException("남은 공간보다 큰 값을 입력하셨습니다."))) // 직접입력 (체크)
+                        .areaCode(createAreaCode.apply(createdStorageId,adminAreaDto.getWarehouseId())) // 코드생성기 **
+                        .areaPrice(adminAreaDto.getAreaPrice()) //직접 입력 **
+                        .warehouseId(adminAreaDto.getWarehouseId()) //히든값 받아야함 **
+                        .storageId(createdStorageId) //온도 아이디 **
+                .build());
+    }
+
+    @Override
+    public Integer findStorageIdByTemperature(Integer temperature) {
+        return storageCache.findSuitableStorage(temperature)
+                .map(AdminStorageVo::getStorageId)
+                .orElseThrow(() -> new StorageConditionNotFoundException("해당하는 온도를 만족하는 보관조건이 없습니다."));
+    }
 }

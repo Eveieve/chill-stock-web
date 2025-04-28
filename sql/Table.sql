@@ -210,8 +210,5 @@ ALTER TABLE stock_history_table
     ADD CONSTRAINT fk_stock_history_inventory FOREIGN KEY (stock_id) REFERENCES stock_table(stock_id) ON DELETE CASCADE;
 
 
-ALTER TABLE inbound_table MODIFY admin_id INT NULL;
-ALTER TABLE outbound_table MODIFY COLUMN admin_id INT NULL;
--- null 허용 가능
 
 

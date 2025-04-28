@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="chillstockDB" uuid="64e4d9e1-815e-424c-b7f7-573bf1a30130">
+    <data-source source="LOCAL" name="chillstockDB" uuid="b78ae097-7acc-4e31-97a5-b68c1ad87c96">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>

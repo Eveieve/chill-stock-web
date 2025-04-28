@@ -52,7 +52,7 @@
                         <td th:text="${stock.inbound_date}"></td>
                         <td>
                             <!-- 라디오버튼 (동일한 name으로 하나만 선택됨) -->
-                            <input type="radio" class="stock-radio" name="productId" th:value="${stock.product_id}" required/>
+                            <input type="radio" class="stock-radio" name="productId" th:value="${stock.product_id + ',' + stock.stock_amount}" required/>
                         </td>
                     </tr>
                     </tbody>

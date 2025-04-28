@@ -52,6 +52,7 @@ class AdminOutboundServiceImplTest {
                     .outbound_request_date(vo.getOutbound_request_date())
                     .outbound_status(vo.getOutbound_status())
                     .outbound_amount(vo.getOutbound_amount())
+                    .stock_amount(vo.getStock_amount())
                     .product_name(vo.getProduct_name())
                     .reject_reason_message(vo.getReject_reason_message())
                     .build();
@@ -78,6 +79,7 @@ class AdminOutboundServiceImplTest {
                     .outbound_request_date(vo.getOutbound_request_date())
                     .outbound_status(vo.getOutbound_status())
                     .outbound_amount(vo.getOutbound_amount())
+                    .stock_amount(vo.getStock_amount())
                     .product_name(vo.getProduct_name())
                     .reject_reason_message(vo.getReject_reason_message())
                     .build();

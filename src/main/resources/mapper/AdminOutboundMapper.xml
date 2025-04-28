@@ -9,6 +9,7 @@
         from outbound_table o
             join product p on o.product_id = p.product_id
             join stock_table s on s.product_id = p.product_id
+        order by o.outbound_request_date desc
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
@@ -20,6 +21,7 @@
         <if test="status != null and status != ''">
             where o.outbound_status = #{status}
         </if>
+        order by o.outbound_request_date desc
         LIMIT #{limit} OFFSET #{offset}
     </select>
 

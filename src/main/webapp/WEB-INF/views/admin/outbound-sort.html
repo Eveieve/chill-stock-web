@@ -53,7 +53,13 @@
             <td th:text="${outbound.outbound_id}"></td>
             <td th:text="${outbound.outbound_date}"></td>
             <td th:text="${outbound.outbound_request_date}"></td>
-            <td th:text="${outbound.outbound_status}"></td>
+            <td th:text="${outbound.outbound_status}"
+                th:classappend="|
+                             ${outbound.outbound_status == '대기' ? 'text-warning' : ''}
+                             ${outbound.outbound_status == '승인' ? 'text-success' : ''}
+                             ${outbound.outbound_status == '반려' ? 'text-danger' : ''}
+                                |">
+            </td>
             <td th:text="${outbound.outbound_amount}"></td>
             <td th:text="${outbound.stock_amount}"></td>
             <td th:text="${outbound.product_name}"></td>
@@ -64,6 +70,7 @@
                      class="stock-radio"
                      name="outboundId"
                      th:value="${outbound.outbound_id}"
+                     th:disabled="${outbound.outbound_status == '승인' or outbound.outbound_status == '반려'}"
                      required/>
             </td>
           </tr>

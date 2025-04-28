@@ -10,6 +10,7 @@ import com.chilluminati.chillstock.nonuser.repository.BizRepo;
 import com.chilluminati.chillstock.nonuser.repository.UserRepo;
 import com.chilluminati.chillstock.nonuser.vo.BizVO;
 import com.chilluminati.chillstock.nonuser.vo.UserVO;
+import com.chilluminati.chillstock.security.encryption.Encrypt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -24,10 +25,14 @@ public class NonUserServiceImpl implements NonUserService {
     private final UserRepo userRepo;
     private final BizRepo bizRepo;
     private final ModelMapper modelMapper;
+    private final Encrypt encrypt;
 
     @Override
     public boolean checkEmailDuplicate(EmailDupDTO dto) {
-        return userRepo.existsByEmail(dto.getUserEmail());
+        boolean isDuplicate = userRepo.existsByEmail(dto.getUserEmail());
+
+       return isDuplicate;
+
     }
 
 
@@ -64,12 +69,21 @@ public class NonUserServiceImpl implements NonUserService {
         if (!signupDto.getUserPassword().equals(signupDto.getUserPasswordCheck())) {
             throw new SignUpException(SignUpErrorCode.PASSWORD_MISMATCH);
         }
+
+        // 중복 로그인 이메일 체크
+        if (userRepo.existsByEmail(signupDto.getUserEmail())){
+            throw new SignUpException(SignUpErrorCode.DUPLICATE_EMAIL);
+        }
+
+        // 사업자 번호 중복 체크
+        if (userRepo.existsByEmail(signupDto.getUserEmail())){
+            throw new SignUpException(SignUpErrorCode.DUPLICATE_BUSINESS_REGIST_NUM);
+        }
         try {
             // 비밀번호 암호화
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            String encryptPassword = encoder.encode(signupDto.getUserPassword());
+
             // 암호화한 비밀번호 디티오에 세팅
-            signupDto.setUserPassword(encryptPassword);
+            signupDto.setUserPassword(encrypt.encryptPassword(signupDto.getUserPassword()));
 
             log.debug("#########################");
             log.debug("userPassword: {}", signupDto.getUserPassword());
@@ -82,7 +96,10 @@ public class NonUserServiceImpl implements NonUserService {
             bizVO.setUserId(userVo.getUserId());  // 명시적으로 userId 세팅
             bizRepo.insertBiz(bizVO);  // 이제는 userId가 null이 아님
             System.out.println(bizVO.getUserId());
+
+            log.info("##############Sign up successful");
         } catch (Exception e) {
+            log.info(e.getMessage());
             throw new SignUpException(SignUpErrorCode.DATABASE_ERROR);
         }
     }
@@ -94,8 +111,7 @@ public class NonUserServiceImpl implements NonUserService {
        if (userExists) { // 사용자가 존재하면
 
            // 1. 비밀번호 암호화
-           BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-           String encryptedPassword = encoder.encode(dto.getNewPassword());
+           String encryptedPassword = encrypt.encryptPassword(dto.getNewPassword());
 
             //로그
            log.debug("Encrypted password: {}", encryptedPassword);

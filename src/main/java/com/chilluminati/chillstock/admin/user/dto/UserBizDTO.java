@@ -16,6 +16,7 @@ import javax.validation.constraints.NotEmpty;
 @AllArgsConstructor
 public class UserBizDTO {
     // 회원 정보
+    private Integer id;
     private String userLoginId;
     private String userName;
     private String userEmail;

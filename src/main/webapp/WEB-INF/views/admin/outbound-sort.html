@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{admin/layouts/layout-admin :: layout(~{::main})}">
+<!-- Bootstrap 5.3 CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <body>
-
 <main id="main" class="main">
 
   <div class="pagetitle">
@@ -17,75 +19,156 @@
 
   <section class="section dashboard">
     <div class="row">
+      <!-- 상태별 조회 -->
       <form th:action="@{/admin/outbound/sort}" method="get">
         <div class="input-group mb-3" style="max-width: 300px;">
-          <input type="text" class="form-control" name="productName" placeholder="상품명 검색" th:value="${productName}">
-          <button class="btn btn-primary" type="submit">검색</button>
+          <select class="form-select" name="status" onchange="this.form.submit()">
+            <option value="">선택</option>
+            <option value="">전체</option>
+            <option value="대기">대기</option>
+            <option value="승인">승인</option>
+            <option value="반려">반려</option>
+          </select>
         </div>
       </form>
-      <!-- 출고 요청 폼 -->
-      <form id="outboundForm" method="post" th:action="@{/member/outbound-request}">
-        <table border="1" class="table table-bordered table-hover align-middle text-center">
+
+      <!-- 승인/반려 공통 폼 (승인 시 제출) -->
+      <form id="outboundForm" method="post" th:action="@{/admin/outbound/sort}">
+        <table class="table table-bordered table-hover align-middle text-center">
           <thead class="table-light">
           <tr>
-            <th>재고 ID</th>
-            <th>상품 ID</th>
-            <th>상품명</th>
-            <th>유통기한</th>
-            <th>재고량</th>
-            <th>입고일</th>
+            <th>출고 ID</th>
+            <th>출고일</th>
+            <th>출고 요청일</th>
+            <th>출고 상태</th>
+            <th>출고 수량</th>
+            <th>재고 수량</th>
+            <th>제품명</th>
+            <th>반려 사유</th>
             <th>선택</th>
           </tr>
           </thead>
           <tbody>
-          <tr th:each="stock : ${stockList}">
-            <td th:text="${stock.stock_id}"></td>
-            <td th:text="${stock.product_id}"></td>
-            <td th:text="${stock.product_name}"></td>
-            <td th:text="${#dates.format(stock.expiration_date, 'yyyy-MM-dd')}"></td>
-            <td th:text="${stock.stock_amount}"></td>
-            <td th:text="${stock.inbound_date}"></td>
+          <tr th:each="outbound : ${outboundList}">
+            <td th:text="${outbound.outbound_id}"></td>
+            <td th:text="${outbound.outbound_date}"></td>
+            <td th:text="${outbound.outbound_request_date}"></td>
+            <td th:text="${outbound.outbound_status}"
+                th:classappend="|
+                             ${outbound.outbound_status == '대기' ? 'text-warning' : ''}
+                             ${outbound.outbound_status == '승인' ? 'text-success' : ''}
+                             ${outbound.outbound_status == '반려' ? 'text-danger' : ''}
+                                |">
+            </td>
+            <td th:text="${outbound.outbound_amount}"></td>
+            <td th:text="${outbound.stock_amount}"></td>
+            <td th:text="${outbound.product_name}"></td>
+            <td th:text="${outbound.reject_reason_message}"></td>
             <td>
-              <!-- 라디오버튼 (동일한 name으로 하나만 선택됨) -->
-              <input type="radio" class="stock-radio" name="productId" th:value="${stock.product_id}" required/>
+              <!-- 라디오버튼 name은 outboundId -->
+              <input type="radio"
+                     class="stock-radio"
+                     name="outboundId"
+                     th:value="${outbound.outbound_id}"
+                     th:disabled="${outbound.outbound_status == '승인' or outbound.outbound_status == '반려'}"
+                     required/>
             </td>
           </tr>
           </tbody>
         </table>
+
         <div class="d-flex justify-content-end align-items-center gap-2 mt-3">
-          <label for="outboundAmount" class="mb-0">출고 수량:</label>
-          <input type="number"
-                 id="outboundAmount"
-                 name="outboundAmount"
-                 min="1"
-                 th:attr="max=${selectedStock?.stock_amount}"
-                 style="width: 100px;"
-                 required
-                 class="form-control d-inline-block" />
-          <button type="submit" id="requestOutbound" class="btn btn-primary">출고요청</button>
+          <!-- 승인 버튼: 이 폼(submit)에 newStatus=승인 추가 -->
+          <button type="submit"
+                  class="btn btn-primary"
+                  name="newStatus"
+                  value="승인">승인</button>
+
+          <!-- 반려 버튼: 모달 트리거 (JS로 모달 오픈) -->
+          <button type="button"
+                  id="OutboundReject"
+                  class="btn btn-danger">
+            반려
+          </button>
         </div>
       </form>
+
+      <!-- 페이징(nav) -->
       <nav>
         <ul class="pagination justify-content-center mt-4">
           <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-            <a class="page-link" th:href="@{/member/outbound-request(page=${currentPage - 1})}">이전</a>
+            <a class="page-link"
+               th:href="@{/admin/outbound/sort(status=${status}, page=${currentPage - 1})}">이전</a>
           </li>
 
-          <th:block th:with="startPage=${((currentPage - 1) / 10) * 10 + 1}, endPage=${(startPage + 9) > totalPages ? totalPages : (startPage + 9)}">
-            <li class="page-item" th:each="i : ${#numbers.sequence(startPage, endPage)}"
+          <th:block th:with="startPage=${((currentPage - 1) / 10) * 10 + 1},
+                              endPage=${(startPage + 9) > totalPages ? totalPages : (startPage + 9)}">
+            <li class="page-item"
+                th:each="i : ${#numbers.sequence(startPage, endPage)}"
                 th:classappend="${i == currentPage} ? 'active'">
-              <a class="page-link" th:href="@{/member/outbound-request(page=${i})}" th:text="${i}"></a>
+              <a class="page-link"
+                 th:href="@{/admin/outbound/sort(status=${status}, page=${i})}"
+                 th:text="${i}"></a>
             </li>
           </th:block>
 
           <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-            <a class="page-link" th:href="@{/member/outbound-request(page=${currentPage + 1})}">다음</a>
+            <a class="page-link"
+               th:href="@{/admin/outbound/sort(status=${status}, page=${currentPage + 1})}">다음</a>
           </li>
         </ul>
       </nav>
     </div>
   </section>
 
+  <!-- 반려 모달 -->
+  <div class="modal fade" id="rejectModal" tabindex="-1"
+       aria-labelledby="rejectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form id="rejectForm"
+              method="post"
+              th:action="@{/admin/outbound/sort}">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rejectModalLabel">반려 사유 선택</h5>
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <select name="rejectCode" class="form-select" required>
+              <option value="">선택</option>
+              <option th:each="code : ${rejectCodes}"
+                      th:value="${code.code}"
+                      th:text="${code.code + ' : ' +code.msg}"></option>
+            </select>
+            <!-- 선택된 ID 전달 -->
+            <input type="hidden" name="outboundId" id="rejectOutboundId"/>
+            <!-- 상태 전달 -->
+            <input type="hidden" name="newStatus" value="반려"/>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-danger">확인</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("OutboundReject").addEventListener("click", function (e) {
+        e.preventDefault();
+        const selectedRadio = document.querySelector('input[name="outboundId"]:checked');
+        if (!selectedRadio) {
+          alert("출고를 선택하세요.");
+          return;
+        }
+        document.getElementById("rejectOutboundId").value = selectedRadio.value;
+        new bootstrap.Modal(document.getElementById("rejectModal")).show();
+      });
+    });
+  </script>
 </main>
 </body>
 </html>

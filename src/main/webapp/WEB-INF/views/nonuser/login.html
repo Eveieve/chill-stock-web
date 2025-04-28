@@ -1,29 +1,93 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{admin/fragments/fragment-head :: head}"></head>
+<head th:replace="~{admin/fragments/fragment-head :: head}">
     <title>로그인</title>
     <meta charset="UTF-8"/>
 </head>
 <body>
-<h2>로그인</h2>
+<div class="container">
 
-<form th:action="@{/nonuser/login}" method="post">
-    <label for="email">이메일:</label>
-    <input type="text" id="email" name="email" required><br><br>
+    <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-    <label for="password">비밀번호:</label>
-    <input type="password" id="password" name="password" required><br><br>
-    <a th:href="@{/nonuser/find-password}" class="btn btn-outline-secondary">비밀번호를 잊으셨나요?</a>
+                    <div class="d-flex justify-content-center py-4">
+                        <a th:href="@{/}" class="logo d-flex align-items-center w-auto">
+                            <img th:src="@{/static/assets/img/logo.png}" alt="Logo">
+                            <span class="d-none d-lg-block">CHILLSTOCK</span>
+                        </a>
+                    </div><!-- End Logo -->
 
-    <button type="submit">로그인</button>
-</form>
+                    <div class="card mb-3">
 
-<!-- 로그인 실패 시 파라미터 처리 -->
-<div th:if="${param.error}">
-    <p style="color:red;">로그인 실패!</p>
+                        <div class="card-body">
+
+                            <div class="pt-4 pb-2">
+                                <h5 class="card-title text-center pb-0 fs-4">로그인</h5>
+                                <p class="text-center small">Enter your username &amp; password to login</p>
+                            </div>
+
+                            <form class="row g-3 needs-validation" th:action="@{/nonuser/login}" method="post" novalidate>
+
+                                <div class="col-12">
+                                    <label for="yourUsername" class="form-label">아이디/이메</label>
+                                    <div class="input-group has-validation">
+                                        <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                        <input type="text" name="email" class="form-control" id="yourUsername" required>
+                                        <div class="invalid-feedback">Please enter your username.</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="yourPassword" class="form-label">패스워드</label>
+                                    <input type="password" name="password" class="form-control" id="yourPassword" required>
+                                    <div class="invalid-feedback">Please enter your password!</div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
+                                        <label class="form-check-label" for="rememberMe">Remember me</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <button class="btn btn-primary w-100" type="submit">로그인</button>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <p class="small mb-0">계정이 없으신가요?
+                                        <a th:href="@{/nonuser/signup}">회원가입 하세요</a>
+                                    </p>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <p class="small mb-0">
+                                        <a th:href="@{/nonuser/find-password}">비밀번호를 잊으셨나요?</a>
+                                    </p>
+                                </div>
+
+                            </form>
+
+                            <!-- 로그인 실패 시 에러 메시지 -->
+                            <div th:if="${param.error}" class="text-center mt-3">
+                                <p class="text-danger">로그인 실패!</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="credits text-center">
+                        Designed by <a href="https://bootstrapmade.com/" target="_blank">BootstrapMade</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
 </div>
-
-
-<div th:replace="~{admin/fragments/fragment-foot :: foot}"></div>
 </body>
 </html>

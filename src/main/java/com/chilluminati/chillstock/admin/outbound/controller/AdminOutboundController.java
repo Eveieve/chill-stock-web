@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -48,14 +49,34 @@ public class AdminOutboundController {
     }
 
     @PostMapping("/admin/outbound")
-    public String adminOutboundPost(@RequestParam String newStatus, @RequestParam(required = false) String rejectCode, @RequestParam Integer outboundId) {
-        adminOutboundService.updateOutboundStatus(newStatus, outboundId, rejectCode);
+    public String adminOutboundPost(@RequestParam String newStatus, @RequestParam(required = false) String rejectCode, @RequestParam Integer outboundId, RedirectAttributes redirectAttributes) {
+        try {
+            adminOutboundService.updateOutboundStatus(newStatus, outboundId, rejectCode);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("failMessage", e.getMessage());
+            return "redirect:/admin/outbound";
+        }
+        if (newStatus.equals("승인")) {
+            redirectAttributes.addFlashAttribute("message", "출고 요청이 승인되었습니다.");
+        } else if (newStatus.equals("반려")) {
+            redirectAttributes.addFlashAttribute("message", "출고 요청이 반려되었습니다.");
+        }
         return "redirect:/admin/outbound";
     }
 
     @PostMapping("/admin/outbound/sort")
-    public String adminOutboundPostSort(@RequestParam String newStatus, @RequestParam String rejectCode, @RequestParam Integer outboundId) {
-        adminOutboundService.updateOutboundStatus(newStatus, outboundId, rejectCode);
+    public String adminOutboundPostSort(@RequestParam String newStatus, @RequestParam(required = false) String rejectCode, @RequestParam Integer outboundId, RedirectAttributes redirectAttributes) {
+        try {
+            adminOutboundService.updateOutboundStatus(newStatus, outboundId, rejectCode);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("failMessage", e.getMessage());
+            return "redirect:/admin/outbound";
+        }
+        if (newStatus.equals("승인")) {
+            redirectAttributes.addFlashAttribute("message", "출고 요청이 승인되었습니다.");
+        } else if (newStatus.equals("반려")) {
+            redirectAttributes.addFlashAttribute("message", "출고 요청이 반려되었습니다.");
+        }
         return "redirect:/admin/outbound";
     }
 }

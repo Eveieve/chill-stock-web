@@ -3,6 +3,7 @@ package com.chilluminati.chillstock.nonuser.dto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 import javax.validation.constraints.Email;
@@ -14,7 +15,7 @@ import javax.validation.constraints.Size;
 @Builder
 public class SignUpDTO {
 
-    @NotBlank(message = "{loginId.required}")
+//    @NotBlank(message = "{loginId.required}")
     @Pattern(regexp = "^[a-zA-Z0-9_]{4,20}$", message = "{loginId.format}")
     private String userLoginId;
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -48,14 +49,32 @@ public class MemberOutboundController {
     }
 
     @PostMapping("/member/outbound-request")
-    public String createOutboundRequest(@RequestParam Integer productId, @RequestParam Integer outboundAmount) {
-        memberOutboundService.createOutboundRequest(productId, outboundAmount);
+    public String createOutboundRequest(@RequestParam String productId, @RequestParam Integer outboundAmount, RedirectAttributes redirectAttributes) {
+        String[] parts = productId.split(",");
+        Integer realProductId = Integer.parseInt(parts[0]);
+        Integer stockAmount = Integer.parseInt(parts[1]);
+
+        if (outboundAmount > stockAmount) {
+            redirectAttributes.addFlashAttribute("failMessage", "출고 요청 수량이 재고 수량을 초과할 수 없습니다.");
+            return "redirect:/member/outbound-request";
+        }
+        memberOutboundService.createOutboundRequest(realProductId, outboundAmount);
+        redirectAttributes.addFlashAttribute("successMessage", "출고 요청이 완료되었습니다.");
         return "redirect:/member/outbound-request";
     }
 
     @PostMapping("/member/outbound-request/search")
-    public String createOutboundRequestSearch(@RequestParam Integer productId, @RequestParam Integer outboundAmount) {
-        memberOutboundService.createOutboundRequest(productId, outboundAmount);
+    public String createOutboundRequestSearch(@RequestParam String productId, @RequestParam Integer outboundAmount, RedirectAttributes redirectAttributes) {
+        String[] parts = productId.split(",");
+        Integer realProductId = Integer.parseInt(parts[0]);
+        Integer stockAmount = Integer.parseInt(parts[1]);
+
+        if (outboundAmount > stockAmount) {
+            redirectAttributes.addFlashAttribute("failMessage", "출고 요청 수량이 재고 수량을 초과할 수 없습니다.");
+            return "redirect:/member/outbound-request";
+        }
+        memberOutboundService.createOutboundRequest(realProductId, outboundAmount);
+        redirectAttributes.addFlashAttribute("successMessage", "출고 요청이 완료되었습니다.");
         return "redirect:/member/outbound-request";
     }
 }

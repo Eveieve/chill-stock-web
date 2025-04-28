@@ -7,12 +7,15 @@ import com.chilluminati.chillstock.nonuser.dto.SignUpDTO;
 import com.chilluminati.chillstock.nonuser.exception.SignUpException;
 import com.chilluminati.chillstock.nonuser.service.NonUserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/nonuser")
@@ -86,8 +89,10 @@ public class NonUserController {
      * @return
      */
     @GetMapping("/signup")
-    public String showSignUpForm() {
-        return "nonuser/signupForm";
+    public String showSignUpForm(Model model) {
+        SignUpDTO signupDto = SignUpDTO.builder().build();
+        model.addAttribute("signUpDTO", signupDto);
+        return "nonuser/signup";
     }
 
     /**
@@ -118,16 +123,24 @@ public class NonUserController {
      * @param model
      * @return
      */
-    @PostMapping("/signup-submit")
-    public String signUp(SignUpDTO signUpDto, Model model) {
+    @PostMapping("/signup") // fetch 아닌 form 방식
+    public String signUp(@ModelAttribute SignUpDTO signUpDto, Model model) {
         try {
             nonUserService.signUp(signUpDto);
-            return "nonuser/login"; // 성공할시 로그인 페이지로 이동
+            // 같은 뷰에 성공 플래그 전달
+            model.addAttribute("signupSuccess", true);
+            log.info("회원가입 성공 ##################");
         } catch (SignUpException e) {
             model.addAttribute("errorMessage", e.getErrorCode().getMessage());
-            return "nonuser/signup"; // 실패할 시 회원가입 페이지로 다시 감
+            model.addAttribute("signUpDTO", signUpDto);
+            log.info("회원가입 실패 #############");
+            log.error(e.getMessage());
+
         }
+        // signup.html을 다시 렌더링
+        return "nonuser/signup";
     }
+
 
     /**
      * 로그인 아이디 입력후, 비밀번호 재설정 단계로 넘어왔는지 확인한다

@@ -3,6 +3,7 @@ package com.chilluminati.chillstock.admin.inbound.service;
 import com.chilluminati.chillstock.admin.inbound.dto.AdminInboundRequestDTO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AdminInboundService {
 
@@ -12,7 +13,7 @@ public interface AdminInboundService {
 
 
     // 입고요청 승인 처리
-    void approveInboundRequests(List<Integer> inboundIds);
+    Map<String, Integer> approveInboundRequests(List<Integer> inboundIds);
 
     void rejectInboundRequests(List<Integer> inboundIds, String rejectCode);
 

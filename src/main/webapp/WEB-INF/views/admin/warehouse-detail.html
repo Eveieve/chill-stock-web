@@ -3,6 +3,28 @@
       th:replace="~{admin/layouts/layout-admin :: layout(~{::main})}">
 <body>
 <main id="main" class="main">
+  <!-- 에러 메시지 -->
+  <div id="alertBox"
+       th:if="${errorMessage}"
+       class="alert alert-danger text-center"
+       role="alert"
+       style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: 60%; padding: 8px 16px; font-size: 16px;
+            border-radius: 8px; z-index: 9999;">
+    <p th:text="${errorMessage}" style="margin: 0;"></p>
+  </div>
+
+  <!-- 성공 메시지 -->
+  <div id="successBox"
+       th:if="${successMessage}"
+       class="alert alert-success text-center"
+       role="alert"
+       style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: 60%; padding: 8px 16px; font-size: 16px;
+            border-radius: 8px; z-index: 9999;">
+    <p th:text="${successMessage}" style="margin: 0;"></p>
+  </div>
+
   <div class="pagetitle">
     <h1>창고 상세정보</h1>
     <nav>
@@ -85,8 +107,9 @@
 
   <h4 class="col-12 align-center" style="color: #0d3c84; margin-top: 30px;">구역 리스트</h4>
 
-  <div class="mt-3 text-end">
+  <div class="col-12 mb-3"></div>
     <button type="button" class="btn btn-primary" onclick="openStorageModal()">온도 변경</button>
+    <button type="button" class="btn btn-primary" onclick="openRegisterAreaModal()">구역 등록</button>
   </div>
 
   <div class="col-12 mt-4">
@@ -161,6 +184,73 @@
     </div>
   </div>
 
+  <!-- 구역 등록 모달 -->
+  <div class="modal fade" id="registerAreaModal" tabindex="-1" aria-labelledby="registerAreaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form id="registerAreaForm" method="post" th:action="@{/admin/area/register}">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="registerAreaModalLabel">구역 등록</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+
+            <!-- 창고 ID (숨김) -->
+            <input type="hidden" name="warehouseId" th:value="${warehouse.warehouseId}">
+
+            <div class="mb-3">
+              <label for="areaSpace" class="form-label">구역 크기 (㎡)</label>
+              <input type="number" class="form-control" id="areaSpace" name="areaSpace" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="areaPrice" class="form-label">구역 가격 (㎡당 원)</label>
+              <input type="number" class="form-control" id="areaPrice" name="areaPrice" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">보관 온도 선택</label>
+              <div class="d-flex flex-wrap gap-2 justify-content-center">
+                <button type="button" class="btn btn-outline-primary storage-select-btn" data-message="Ultra-Low_Temp">Ultra-Low_Temp</button>
+                <button type="button" class="btn btn-outline-primary storage-select-btn" data-message="Frozen_Storage">Frozen_Storage</button>
+                <button type="button" class="btn btn-outline-primary storage-select-btn" data-message="Refrigerated_Storage">Refrigerated_Storage</button>
+                <button type="button" class="btn btn-outline-primary storage-select-btn" data-message="Cool_Storage">Cool_Storage</button>
+                <button type="button" class="btn btn-outline-primary storage-select-btn" data-message="Room_Temperature">Room_Temperature</button>
+                <button type="button" class="btn btn-outline-primary storage-select-btn" data-message="Heated_Storage">Heated_Storage</button>
+              </div>
+            </div>
+
+            <!-- storageMessage (숨겨진 input) -->
+            <input type="hidden" name="storageMessage" id="storageMessage" required>
+
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="registerButton" disabled>등록</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // 온도 버튼 클릭 시 선택
+    document.querySelectorAll('.storage-select-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.storage-select-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById('storageMessage').value = this.getAttribute('data-message');
+        document.getElementById('registerButton').disabled = false;
+      });
+    });
+
+    // 구역 등록 모달 열기 함수
+    function openRegisterAreaModal() {
+      const modal = new bootstrap.Modal(document.getElementById('registerAreaModal'));
+      modal.show();
+    }
+  </script>
+
   <script>
     function openStorageModal() {
       const selectedRadio = document.querySelector('input[name="selectedArea"]:checked');
@@ -188,6 +278,30 @@
         document.getElementById('confirmButton').disabled = false;
       });
     });
+  </script>
+
+  <script>
+    function fadeOut(element) {
+      let opacity = 1;
+      const timer = setInterval(() => {
+        if (opacity <= 0.1) {
+          clearInterval(timer);
+          element.style.display = 'none';
+        }
+        element.style.opacity = opacity;
+        opacity -= 0.05;
+      }, 50); // 50ms마다 조금씩 투명하게
+    }
+
+    const alertBox = document.getElementById('alertBox');
+    if (alertBox) {
+      setTimeout(() => fadeOut(alertBox), 5000); // 5초 후 부드럽게 사라짐
+    }
+
+    const successBox = document.getElementById('successBox');
+    if (successBox) {
+      setTimeout(() => fadeOut(successBox), 5000);
+    }
   </script>
 
 </main>

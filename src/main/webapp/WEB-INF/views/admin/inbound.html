@@ -7,6 +7,10 @@
     <div id="successAlert" class="alert alert-success fade show text-center mt-3" th:if="${successMessage}">
         <span th:text="${successMessage}">처리 완료되었습니다.</span>
     </div>
+    <!-- 에러 메시지 띄우기 추가 -->
+    <div id="errorAlert" class="alert alert-danger fade show text-center mt-3" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">오류가 발생했습니다.</span>
+    </div>
 
     <div class="pagetitle">
         <h1>입고관리</h1>
@@ -51,14 +55,24 @@
                     <tr th:each="inbound : ${inboundList}">
                         <td th:text="${inbound.inboundId}"></td>
                         <td th:text="${#temporals.format(inbound.inboundRequestDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                        <td th:text="${inbound.inboundStatus}"></td>
+                        <td th:text="${inbound.inboundStatus}"
+                            th:classappend="|
+                             ${inbound.inboundStatus == '대기' ? 'text-warning' : ''}
+                             ${inbound.inboundStatus == '승인' ? 'text-success' : ''}
+                             ${inbound.inboundStatus == '반려' ? 'text-danger' : ''}
+                                |">
+                        </td>
                         <td th:text="${inbound.inboundAmount}"></td>
                         <td th:text="${inbound.productName}"></td>
                         <td th:text="${inbound.businessId}"></td>
                         <td th:text="${inbound.rejectReasonMessage}"></td>
                         <td>
-                            <!-- ✅ 체크박스 multiple 선택 가능하게 수정 -->
-                            <input type="checkbox" class="stock-checkbox" name="inboundIds" th:value="${inbound.inboundId}" />
+                            <!--  체크박스 multiple 선택 가능하게 수정 -->
+                            <input type="checkbox"
+                                   class="stock-checkbox"
+                                   name="inboundIds"
+                                   th:value="${inbound.inboundId}"
+                                   th:disabled="${inbound.inboundStatus == '승인'}"/>
                         </td>
                     </tr>
                     </tbody>
@@ -67,7 +81,9 @@
                 <!-- 버튼 -->
                 <div class="d-flex justify-content-end align-items-center gap-2 mt-3">
                     <button type="submit" class="btn btn-primary" name="action" value="approve">승인</button>
-                    <button type="button" id="InboundReject" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">반려</button>
+                    <button type="button" id="InboundReject" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#rejectModal">반려
+                    </button>
                 </div>
             </form>
 
@@ -124,7 +140,6 @@
     </div>
 
 
-
     <!-- JavaScript: 모달 띄우기 및 체크된 ID 넘기기 -->
     <script>
         document.getElementById("InboundReject").addEventListener("click", function (e) {
@@ -141,12 +156,21 @@
 
     <script th:inline="javascript">
         document.addEventListener("DOMContentLoaded", function () {
-            const alert = document.getElementById("successAlert");
-            if (alert) {
+            const successAlert = document.getElementById("successAlert");
+            const errorAlert = document.getElementById("errorAlert");
+
+            if (successAlert) {
                 setTimeout(function () {
-                    alert.classList.remove("show"); // 부트스트랩 show 클래스 제거 → 트랜지션 시작
-                    setTimeout(() => alert.remove(), 500); // 0.5초 후 완전히 DOM에서 제거
-                }, 3000); // 3초 후 시작
+                    successAlert.classList.remove("show");
+                    setTimeout(() => successAlert.remove(), 500);
+                }, 3000);
+            }
+
+            if (errorAlert) {  // 에러 메시지용 추가
+                setTimeout(function () {
+                    errorAlert.classList.remove("show");
+                    setTimeout(() => errorAlert.remove(), 500);
+                }, 3000);
             }
         });
     </script>

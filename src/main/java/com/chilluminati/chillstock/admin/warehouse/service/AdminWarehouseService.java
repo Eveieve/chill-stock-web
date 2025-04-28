@@ -22,4 +22,5 @@ public interface AdminWarehouseService {
     List<AdminAreaDto> getAreasByWarehouseId(Integer warehouseId);
     void updateStorageIdByAreaId(Integer areaId, Integer storageId);
     void registerAdminArea(AdminAreaDto adminAreaDto);
+    Integer findStorageIdByTemperature(Integer temperature);
 }

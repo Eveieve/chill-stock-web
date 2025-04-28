@@ -74,6 +74,9 @@ dependencies {
 
     // Jackson
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.3'
+
+    //캐싱 postconstructure
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
 }
 
 test {

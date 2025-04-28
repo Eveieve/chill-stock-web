@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -65,10 +66,27 @@ public class AdminInboundController {
     }
 
     @PostMapping("/inbound/approve")
-    public String approveInbound(@RequestParam("inboundIds") List<Integer> inboundIds,  RedirectAttributes redirectAttributes) {
-        adminInboundService.approveInboundRequests(inboundIds);
-        redirectAttributes.addFlashAttribute("successMessage", "입고 요청이 성공적으로 승인되었습니다.");
-        return "redirect:/admin/inbound"; // 승인 후 목록 페이지로 리다이렉트
+    public String approveInbound(@RequestParam("inboundIds") List<Integer> inboundIds, RedirectAttributes redirectAttributes) {
+        try {
+            Map<String, Integer> result = adminInboundService.approveInboundRequests(inboundIds);
+            int approved = result.getOrDefault("approved", 0);
+            int rejected = result.getOrDefault("rejected", 0);
+
+            if (approved > 0 && rejected > 0) {
+                redirectAttributes.addFlashAttribute("successMessage", approved + "건 승인, " + rejected + "건 공간 부족으로 반려되었습니다.");
+            } else if (approved > 0) {
+                redirectAttributes.addFlashAttribute("successMessage", approved + "건 성공적으로 승인되었습니다.");
+            } else if (rejected > 0) {
+                redirectAttributes.addFlashAttribute("successMessage", rejected + "건 공간 부족으로 반려되었습니다.");
+            } else {
+                redirectAttributes.addFlashAttribute("successMessage", "처리할 수 있는 입고 요청이 없습니다.");
+            }
+        } catch (IllegalStateException e) {
+            // 여기 추가
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+
+        return "redirect:/admin/inbound";
     }
 
     @PostMapping("/inbound/reject")

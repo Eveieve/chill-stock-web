@@ -87,6 +87,7 @@
             reject_reason_message AS rejectReasonMessage
         FROM inbound_table
         WHERE inbound_id = #{inboundId}
+        FOR UPDATE
     </select>
 
     <!--  제품 정보 조회 -->

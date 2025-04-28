@@ -13,7 +13,7 @@
             inbound_status,
             inbound_request_date,
             admin_id,
-            reject_reason_code
+            reject_reason_message
         )
         VALUES (
                    #{productId},

@@ -32,10 +32,12 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="/admin/logout">
-                            <i class="bi bi-box-arrow-right"></i>
-                            <span>Sign Out</span>
-                        </a>
+                        <form action="/logout" method="POST" style="margin: 0;">
+                            <button type="submit" class="dropdown-item d-flex align-items-center" style="background: none; border: none; width: 100%;">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Sign Out</span>
+                            </button>
+                        </form>
                     </li>
 
                 </ul><!-- End Profile Dropdown Items -->

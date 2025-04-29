@@ -123,7 +123,7 @@ public class AdminController {
      */
     @PostMapping("/delete")
     @ResponseBody
-    public Map<String, Object> deleteUsers(@RequestBody List<Integer> userIds, RedirectAttributes redirectAttributes) {
+    public Map<String, Object> deleteUsers(@RequestBody List<Integer> userIds) {
         Map<String, Object> result = new HashMap<>();
 
         try {
@@ -156,7 +156,7 @@ public class AdminController {
      */
     @PostMapping("/approve")
     @ResponseBody
-    public Map<String, Object> approveUsers(@RequestBody List<Integer> userIds, RedirectAttributes redirectAttributes) { // 클라이언트가 전송한 요청의 바디에 담긴 제이슨 데이터를 자바 객체로 자동 변환 @RequestBody
+    public Map<String, Object> approveUsers(@RequestBody List<Integer> userIds) { // 클라이언트가 전송한 요청의 바디에 담긴 제이슨 데이터를 자바 객체로 자동 변환 @RequestBody
         Map<String, Object> result = new HashMap<>();
         try {
             adminUserService.approveUsersByIds(userIds);

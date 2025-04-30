@@ -63,8 +63,8 @@ public class NonUserServiceImplTest {
                 .userPassword("pw1234")
                 .userName("이메일중복확인용")
                 .userPhone("010-1234-5678")
-                .userType(UserType.valueOf("ROLE_member"))
-                .userStatus(UserStatus.valueOf("pending"))
+                .userType(UserType.valueOf("MEMBER"))
+                .userStatus(UserStatus.valueOf("PENDING"))
                 .build());
 
         EmailDupDTO emailDupDto = EmailDupDTO.builder()
@@ -83,8 +83,8 @@ public class NonUserServiceImplTest {
                 .userPassword("pw1234")
                 .userName("중복확인용")
                 .userPhone("010-0000-1111")
-                .userType(UserType.valueOf("ROLE_member"))
-                .userStatus(UserStatus.valueOf("pending"))
+                .userType(UserType.valueOf("MEMBER"))
+                .userStatus(UserStatus.valueOf("PENDING"))
                 .build());
 
         LoginIdDupDTO loginIdDto = LoginIdDupDTO.builder()
@@ -170,8 +170,8 @@ public class NonUserServiceImplTest {
                 .userPassword("pw")
                 .userName("이메일유저")
                 .userPhone("010")
-                .userType(UserType.valueOf("ROLE_member"))
-                .userStatus(UserStatus.valueOf("pending"))
+                .userType(UserType.valueOf("MEMBER"))
+                .userStatus(UserStatus.valueOf("PENDING"))
                 .build());
 
         String loginId = userService.findLoginIdByEmail("email@test.com");

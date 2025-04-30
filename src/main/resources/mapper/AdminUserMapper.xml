@@ -193,13 +193,13 @@
     <!-- 대기 회원 여러 명 승인 -->
     <update id="approveUsersByIds">
         UPDATE user_table
-        SET user_status = 'approve',
+        SET user_status = 'APPROVED',
         user_approved_at = NOW()
         WHERE user_id IN
         <foreach collection="list" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
-        AND user_status = 'pending'
+        AND user_status = 'PENDING'
     </update>
 
     <!-- 회원 + 사업체 정보 모두 불러오기 -->

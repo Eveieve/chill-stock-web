@@ -70,7 +70,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
         // 상태가 pending인 회원만 필터링
         return allUsers.stream()
-                .filter(user -> "pending".equalsIgnoreCase(user.getUserStatus()))
+                .filter(user -> "PENDING".equalsIgnoreCase(user.getUserStatus()))
                 .map(vo -> modelMapper.map(vo, UserBizDTO.class))
                 .collect(Collectors.toList());
     }

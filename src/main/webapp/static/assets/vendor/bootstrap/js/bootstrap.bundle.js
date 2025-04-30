@@ -3252,18 +3252,18 @@
   }
 
   function debounce(fn) {
-    var pending;
+    var PENDING;
     return function () {
-      if (!pending) {
-        pending = new Promise(function (resolve) {
+      if (!PENDING) {
+        PENDING = new Promise(function (resolve) {
           Promise.resolve().then(function () {
-            pending = undefined;
+            PENDING = undefined;
             resolve(fn());
           });
         });
       }
 
-      return pending;
+      return PENDING;
     };
   }
 

@@ -68,15 +68,15 @@
                         <td th:text="${user.userName}">이름</td>
                         <!-- 회원 유형 -->
                         <td th:switch="${user.userType}">
-                            <span th:case="'ROLE_member'">일반 회원</span>
-                            <span th:case="'ROLE_admin'">총관리자</span>
+                            <span th:case="'MEMBER'">일반 회원</span>
+                            <span th:case="'ADMIN'">총관리자</span>
                             <span th:case="*">알 수 없음</span>
                         </td>
 
                         <!-- 계정 상태 -->
                         <td th:switch="${user.userStatus}">
-                            <span th:case="'pending'">승인 대기 중</span>
-                            <span th:case="'approve'">승인 완료</span>
+                            <span th:case="'PENDING'">승인 대기 중</span>
+                            <span th:case="'APPROVED'">승인 완료</span>
                             <span th:case="*">알 수 없음</span>
                         </td>
                         <td th:text="${user.businessRegistNum}">사업자번호</td>
@@ -161,8 +161,8 @@
             let selectedMembers = getSelectedMembers();
             if (selectedMembers.length > 0) {
                 if (confirm('선택된 회원을 승인하시겠습니까?')) {
-                    // 선택된 회원 ID를 서버로 보내서 approve 처리
-                    fetch('/admin/approve', {
+                    // 선택된 회원 ID를 서버로 보내서 APPROVED 처리
+                    fetch('/admin/APPROVED', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -190,7 +190,7 @@
             let selectedMembers = getSelectedMembers();
             if (selectedMembers.length > 0) {
                 if (confirm('선택된 회원을 삭제하시겠습니까?')) {
-                    // 선택된 회원 ID를 서버로 보내서 approve 처리
+                    // 선택된 회원 ID를 서버로 보내서 APPROVED 처리
                     fetch('/admin/delete', {
                         method: 'POST',
                         headers: {
@@ -244,8 +244,8 @@
 <!--        let selectedMembers = getSelectedMembers();-->
 <!--        if (selectedMembers.length > 0) {-->
 <!--            if (confirm('선택된 회원을 삭제하시겠습니까?')) {-->
-<!--                // 선택된 회원 ID를 서버로 보내서 approve 처리-->
-<!--                fetch('/admin/approve', {-->
+<!--                // 선택된 회원 ID를 서버로 보내서 APPROVED 처리-->
+<!--                fetch('/admin/APPROVED', {-->
 <!--                    method: 'POST',-->
 <!--                    headers: {-->
 <!--                        'Content-Type': 'application/json'-->

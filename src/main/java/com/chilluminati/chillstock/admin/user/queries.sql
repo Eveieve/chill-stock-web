@@ -11,7 +11,7 @@ CREATE TABLE user_table (
                             user_password VARCHAR(255) NOT NULL,
                             user_phone VARCHAR(20),
                             user_approved_at DATETIME,
-                            user_type ENUM('ROLE_admin', 'ROLE_member') DEFAULT 'ROLE_member',
+                            user_type ENUM('ADMIN', 'MEMBER') DEFAULT 'MEMBER',
                             user_status ENUM('APPROVED', 'PENDING') DEFAULT 'PENDING',
                             user_requested_at DATETIME
 

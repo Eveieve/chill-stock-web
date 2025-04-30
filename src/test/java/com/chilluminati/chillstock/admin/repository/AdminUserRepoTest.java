@@ -164,8 +164,8 @@ void getAllDeletedUsers() {
         adminUserService.approveUsersByIds(userIds);
 
         // then
-        Assertions.assertEquals(UserStatus.approve, userRepo.findByUserId(userId1).getUserStatus());
-        Assertions.assertEquals(UserStatus.approve, userRepo.findByUserId(userId2).getUserStatus());
+        Assertions.assertEquals(UserStatus.APPROVED, userRepo.findByUserId(userId1).getUserStatus());
+        Assertions.assertEquals(UserStatus.APPROVED, userRepo.findByUserId(userId2).getUserStatus());
     }
 }
 

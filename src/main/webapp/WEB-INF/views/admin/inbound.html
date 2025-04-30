@@ -37,7 +37,7 @@
             </form>
 
             <!-- 승인/반려 폼 -->
-            <form id="inboundForm" method="post" th:action="@{/admin/inbound/approve}">
+            <form id="inboundForm" method="post" th:action="@{/admin/inbound/APPROVED}">
                 <table class="table table-bordered table-hover align-middle text-center">
                     <thead class="table-light">
                     <tr>
@@ -80,7 +80,7 @@
 
                 <!-- 버튼 -->
                 <div class="d-flex justify-content-end align-items-center gap-2 mt-3">
-                    <button type="submit" class="btn btn-primary" name="action" value="approve">승인</button>
+                    <button type="submit" class="btn btn-primary" name="action" value="APPROVED">승인</button>
                     <button type="button" id="InboundReject" class="btn btn-danger" data-bs-toggle="modal"
                             data-bs-target="#rejectModal">반려
                     </button>

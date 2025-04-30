@@ -27,17 +27,4 @@ public class DeletedUserDTO {
     private String businessAddress;
     private String businessPost;
 
-    // 마스킹된 값 반환 예시 메서드 (뷰에서 호출 가능)
-    public String getMaskedEmail() {
-        if (userEmail == null || userEmail.length() < 4) return "****";
-        int atIndex = userEmail.indexOf("@");
-        return (atIndex > 2)
-                ? userEmail.substring(0, 2) + "***" + userEmail.substring(atIndex)
-                : "****";
-    }
-
-    public String getMaskedPhone() {
-        if (userPhone == null || userPhone.length() < 7) return "****";
-        return userPhone.substring(0, 3) + "-****-" + userPhone.substring(userPhone.length() - 4);
-    }
 }

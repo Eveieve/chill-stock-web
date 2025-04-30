@@ -2,11 +2,11 @@ use chillstockDB;
 
 -- user_table
 INSERT INTO user_table (user_id, user_login_id, user_email, user_name, user_password, user_phone, user_approved_at, user_type, user_status, user_requested_at) VALUES
-(1, 'user01', 'user01@email.com', '홍길동', 'pass01', '010-1111-1111', NOW(), 'ROLE_member', 'approve', NOW()),
-(2, 'user02', 'user02@email.com', '김철수', 'pass02', '010-2222-2222', NOW(), 'ROLE_member', 'approve', NOW()),
-(3, 'user03', 'user03@email.com', '이영희', 'pass03', '010-3333-3333', NOW(), 'ROLE_member', 'pending', NOW()),
-(4, 'admin01', 'admin01@email.com', '관리자1', 'adminpass1', '010-4444-4444', NOW(), 'ROLE_admin', 'approve', NOW()),
-(5, 'admin02', 'admin02@email.com', '관리자2', 'adminpass2', '010-5555-5555', NOW(), 'ROLE_admin', 'approve', NOW());
+(1, 'user01', 'user01@email.com', '홍길동', 'pass01', '010-1111-1111', NOW(), 'MEMBER', 'APPROVED', NOW()),
+(2, 'user02', 'user02@email.com', '김철수', 'pass02', '010-2222-2222', NOW(), 'MEMBER', 'APPROVED', NOW()),
+(3, 'user03', 'user03@email.com', '이영희', 'pass03', '010-3333-3333', NOW(), 'MEMBER', 'PENDING', NOW()),
+(4, 'admin01', 'admin01@email.com', '관리자1', 'adminpass1', '010-4444-4444', NOW(), 'ADMIN', 'APPROVED', NOW()),
+(5, 'admin02', 'admin02@email.com', '관리자2', 'adminpass2', '010-5555-5555', NOW(), 'ADMIN', 'APPROVED', NOW());
 
 -- admin_table (user_id 4, 5 are admins)
 INSERT INTO admin_table (admin_id, admin_hire_date, admin_position, user_id) VALUES

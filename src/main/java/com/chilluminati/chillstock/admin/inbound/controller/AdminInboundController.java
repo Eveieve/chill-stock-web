@@ -65,7 +65,7 @@ public class AdminInboundController {
 
     }
 
-    @PostMapping("/inbound/approve")
+    @PostMapping("/inbound/APPROVED")
     public String approveInbound(@RequestParam("inboundIds") List<Integer> inboundIds, RedirectAttributes redirectAttributes) {
         try {
             Map<String, Integer> result = adminInboundService.approveInboundRequests(inboundIds);

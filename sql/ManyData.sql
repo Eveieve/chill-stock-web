@@ -7,41 +7,41 @@ select * from user_table;
 INSERT INTO user_table
 (user_login_id, user_email, user_name, user_password, user_phone, user_approved_at, user_type, user_status, user_requested_at)
 VALUES
-    ('admin1', 'admin1@example.com', '관리자1', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-9999-9999', NOW(), 'ROLE_admin', 'approve', NOW());
+    ('admin1', 'admin1@example.com', '관리자1', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-9999-9999', NOW(), 'ADMIN', 'APPROVED', NOW());
 
 INSERT INTO user_table
 (user_login_id, user_email, user_name, user_password, user_phone, user_approved_at, user_type, user_status, user_requested_at)
 VALUES
-    ('user1', 'user1@example.com', '사용자1', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0001-0001', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user2', 'user2@example.com', '사용자2', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0002-0002', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user3', 'user3@example.com', '사용자3', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0003-0003', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user4', 'user4@example.com', '사용자4', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0004-0004', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user5', 'user5@example.com', '사용자5', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0005-0005', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user6', 'user6@example.com', '사용자6', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0006-0006', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user7', 'user7@example.com', '사용자7', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0007-0007', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user8', 'user8@example.com', '사용자8', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0008-0008', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user9', 'user9@example.com', '사용자9', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0009-0009', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user10', 'user10@example.com', '사용자10', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0010-0010', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user11', 'user11@example.com', '사용자11', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0011-0011', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user12', 'user12@example.com', '사용자12', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0012-0012', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user13', 'user13@example.com', '사용자13', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0013-0013', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user14', 'user14@example.com', '사용자14', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0014-0014', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user15', 'user15@example.com', '사용자15', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0015-0015', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user16', 'user16@example.com', '사용자16', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0016-0016', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user17', 'user17@example.com', '사용자17', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0017-0017', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user18', 'user18@example.com', '사용자18', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0018-0018', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user19', 'user19@example.com', '사용자19', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0019-0019', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user20', 'user20@example.com', '사용자20', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0020-0020', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user21', 'user21@example.com', '사용자21', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0021-0021', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user22', 'user22@example.com', '사용자22', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0022-0022', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user23', 'user23@example.com', '사용자23', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0023-0023', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user24', 'user24@example.com', '사용자24', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0024-0024', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user25', 'user25@example.com', '사용자25', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0025-0025', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user26', 'user26@example.com', '사용자26', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0026-0026', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user27', 'user27@example.com', '사용자27', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0027-0027', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user28', 'user28@example.com', '사용자28', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0028-0028', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user29', 'user29@example.com', '사용자29', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0029-0029', NOW(), 'ROLE_member', 'approve', NOW()),
-    ('user30', 'user30@example.com', '사용자30', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0030-0030', NOW(), 'ROLE_member', 'approve', NOW());
+    ('user1', 'user1@example.com', '사용자1', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0001-0001', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user2', 'user2@example.com', '사용자2', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0002-0002', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user3', 'user3@example.com', '사용자3', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0003-0003', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user4', 'user4@example.com', '사용자4', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0004-0004', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user5', 'user5@example.com', '사용자5', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0005-0005', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user6', 'user6@example.com', '사용자6', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0006-0006', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user7', 'user7@example.com', '사용자7', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0007-0007', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user8', 'user8@example.com', '사용자8', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0008-0008', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user9', 'user9@example.com', '사용자9', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0009-0009', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user10', 'user10@example.com', '사용자10', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0010-0010', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user11', 'user11@example.com', '사용자11', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0011-0011', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user12', 'user12@example.com', '사용자12', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0012-0012', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user13', 'user13@example.com', '사용자13', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0013-0013', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user14', 'user14@example.com', '사용자14', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0014-0014', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user15', 'user15@example.com', '사용자15', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0015-0015', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user16', 'user16@example.com', '사용자16', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0016-0016', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user17', 'user17@example.com', '사용자17', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0017-0017', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user18', 'user18@example.com', '사용자18', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0018-0018', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user19', 'user19@example.com', '사용자19', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0019-0019', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user20', 'user20@example.com', '사용자20', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0020-0020', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user21', 'user21@example.com', '사용자21', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0021-0021', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user22', 'user22@example.com', '사용자22', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0022-0022', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user23', 'user23@example.com', '사용자23', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0023-0023', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user24', 'user24@example.com', '사용자24', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0024-0024', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user25', 'user25@example.com', '사용자25', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0025-0025', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user26', 'user26@example.com', '사용자26', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0026-0026', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user27', 'user27@example.com', '사용자27', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0027-0027', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user28', 'user28@example.com', '사용자28', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0028-0028', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user29', 'user29@example.com', '사용자29', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0029-0029', NOW(), 'MEMBER', 'APPROVED', NOW()),
+    ('user30', 'user30@example.com', '사용자30', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-0030-0030', NOW(), 'MEMBER', 'APPROVED', NOW());
 
 INSERT INTO admin_table (admin_hire_date, admin_position, user_id)
 VALUES

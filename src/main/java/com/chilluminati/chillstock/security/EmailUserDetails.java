@@ -17,11 +17,11 @@ public class EmailUserDetails implements UserDetails {
     private Integer userId; // DB PK
     private String userLoginId; // 이메일
     private String userPassword;
-    private String userType; // "ROLE_member" or "ROLE_admin"
+    private String userType; // "MEMBER" or "ADMIN"
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(() -> userType); // ex: "ROLE_admin"
+        return Collections.singleton(() -> userType); // ex: "ADMIN"
     }
 
     @Override

@@ -23,7 +23,7 @@ public class EmailUserDetailsServiceImp implements AuthUserDetailsService {
                 .userId(userVo.getUserId())
                 .userLoginId(userVo.getUserEmail()) // 이메일을 로그인 ID로 사용
                 .userPassword(userVo.getUserPassword())
-                .userType(userVo.getUserType().toString())     // "ROLE_member" or "ROLE_admin"
+                .userType(userVo.getUserType().toString())     // "MEMBER" or "ADMIN"
                 .build();
     }
 }

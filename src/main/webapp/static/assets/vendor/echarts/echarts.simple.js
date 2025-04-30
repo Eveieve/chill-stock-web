@@ -8736,14 +8736,14 @@
             var pendingWrap = { hostEl: hostEl, cb: onload, cbPayload: cbPayload };
             if (cachedImgObj) {
                 image = cachedImgObj.image;
-                !isImageReady(image) && cachedImgObj.pending.push(pendingWrap);
+                !isImageReady(image) && cachedImgObj.PENDING.push(pendingWrap);
             }
             else {
                 image = platformApi.loadImage(newImageOrSrc, imageOnLoad, imageOnLoad);
                 image.__zrImageSrc = newImageOrSrc;
                 globalImageCache.put(newImageOrSrc, image.__cachedImgObj = {
                     image: image,
-                    pending: [pendingWrap]
+                    PENDING: [pendingWrap]
                 });
             }
             return image;
@@ -8755,13 +8755,13 @@
     function imageOnLoad() {
         var cachedImgObj = this.__cachedImgObj;
         this.onload = this.onerror = this.__cachedImgObj = null;
-        for (var i = 0; i < cachedImgObj.pending.length; i++) {
-            var pendingWrap = cachedImgObj.pending[i];
+        for (var i = 0; i < cachedImgObj.PENDING.length; i++) {
+            var pendingWrap = cachedImgObj.PENDING[i];
             var cb = pendingWrap.cb;
             cb && cb(this, pendingWrap.cbPayload);
             pendingWrap.hostEl.dirty();
         }
-        cachedImgObj.pending.length = 0;
+        cachedImgObj.PENDING.length = 0;
     }
     function isImageReady(image) {
         return image && image.width && image.height;
@@ -26400,7 +26400,7 @@
          * (1) zrender rendering finished.
          * (2) initial animation finished.
          * (3) progressive rendering finished.
-         * (4) no pending action.
+         * (4) no PENDING action.
          * (5) no delayed setOption needs to be processed.
          */
         bindRenderedEvent = function (zr, ecIns) {

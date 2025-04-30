@@ -1,7 +1,7 @@
 -- ✅ 1. user_table
 INSERT INTO user_table (user_login_id, user_email, user_name, user_password, user_phone, user_type, user_status, user_requested_at, user_approved_at)
 VALUES
-    ('admin001', 'admin1@example.com', '관리자홍', '$2a$12$Hxg35ViIW4zrgyvjHV.k6.rz1IxTV6pCMmc2ONNjhz6GWoq8p25v.', '010-0001-0001', 'ROLE_admin', 'approve', NOW(), NOW());
+    ('admin001', 'admin1@example.com', '관리자홍', '$2a$12$Hxg35ViIW4zrgyvjHV.k6.rz1IxTV6pCMmc2ONNjhz6GWoq8p25v.', '010-0001-0001', 'ADMIN', 'APPROVED', NOW(), NOW());
 
 
 -- ✅ 2. admin_table

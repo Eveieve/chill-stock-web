@@ -34,19 +34,19 @@ class AdminInboundServiceImplTest {
 
     @BeforeEach
     void setup() {
-        // 1. 테스트용 관리자 정보 생성 (user_id = 1번, ROLE_admin)
+        // 1. 테스트용 관리자 정보 생성 (user_id = 1번, ADMIN)
         EmailUserDetails userDetails = new EmailUserDetails(
                 1,                      //  userId (1번: 관리자)
                 "admin001",              //  userLoginId (user_table 기준)
                 "pw1",       //
-                "ROLE_admin"             //
+                "ADMIN"             //
         );
 
         UsernamePasswordAuthenticationToken auth =
                 new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
-                        List.of(() -> userDetails.getUserType()) // ROLE_admin 권한 부여
+                        List.of(() -> userDetails.getUserType()) // ADMIN 권한 부여
                 );
 
         SecurityContextHolder.getContext().setAuthentication(auth);

@@ -78,14 +78,14 @@ public class AdminController {
      * @param model
      * @return
      */
-    @GetMapping("/pending")
+    @GetMapping("/PENDING")
     public String getPendingUsers(@RequestParam(defaultValue = "1") int page, Model model) {
         List<UserBizDTO> users = adminUserService.getPendingUsersByPage(page);
 
         model.addAttribute("users", users);
         model.addAttribute("currentPage", page);
-        model.addAttribute("statusFilter", "pending");
-//<a th:href="@{/admin/users/pending?page=1}">대기 중 회원 보기</a>
+        model.addAttribute("statusFilter", "PENDING");
+//<a th:href="@{/admin/users/PENDING?page=1}">대기 중 회원 보기</a>
 
         return "admin/users";
     }
@@ -154,7 +154,7 @@ public class AdminController {
      * 여러 명의 대기 중인 회원을 일괄 승인한다
      * @param userIds 승인할 회원 ID 목록
      */
-    @PostMapping("/approve")
+    @PostMapping("/APPROVED")
     @ResponseBody
     public Map<String, Object> approveUsers(@RequestBody List<Integer> userIds) { // 클라이언트가 전송한 요청의 바디에 담긴 제이슨 데이터를 자바 객체로 자동 변환 @RequestBody
         Map<String, Object> result = new HashMap<>();

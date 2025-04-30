@@ -70,7 +70,7 @@ class MemberMypageRepoTest {
     static void loginMember() {
         String loginId = "repoTest_1745567083992"; // 실제 디비에 저장된 값
         String password = "chillstock1234";
-        String role = "ROLE_member";
+        String role = "MEMBER";
         int pk = 10; // 실제 디비에 저장된 기본키
 
         // id: mypage_1745226903096
@@ -83,7 +83,7 @@ class MemberMypageRepoTest {
         emailUserDetails.setUserId(pk);
         emailUserDetails.setUserLoginId(loginId);
         emailUserDetails.setUserPassword(password);
-        emailUserDetails.setUserType("ROLE_member");
+        emailUserDetails.setUserType("MEMBER");
 
         // 로그인시키기
         UsernamePasswordAuthenticationToken authentication =

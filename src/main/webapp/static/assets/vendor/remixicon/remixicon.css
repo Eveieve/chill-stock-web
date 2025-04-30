@@ -2482,8 +2482,8 @@
 .ri-megaphone-line:before { content: "\f385"; }
 .ri-pass-expired-fill:before { content: "\f386"; }
 .ri-pass-expired-line:before { content: "\f387"; }
-.ri-pass-pending-fill:before { content: "\f388"; }
-.ri-pass-pending-line:before { content: "\f389"; }
+.ri-pass-PENDING-fill:before { content: "\f388"; }
+.ri-pass-PENDING-line:before { content: "\f389"; }
 .ri-pass-valid-fill:before { content: "\f38a"; }
 .ri-pass-valid-line:before { content: "\f38b"; }
 .ri-ai-generate:before { content: "\f38c"; }

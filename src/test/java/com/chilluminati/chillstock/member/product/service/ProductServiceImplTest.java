@@ -47,7 +47,7 @@ class ProductServiceImplTest {
                 3,                          // userId
                 "testuser@example.com",     // userLoginId
                 "encodedPassword",          // userPassword
-                "ROLE_member"               // userType
+                "MEMBER"               // userType
         );
         UsernamePasswordAuthenticationToken auth =
                 new UsernamePasswordAuthenticationToken(userDetails, null, List.of(() -> userDetails.getUserType()));

@@ -28,6 +28,7 @@ import java.util.Optional;
 public class MemberMypageController {
 
     private final MemberMypageService memberMypageService;
+    private final NonUserService nonUserService;
 
 
     /**
@@ -66,6 +67,8 @@ public class MemberMypageController {
     @ResponseBody
     public Map<String, Object> getMyInfo() {
         Map<String, Object> result = new HashMap<>();
+
+//        EmailUserDetails emailUserDetails = getEmailUserDetails();
         UserBizDTO user = memberMypageService.viewMyInfo();
         log.info(user.toString());
 
@@ -119,7 +122,7 @@ public class MemberMypageController {
             return (EmailUserDetails) authentication.getPrincipal();
 
         }
-        else System.out.println("########################");
+        else System.out.println("asdasdasdasdasdasdasdasdasdasd");
         return null;
     }
 }

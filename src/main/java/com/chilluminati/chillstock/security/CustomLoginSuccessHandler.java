@@ -25,9 +25,9 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         log.info("로그인 성공, 권한 목록: {}", roles);
 
-        if (roles.contains("ADMIN")) {
+        if (roles.contains("ROLE_ADMIN")) {
             response.sendRedirect("/admin/home");
-        } else if (roles.contains("MEMBER")) {
+        } else if (roles.contains("ROLE_MEMBER")) {
             response.sendRedirect("/member/home");
         } else {
             response.sendRedirect("/"); // 기본 fallback

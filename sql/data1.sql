@@ -4,10 +4,19 @@ show tables;
 
 select * from user_table;
 
+
+
 INSERT INTO user_table
 (user_login_id, user_email, user_name, user_password, user_phone, user_approved_at, user_type, user_status, user_requested_at)
 VALUES
     ('admin1', 'admin1@example.com', '관리자1', '$2a$12$CDnSwcrbs6nj/bxPiZ4Wbexjy8GpLfJEd2TXyPYItViOznCqPuUsS', '010-9999-9999', NOW(), 'ADMIN', 'APPROVED', NOW());
+
+-- password: mypassword123
+INSERT INTO user_table
+(user_login_id, user_email, user_name, user_password, user_phone, user_approved_at, user_type, user_status, user_requested_at)
+VALUES
+    ('admin2', 'admin2@example.com', '관리자2', '$2y$10$07JZRM/l2mM4MBO5cnH6ie7c5LDovLV7KZOGJBY1Dd2LUSYbArB/y', '010-9999-9999', NOW(), 'ADMIN', 'APPROVED', NOW());
+
 
 INSERT INTO user_table
 (user_login_id, user_email, user_name, user_password, user_phone, user_approved_at, user_type, user_status, user_requested_at)

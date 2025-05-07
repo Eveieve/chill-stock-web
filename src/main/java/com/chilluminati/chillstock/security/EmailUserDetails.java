@@ -21,7 +21,7 @@ public class EmailUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(() -> userType); // ex: "ADMIN"
+        return Collections.singleton(() -> "ROLE_" + userType); // ex: "ROLE_ADMIN"
     }
 
     @Override

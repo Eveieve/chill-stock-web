@@ -24,6 +24,18 @@ public class AdminController {
     private final AdminUserService adminUserService;
 
     /**
+     *
+     * @param page 사용자가 클릭하는 페이지 숫자
+     * @param totalPages 실제 토탈 페이지
+     * @return
+     */
+    private int clampPage(int page, int totalPages) {
+        if (page < 1) return 1;
+        if (page > totalPages) return totalPages;
+
+        return page;
+    }
+    /**
      * 모든 회원 조회하기
      * @param page
      * @param model
@@ -39,8 +51,8 @@ public class AdminController {
             int totalPages = (int) Math.ceil((double) total / pageSize);
             // 뷰로 total 회원 값 넘겨주기
             model.addAttribute("total", total);
-            if (page < 1) page = 1;
-            if (page > totalPages) page = totalPages;
+            // 사용자가 입력하는 페이지 숫자를 유효 값 안에 들게 해주기
+            page = clampPage(page, totalPages);
             List<UserBizDTO> users = adminUserService.getAllUsersByPage(page);
             model.addAttribute("users", users);
             model.addAttribute("currentPage", page);
@@ -61,8 +73,7 @@ public class AdminController {
         int total = adminUserService.countAllDeleted();
         int totalPages = (int) Math.ceil((double) total / pageSize);
 
-        if (page < 1) page = 1;
-        if (page > totalPages) page = totalPages;
+        page = clampPage(page, totalPages);
 
 
         List<DeletedUserDTO> users = adminUserService.getAllDeletedByPage(page);
@@ -85,7 +96,7 @@ public class AdminController {
         model.addAttribute("users", users);
         model.addAttribute("currentPage", page);
         model.addAttribute("statusFilter", "PENDING");
-//<a th:href="@{/admin/users/PENDING?page=1}">대기 중 회원 보기</a>
+
 
         return "admin/users";
     }

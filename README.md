@@ -1,14 +1,16 @@
-# Chill Stock
+#  🍅 🥬 🍋 Chill Stock (Web Version)🍓 🧊 🥦
+### Chill Out, We’ll Keep It Fresh ❄️🥬
 
+At Chill Stock, we let the customers chill while we handle the chill.
+
+Built for managing perishable goods in warehouse environments, this system automatically takes care of temperature, storage conditions, and space optimization—so your fresh goods stay fresh, and your operations stay cool.
+
+Because fresh goods deserve fresh handling. 
+
+## 📦 Project Overview
 **Chill Stock** is a **warehouse management system for fresh goods**, designed and developed to explore and practice real-world backend engineering skills.
 
 This project focuses on building a clean backend architecture while learning how to connect all the necessary components in a professional-grade web application.
-
-While I am still growing as a backend developer, this project reflects my understanding of clean backend design, domain separation, data flow, and handling realistic challenges in multi-user environments.
-
----
-
-## 📦 Project Overview
 
 The application simulates core warehouse operations:
 

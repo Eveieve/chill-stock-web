@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -38,23 +39,25 @@ public class MemberMypageServiceImpl implements MemberMypageService {
 
         UserVO user = memberMypageRepo.findUserById(userId);
         log.info("###User: {}", user);
-        BizVO biz = memberMypageRepo.findBizByUserId(userId);
+        List<BizVO> bizList = memberMypageRepo.findBizByUserId(userId);
 
         UserBizDTO dto = new UserBizDTO();
 
-        //1. 유저 정보 세팅  ---> 필드 세팅하는걸 빌더패턴으로 변경하기! 변수에 할당하지 말고 발로 리턴하기
+        //1. 유저 정보 세팅
         dto.setUserLoginId(user.getUserLoginId());
         dto.setUserEmail(user.getUserEmail());
         dto.setUserName(user.getUserName());
         dto.setUserPhone(user.getUserPhone());
         dto.setUserType(user.getUserType());
 
-        //2. 사업자 정보 세팅
-        dto.setBusinessName(biz.getBusinessName());
-        dto.setBusinessRegistNum(biz.getBusinessRegistNum());
-        dto.setBusinessAddress(biz.getBusinessAddress());
-        dto.setBusinessPost(biz.getBusinessPost());
-
+        //2. 사업자 정보 세팅 (첫 번째 사업자만 세팅, 필요시 리스트로 확장)
+        if (bizList != null && !bizList.isEmpty()) {
+            BizVO biz = bizList.get(0);
+            dto.setBusinessName(biz.getBusinessName());
+            dto.setBusinessRegistNum(biz.getBusinessRegistNum());
+            dto.setBusinessAddress(biz.getBusinessAddress());
+            dto.setBusinessPost(biz.getBusinessPost());
+        }
         log.info(dto.toString());
         return dto;
     }

@@ -6,6 +6,8 @@ import com.chilluminati.chillstock.member.mypage.vo.BizVO;
 import com.chilluminati.chillstock.member.mypage.vo.UserVO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface MemberMypageRepo {
     /** 회원 삭제 */
     void deleteByUserId(@Param("userId") Integer userId);
@@ -18,7 +20,7 @@ public interface MemberMypageRepo {
     /** 유저id로 User 찾기 */
     UserVO findUserById(@Param("userId") Integer userId);
     /** 유저id로 사업자 찾기 */
-    BizVO findBizByUserId(@Param("userId") Integer userId);
+    List<BizVO> findBizByUserId(@Param("userId") Integer userId);
 
     /** 유저패스워드 변경 */
     void updateUserPassword(@Param("userId") Integer userId, @Param("dto") UserPasswordDTO userPasswordDTO);

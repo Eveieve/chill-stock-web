@@ -74,7 +74,7 @@
         WHERE user_id = #{userId}
     </select>
 
-    <!-- 사업체 정보 조회 -->
+    <!-- 사업체 정보 조회: 한 유저가 여러 사업체를 가질 수 있으므로 여러 행이 반환될 수 있음. selectList로 사용해야 함. -->
     <select id="findBizByUserId" resultMap="bizResultMap">
         SELECT
             business_id,

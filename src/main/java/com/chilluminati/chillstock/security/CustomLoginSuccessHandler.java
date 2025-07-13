@@ -23,14 +23,14 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
-        log.info("로그인 성공, 권한 목록: {}", roles);
+        log.info("Login successful, role list: {}", roles);
 
-        if (roles.contains("ROLE_ADMIN")) {
-            response.sendRedirect("/admin/home");
-        } else if (roles.contains("ROLE_MEMBER")) {
-            response.sendRedirect("/member/home");
+        if (roles.contains("ADMIN")) {
+            response.sendRedirect("/admin/dashboard");
+        } else if (roles.contains("MEMBER")) {
+            response.sendRedirect("/member/dashboard");
         } else {
-            response.sendRedirect("/"); // 기본 fallback
+            response.sendRedirect("/"); // Default fallback
         }
     }
 }

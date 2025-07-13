@@ -17,13 +17,13 @@ public class EmailUserDetailsServiceImp implements AuthUserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserVO userVo = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("해당 이메일의 사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with the provided email address."));
 
         return EmailUserDetails.builder()
-                .userId(userVo.getUserId())
-                .userLoginId(userVo.getUserEmail()) // 이메일을 로그인 ID로 사용
+                .userLoginId(userVo.getUserEmail()) // Use email as login ID
                 .userPassword(userVo.getUserPassword())
                 .userType(userVo.getUserType().toString())     // "MEMBER" or "ADMIN"
+                .userId(userVo.getUserId())
                 .build();
     }
 }

@@ -150,28 +150,28 @@ public class AdminInboundServiceImpl implements AdminInboundService{
         String rejectMessage = getRejectMessage(rejectCode);
         for (Integer inboundId : inboundIds) {
 
-            // 1. 입고요청 읽기 (FOR UPDATE로 락 걸림)
+            // 1. Read inbound request (with FOR UPDATE lock)
             AdminInboundRequestVO inbound = adminInboundRepository.findInboundById(inboundId);
 
-            // 2. 상태 체크
+            // 2. Check status
             if (!"대기".equals(inbound.getInboundStatus())) {
-                throw new IllegalStateException("이미 처리된 입고 요청입니다. inboundId=" + inboundId);
+                throw new IllegalStateException("This inbound request has already been processed. inboundId=" + inboundId);
             }
 
-            // 3. 반려 처리
+            // 3. Reject processing
             adminInboundRepository.rejectInbound(inboundId, rejectMessage);
         }
     }
 
     private String getRejectMessage(String code) {
         Map<String, String> rejectReasonMap = Map.of(
-                "REJ01", "공간 부족",
-                "REJ02", "보관 온도 불일치",
-                "REJ03", "시스템 내부 오류",
-                "REJ04", "제품 정보 누락",
-                "REJ05", "요청 데이터 이상"
+                "REJ01", "Insufficient space",
+                "REJ02", "Storage temperature mismatch",
+                "REJ03", "Internal system error",
+                "REJ04", "Missing product information",
+                "REJ05", "Abnormal request data"
         );
-        return rejectReasonMap.getOrDefault(code, "기타 사유");
+        return rejectReasonMap.getOrDefault(code, "Other reasons");
     }
 
     private static Integer getInteger() {

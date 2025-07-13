@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{member/layouts/layout-user :: layout(~{::main})}">
 <body>
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>회원가입</h1>
+        <h1>Sign Up</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item active">회원가입</li>
+                <li class="breadcrumb-item active">Sign Up</li>
             </ol>
         </nav>
     </div>
@@ -20,25 +20,25 @@
                 <div class="card">
                     <div class="card-body p-4">
 
-                        <h5 class="card-title mb-4">회원 정보</h5>
+                        <h5 class="card-title mb-4">User Information</h5>
 
-                        <!-- signup.html 중폼 위에 추가 -->
+                        <!-- Added above form in signup.html -->
                         <div th:if="${signupSuccess}" class="modal-backdrop fade show"></div>
                         <div th:if="${signupSuccess}" class="modal fade show" id="signupSuccessModal" tabindex="-1" style="display:block;" aria-modal="true" role="dialog">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content rounded-2xl shadow-lg p-4">
                                     <div class="modal-header border-0">
-                                        <h5 class="modal-title fw-bold">회원가입 완료</h5>
-<!--                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="닫기"></button>-->
+                                        <h5 class="modal-title fw-bold">Sign Up Completed</h5>
+<!--                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
                                     </div>
                                     <div class="modal-body">
-                                        <p class="mb-0">회원가입이 성공적으로 완료되었습니다.</p>
+                                        <p class="mb-0">Sign up has been completed successfully.</p>
                                     </div>
                                     <div class="modal-footer border-0">
-                                        <!-- 클릭 시 로그인 페이지로 이동 -->
+                                        <!-- Click to go to login page -->
                                         <button type="button" class="btn btn-primary rounded-2xl px-4 py-2"
                                                 onclick="location.href='/nonuser/login'">
-                                            로그인하러 가기
+                                            Go to Login
                                         </button>
                                     </div>
                                 </div>
@@ -46,21 +46,21 @@
                         </div>
 
 
-<!--                        실패 모달 -->
+<!--                        Failure modal -->
                         <div th:if="${errorMessage}" class="modal-backdrop fade show"></div>
                         <div th:if="${errorMessage}" class="modal fade show" id="signupFailModal" tabindex="-1" style="display:block;" aria-modal="true" role="dialog">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content rounded-2xl shadow-lg p-4">
                                     <div class="modal-header border-0">
-                                        <h5 class="modal-title fw-bold">회원가입 실패</h5>
+                                        <h5 class="modal-title fw-bold">Sign Up Failed</h5>
 <!--                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="handleCloseFailModal()"></button>-->
                                     </div>
                                     <div class="modal-body">
-                                        <p class="mb-0" th:text="${errorMessage}">회원가입이 실패하였습니다.</p>
+                                        <p class="mb-0" th:text="${errorMessage}">Sign up failed.</p>
                                     </div>
                                     <div class="modal-footer border-0">
                                         <button type="button" class="btn btn-primary rounded-2xl px-4 py-2" data-bs-dismiss="modal" onclick="handleCloseFailModal()">
-                                            확인
+                                            OK
                                         </button>
                                     </div>
                                 </div>
@@ -78,18 +78,18 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label class="col-sm-3 col-form-label text-end">이름
-                                    <span class="text-danger" style="margin-left:4px;">*</span> <!-- 필수 표시 -->
+                                <label class="col-sm-3 col-form-label text-end">Name
+                                    <span class="text-danger" style="margin-left:4px;">*</span> <!-- Required field -->
                                 </label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="userName" th:field="*{userName}" name="userName" class="form-control" placeholder="이름을 입력하세요" required>
+                                    <input type="text" id="userName" th:field="*{userName}" name="userName" class="form-control" placeholder="Enter your name" required>
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
 
                             <div class="row mb-3">
-                                <label class="col-sm-3 col-form-label text-end"> 로그인 이메일
-                                    <span class="text-danger" style="margin-left:4px;">*</span> <!-- 필수 표시 -->
+                                <label class="col-sm-3 col-form-label text-end"> Login Email
+                                    <span class="text-danger" style="margin-left:4px;">*</span> <!-- Required field -->
                                 </label>
                                 <div class="col-sm-9">
                                     <input type="email" id="userEmail" name="userEmail" th:field="*{userEmail}" class="form-control" placeholder="example@email.com" required>

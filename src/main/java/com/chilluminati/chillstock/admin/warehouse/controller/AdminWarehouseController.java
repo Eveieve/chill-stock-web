@@ -89,8 +89,10 @@ public class AdminWarehouseController {
     public String registerAdminArea(@ModelAttribute AdminAreaDto adminAreaDto, RedirectAttributes redirectAttributes) {
         adminWarehouseService.registerAdminArea(adminAreaDto);
         redirectAttributes.addAttribute("warehouseId", adminAreaDto.getWarehouseId());
-        redirectAttributes.addFlashAttribute("successMessage", "구역 등록 완료");
+        redirectAttributes.addFlashAttribute("successMessage", "Area registration completed");
         return "redirect:/admin/warehouse/detail";
     }
+
+
 
 }

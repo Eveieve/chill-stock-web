@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{admin/fragments/fragment-head :: head}">
-    <title>로그인</title>
+    <title>Login</title>
     <meta charset="UTF-8"/>
 </head>
 <body>
@@ -31,42 +31,30 @@
                             <form class="row g-3 needs-validation" th:action="@{/nonuser/login}" method="post" novalidate>
 
                                 <div class="col-12">
-                                    <label for="yourUsername" class="form-label">이메일</label>
+                                    <label for="yourUsername" class="form-label">Email</label>
                                     <div class="input-group has-validation">
                                         <span class="input-group-text" id="inputGroupPrepend">@</span>
                                         <input type="text" name="email" class="form-control" id="yourUsername" placeholder="example@example.com" required>
-                                        <div class="invalid-feedback">Please enter your username.</div>
+                                        <div class="invalid-feedback">Please enter your email.</div>
                                     </div>
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="yourPassword" class="form-label">비밀번호</label>
+                                    <label for="yourPassword" class="form-label">Password</label>
                                     <input type="password" name="password" class="form-control" id="yourPassword" required>
                                     <div class="invalid-feedback">Please enter your password!</div>
                                 </div>
 
                                 <div class="col-12">
-                                    <button class="btn btn-primary w-100" type="submit">로그인</button>
+                                    <button class="btn btn-primary w-100" type="submit">Login</button>
                                 </div>
-
-                                <div class="col-12 text-center">
-                                    <p class="small mb-0">계정이 없으신가요?
-                                        <a th:href="@{/nonuser/signup}">회원가입 하기</a>
-                                    </p>
+                                <div class="col-12">
+                                    <p class="small mb-0">Don't have an account? <a th:href="@{/nonuser/signup}">Create an account</a></p>
                                 </div>
 
                             </form>
 
-                            <!-- 로그인 실패 시 에러 메시지 -->
-                            <div th:if="${param.error}" class="text-center mt-3">
-                                <p class="text-danger">로그인 실패!</p>
-                            </div>
-
                         </div>
-                    </div>
-
-                    <div class="credits text-center">
-                        Designed by <a href="https://bootstrapmade.com/" target="_blank">BootstrapMade</a>
                     </div>
 
                 </div>
@@ -76,5 +64,26 @@
     </section>
 
 </div>
+
+<script>
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+
 </body>
 </html>

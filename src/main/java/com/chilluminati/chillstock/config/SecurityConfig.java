@@ -43,6 +43,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .accessDeniedPage("/nonuser/access-denied"); // 접근 거부 페이지
 
-        log.info("SecurityConfig filter chain 설정 완료");
+        log.info("SecurityConfig filter chain configuration completed");
     }
 }

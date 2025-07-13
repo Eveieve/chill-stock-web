@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{admin/layouts/layout-admin :: layout(~{::main})}">
 
 <head>
-    <title>회원 관리</title>
+    <title>User Management</title>
 </head>
 
 <body>
@@ -11,92 +11,92 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>회원 관리</h1>
+        <h1>User Management</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">회원관리</li>
+                <li class="breadcrumb-item active">User Management</li>
             </ol>
         </nav>
     </div>
 
-    <!-- 삭제 완료 모달 -->
+    <!-- Deletion completed modal -->
     <div class="modal fade" id="deleteSuccessModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">삭제 완료</h5>
+                    <h5 class="modal-title">Deletion Completed</h5>
                 </div>
                 <div class="modal-body">
-                    선택한 회원이 성공적으로 삭제되었습니다.
+                    The selected members have been successfully deleted.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
-    <!--    검색바 시작 -->
+    <!-- Search bar start -->
     <form class="search-form d-flex align-items-center mb-3" th:action="@{/admin/search}" method="get">
-        <input type="text" name="name" class="form-control" placeholder="이름으로 검색" th:value="${param.name}">
+        <input type="text" name="name" class="form-control" placeholder="Search by name" th:value="${param.name}">
         <button type="submit" class="btn btn-primary ms-2"><i class="bi bi-search"></i></button>
     </form>
-    <!--    검색바 끝 -->
+    <!-- Search bar end -->
     <section class="section dashboard">
         <div class="row">
-            <!--    사용자 목록 테이블 시작 -->
+            <!-- User list table start -->
             <form th:action="@{/admin/delete}" method="post">
                 <input type = "hidden" name = "selectedMembers"/>
                 <table class="table table-bordered table-hover align-middle text-center">
                     <thead>
                     <tr>
-                        <!-- 전체 선택 체크박스 -->
+                        <!-- Select all checkbox -->
                         <th style="width: 50px;" class = "form-check-input" id="selectAll" onClick="toggleAll(this)"></th>
-                        <th style="width: 80px;">번호</th>
-                        <th>이름</th>
-                        <th>계정 유형</th>
-                        <!--대기, 승인 상태-->
-                        <th>계정 상태</th>
-                        <th>사업자번호</th>
+                        <th style="width: 80px;">No.</th>
+                        <th>Name</th>
+                        <th>Account Type</th>
+                        <!-- Pending, Approved status -->
+                        <th>Account Status</th>
+                        <th>Business Registration Number</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <!--          각 tr마다 체크박스를 둔다-->
+                    <!-- Each tr has a checkbox -->
                     <tr th:each="user, iterStat : ${users}">
                         <td><input type="checkbox" name="selectedMembers" th:value="${user.id}" class="form-check-input" /></td>
-                        <td th:text="${iterStat.index + 1}">번호</td>
-                        <td th:text="${user.userName}">이름</td>
-                        <!-- 회원 유형 -->
+                        <td th:text="${iterStat.index + 1}">No.</td>
+                        <td th:text="${user.userName}">Name</td>
+                        <!-- Member type -->
                         <td th:switch="${user.userType}">
-                            <span th:case="'MEMBER'">일반 회원</span>
-                            <span th:case="'ADMIN'">총관리자</span>
-                            <span th:case="*">알 수 없음</span>
+                            <span th:case="'MEMBER'">Member</span>
+                            <span th:case="'ADMIN'">Administrator</span>
+                            <span th:case="*">Unknown</span>
                         </td>
 
-                        <!-- 계정 상태 -->
+                        <!-- Account status -->
                         <td th:switch="${user.userStatus}">
-                            <span th:case="'PENDING'">승인 대기 중</span>
-                            <span th:case="'APPROVED'">승인 완료</span>
-                            <span th:case="*">알 수 없음</span>
+                            <span th:case="'PENDING'">Pending Approval</span>
+                            <span th:case="'APPROVED'">Approved</span>
+                            <span th:case="*">Unknown</span>
                         </td>
-                        <td th:text="${user.businessRegistNum}">사업자번호</td>
+                        <td th:text="${user.businessRegistNum}">Business Registration Number</td>
                     </tr>
                     </tbody>
-                    <!--일치하는 사용자 없을 시 nouserFoundMessage 가보내짐 - 있으면 출력 -->
+                    <!-- When no matching users found, display NoUserFoundMessage -->
                     <tr th:if="${NoUserFoundMessage != null}">
                         <td colspan="6" th:text="${NoUserFoundMessage}"></td>
                     </tr>
                 </table>
-                <!-- 선택된 회원 관리를 위한 버튼 추가 -->
+                <!-- Buttons for managing selected members -->
 <!--                <div class="d-flex justify-content-start mt-3 gap-3">-->
-                    <button type="button" class="btn btn-primary" onclick="handleDetail()">상세</button>
-                    <button type="button" class="btn btn-primary" onclick="handleApprove()" >승인</button>
-                    <button type="button" class="btn btn-danger" onclick="handleDelete()">삭제</button>
+                    <button type="button" class="btn btn-primary" onclick="handleDetail()">Details</button>
+                    <button type="button" class="btn btn-primary" onclick="handleApprove()" >Approve</button>
+                    <button type="button" class="btn btn-danger" onclick="handleDelete()">Delete</button>
 
 <!--                </div>-->
             </form>
-            <!--      폼의 끝부분에 모달 놔두기? -->
-            <!-- ✅ 모달 -->
+            <!-- Place modal at the end of the form -->
+            <!-- ✅ Modal -->
             <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
 
@@ -106,14 +106,14 @@
 
                 </div>
             </div>
-            <!--    테이블 끝부분-->
+            <!-- End of table -->
         </div>
     </section>
-    <!--  페이지 넘버 시작 -->
+    <!-- Page numbers start -->
     <nav>
         <ul class="pagination justify-content-center mt-4">
             <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                <a class="page-link" th:href="@{/admin/users(page=${currentPage - 1})}">이전</a>
+                <a class="page-link" th:href="@{/admin/users(page=${currentPage - 1})}">Previous</a>
             </li>
 
             <li class="page-item"
@@ -123,27 +123,26 @@
             </li>
 
             <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                <a class="page-link" th:href="@{/admin/users(page=${currentPage + 1})}">다음</a>
+                <a class="page-link" th:href="@{/admin/users(page=${currentPage + 1})}">Next</a>
             </li>
         </ul>
     </nav>
-    <!--  페이지 넘버 끝 -->
+    <!-- Page numbers end -->
 
-    <!--자바스크립트 시작 -->
+    <!-- JavaScript start -->
     <script>
-        // 선택된 회원 ID를 가져오는 함수
+        // Function to get selected member IDs
         function getSelectedMembers() {
-            let selectedMembers = []; // 선택된 객체 아이디를 받아오기위한 배열
+            let selectedMembers = []; // Array to receive selected object IDs
             let checkboxes = document.querySelectorAll('input[name = "selectedMembers"]:checked');
 
             checkboxes.forEach((cb) => {
-                selectedMembers.push(cb.value); // cb(checkbox)하나의 value는 checked or unchekd
+                selectedMembers.push(cb.value); // cb(checkbox) value is checked or unchecked
             });
-            return selectedMembers; // 선택된 객체의 아이디 배열
+            return selectedMembers; // Array of selected object IDs
         }
 
-        // 상세 버튼 클릭 시
-
+        // When details button is clicked
         function handleDetail() {
             const selectedMembers = getSelectedMembers();
             if (selectedMembers.length === 1) {
@@ -151,65 +150,65 @@
                 // userId를 쿼리 파라미터로 붙여 상세 페이지로 이동
                 window.location.href = `/admin/detail?userId=${userId}`;
             } else {
-                alert('상세 정보를 보려면 회원 한 명만 선택해야 합니다');
+                alert('Please select only one member to view details');
             }
         }
 
 
-        // 승인 버튼 클릭 시
+        // When approve button is clicked
         function handleApprove() {
             let selectedMembers = getSelectedMembers();
             if (selectedMembers.length > 0) {
-                if (confirm('선택된 회원을 승인하시겠습니까?')) {
-                    // 선택된 회원 ID를 서버로 보내서 APPROVED 처리
+                if (confirm('Do you want to approve the selected members?')) {
+                    // Send selected member IDs to server for APPROVED processing
                     fetch('/admin/APPROVED', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(selectedMembers) // id 담은 배열만 보내기 !!
+                        body: JSON.stringify(selectedMembers) // Send only array with IDs
                     })
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                alert('회원이 승인되었습니다.');
-                                window.location.reload(); // 삭제 후 페이지 새로고침
+                                alert('Members have been approved.');
+                                window.location.reload(); // Refresh page after approval
                             } else {
-                                alert('승인 실패했습니다.');
+                                alert('Approval failed.');
                             }
                         });
                 }
             } else {
-                alert('회원이 선택되지 않았습니다.');
+                alert('No members selected.');
             }
         }
 
 
-        // 삭제 버튼 클릭 시
+        // When delete button is clicked
         function handleDelete() {
             let selectedMembers = getSelectedMembers();
             if (selectedMembers.length > 0) {
-                if (confirm('선택된 회원을 삭제하시겠습니까?')) {
-                    // 선택된 회원 ID를 서버로 보내서 APPROVED 처리
+                if (confirm('Do you want to delete the selected members?')) {
+                    // Send selected member IDs to server for deletion
                     fetch('/admin/delete', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(selectedMembers) // id 담은 배열만 보내기 !!
+                        body: JSON.stringify(selectedMembers) // Send only array with IDs
                     })
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                alert('회원이 삭제되었습니다.');
-                                window.location.reload(); // 삭제 후 페이지 새로고침
+                                alert('Members have been deleted.');
+                                window.location.reload(); // Refresh page after deletion
                             } else {
-                                alert('삭제 실패했습니다.');
+                                alert('Deletion failed.');
                             }
                         });
                 }
             } else {
-                alert('회원이 선택되지 않았습니다.');
+                alert('No members selected.');
             }
         }
 
@@ -224,87 +223,5 @@
     </script>
 </main>
 
-
-<!--&lt;!&ndash;자바스크립트 시작 &ndash;&gt;-->
-<!--<script>-->
-<!--    // 선택된 회원 ID를 가져오는 함수-->
-<!--    function getSelectedMembers() {-->
-<!--        let selectedMembers = []; // 선택된 객체 아이디를 받아오기위한 배열-->
-<!--        let checkboxes = document.querySelectorAll('input[name = "selectedMembers"]:checked');-->
-
-<!--        checkboxes.forEach((cb) => {-->
-<!--            selectedMembers.push(cb.value); // cb(checkbox)하나의 value는 checked or unchekd-->
-<!--        });-->
-<!--        return selectedMembers; // 선택된 객체의 아이디 배열-->
-<!--    }-->
-
-
-<!--    // 승인 버튼 ㅋ늘릭 시-->
-<!--    function handleApprove() {-->
-<!--        let selectedMembers = getSelectedMembers();-->
-<!--        if (selectedMembers.length > 0) {-->
-<!--            if (confirm('선택된 회원을 삭제하시겠습니까?')) {-->
-<!--                // 선택된 회원 ID를 서버로 보내서 APPROVED 처리-->
-<!--                fetch('/admin/APPROVED', {-->
-<!--                    method: 'POST',-->
-<!--                    headers: {-->
-<!--                        'Content-Type': 'application/json'-->
-<!--                    },-->
-<!--                    body: JSON.stringify({ selectedMembers: selectedMembers })-->
-<!--                })-->
-<!--                    .then(response => response.json())-->
-<!--                    .then(data => {-->
-<!--                        if (data.success) {-->
-<!--                            alert('회원이 승인되었습니다.');-->
-<!--                            window.location.reload(); // 삭제 후 페이지 새로고침-->
-<!--                        } else {-->
-<!--                            alert('승인 실패했습니다.');-->
-<!--                        }-->
-<!--                    });-->
-<!--            }-->
-<!--        } else {-->
-<!--            alert('회원이 선택되지 않았습니다.');-->
-<!--        }-->
-<!--    }-->
-
-
-<!--    document.getElementById('selectAll').addEventListener('change', () => {-->
-<!--        const checked = this.checked;-->
-<!--        document.querySelectorAll('.form-check-input').forEach(box => box.checked = checked);-->
-<!--    })-->
-
-<!--    function submitBulk(url) {-->
-<!--        const selectedIds = array.from(document.querySelectorAll('.form-check-input:checked'))-->
-<!--            .map(cb=> cb.value);-->
-
-<!--        if(selectedIds.length ===0) {-->
-<!--            alert("선택된 회원이 없습니다.");-->
-<!--            return;-->
-<!--        }-->
-
-<!--        fetch(url, {-->
-<!--            method: 'POST',-->
-<!--            headers: {-->
-<!--                'Content-Type': 'application/json'-->
-<!--            },-->
-<!--            body: JSON.stringify(selectedIds)-->
-<!--        })-->
-<!--            .then(response => {-->
-<!--                if (response.redirected) {-->
-<!--                    window.location.href = response.url;-->
-<!--                } else if (response.ok) {-->
-<!--                    alert("처리가 완료되었습니다.");-->
-<!--                    window.location.reload();-->
-<!--                } else {-->
-<!--                    alert("요청 처리 중 오류가 발생했습니다.");-->
-<!--                }-->
-<!--            });-->
-<!--    }-->
-
-
-<!--</script>-->
 </body>
-
-
-
 </html>

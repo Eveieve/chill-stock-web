@@ -1,54 +1,54 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{admin/layouts/layout-admin :: layout(~{::main})}">
 <body>
 
 <main id="main" class="main">
     <div id="successAlert" class="alert alert-success fade show text-center mt-3" th:if="${successMessage}">
-        <span th:text="${successMessage}">처리 완료되었습니다.</span>
+        <span th:text="${successMessage}">Process completed successfully.</span>
     </div>
-    <!-- 에러 메시지 띄우기 추가 -->
+    <!-- Error message display -->
     <div id="errorAlert" class="alert alert-danger fade show text-center mt-3" th:if="${errorMessage}">
-        <span th:text="${errorMessage}">오류가 발생했습니다.</span>
+        <span th:text="${errorMessage}">An error occurred.</span>
     </div>
 
     <div class="pagetitle">
-        <h1>입고관리</h1>
+        <h1>Inbound Management</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">입고관리</li>
+                <li class="breadcrumb-item active">Inbound Management</li>
             </ol>
         </nav>
     </div>
 
     <section class="section dashboard">
         <div class="row">
-            <!-- 상태별 조회 (드롭다운) -->
+            <!-- Status filter (dropdown) -->
             <form th:action="@{/admin/inbound}" method="get">
                 <div class="input-group mb-3" style="max-width: 300px;">
                     <select class="form-select" name="status" onchange="this.form.submit()">
-                        <option value="">전체</option>
-                        <option value="대기" th:selected="${status == '대기'}">대기</option>
-                        <option value="승인" th:selected="${status == '승인'}">승인</option>
-                        <option value="반려" th:selected="${status == '반려'}">반려</option>
+                        <option value="">All</option>
+                        <option value="대기" th:selected="${status == '대기'}">Pending</option>
+                        <option value="승인" th:selected="${status == '승인'}">Approved</option>
+                        <option value="반려" th:selected="${status == '반려'}">Rejected</option>
                     </select>
                 </div>
             </form>
 
-            <!-- 승인/반려 폼 -->
+            <!-- Approval/Rejection form -->
             <form id="inboundForm" method="post" th:action="@{/admin/inbound/APPROVED}">
                 <table class="table table-bordered table-hover align-middle text-center">
                     <thead class="table-light">
                     <tr>
-                        <th>입고 ID</th>
-                        <th>입고 요청일</th>
-                        <th>입고 상태</th>
-                        <th>입고 수량</th>
-                        <th>제품명</th>
-                        <th>사업체 ID</th>
-                        <th>반려 사유</th>
-                        <th>선택</th>
+                        <th>Inbound ID</th>
+                        <th>Request Date</th>
+                        <th>Status</th>
+                        <th>Quantity</th>
+                        <th>Product Name</th>
+                        <th>Business ID</th>
+                        <th>Rejection Reason</th>
+                        <th>Select</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -67,7 +67,7 @@
                         <td th:text="${inbound.businessId}"></td>
                         <td th:text="${inbound.rejectReasonMessage}"></td>
                         <td>
-                            <!--  체크박스 multiple 선택 가능하게 수정 -->
+                            <!-- Checkbox for multiple selection -->
                             <input type="checkbox"
                                    class="stock-checkbox"
                                    name="inboundIds"
@@ -78,20 +78,20 @@
                     </tbody>
                 </table>
 
-                <!-- 버튼 -->
+                <!-- Buttons -->
                 <div class="d-flex justify-content-end align-items-center gap-2 mt-3">
-                    <button type="submit" class="btn btn-primary" name="action" value="APPROVED">승인</button>
+                    <button type="submit" class="btn btn-primary" name="action" value="APPROVED">Approve</button>
                     <button type="button" id="InboundReject" class="btn btn-danger" data-bs-toggle="modal"
-                            data-bs-target="#rejectModal">반려
+                            data-bs-target="#rejectModal">Reject
                     </button>
                 </div>
             </form>
 
-            <!-- 페이징 -->
+            <!-- Pagination -->
             <nav>
                 <ul class="pagination justify-content-center mt-4">
                     <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                        <a class="page-link" th:href="@{/admin/inbound(page=${currentPage - 1})}">이전</a>
+                        <a class="page-link" th:href="@{/admin/inbound(page=${currentPage - 1})}">Previous</a>
                     </li>
 
                     <th:block th:with="startPage=${((currentPage - 1) / 10) * 10 + 1},
@@ -103,7 +103,7 @@
                     </th:block>
 
                     <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                        <a class="page-link" th:href="@{/admin/inbound(page=${currentPage + 1})}">다음</a>
+                        <a class="page-link" th:href="@{/admin/inbound(page=${currentPage + 1})}">Next</a>
                     </li>
                 </ul>
             </nav>
@@ -111,14 +111,14 @@
         </div>
     </section>
 
-    <!-- 반려 모달 -->
+    <!-- Rejection modal -->
     <div class="modal fade" id="rejectModal" tabindex="-1"
          aria-labelledby="rejectModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <form id="rejectForm" method="post" th:action="@{/admin/inbound/reject}">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="rejectModalLabel">반려 사유 선택</h5>
+                        <h5 class="modal-title" id="rejectModalLabel">Select Rejection Reason</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -128,11 +128,11 @@
                                     th:text="${code.code + ' - ' + code.msg}">
                             </option>
                         </select>
-                        <!-- ✅ 다중 체크를 고려해서 multiple 선택 가능 -->
+                        <!-- ✅ Multiple selection support -->
                         <input type="hidden" name="inboundIds" id="rejectInboundId"/>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger">반려 확정</button>
+                        <button type="submit" class="btn btn-danger">Confirm Rejection</button>
                     </div>
                 </form>
             </div>
@@ -140,13 +140,13 @@
     </div>
 
 
-    <!-- JavaScript: 모달 띄우기 및 체크된 ID 넘기기 -->
+    <!-- JavaScript: Modal display and pass checked IDs -->
     <script>
         document.getElementById("InboundReject").addEventListener("click", function (e) {
             e.preventDefault();
             const selected = document.querySelector('input[name="inboundIds"]:checked');
             if (!selected) {
-                alert("입고 요청을 선택하세요.");
+                alert("Please select an inbound request.");
                 return;
             }
             document.getElementById("rejectInboundId").value = selected.value.trim();
@@ -166,7 +166,7 @@
                 }, 3000);
             }
 
-            if (errorAlert) {  // 에러 메시지용 추가
+            if (errorAlert) {  // For error messages
                 setTimeout(function () {
                     errorAlert.classList.remove("show");
                     setTimeout(() => errorAlert.remove(), 500);

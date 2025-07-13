@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{member/layouts/layout-user :: layout(~{::main})}">
 <body>
 
 <main id="main" class="main">
-    <!-- 성공 메시지 알림 (3초 후 사라짐) -->
+    <!-- Success message alert (disappears after 3 seconds) -->
     <div id="successAlert" class="alert alert-success fade show text-center mt-3" th:if="${successMessage}">
-        <span th:text="${successMessage}">입고 요청이 완료되었습니다.</span>
+        <span th:text="${successMessage}">Inbound request completed successfully.</span>
     </div>
 
     <div class="pagetitle">
-        <h1>입고 요청</h1>
+        <h1>Inbound Request</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">입고 요청</li>
+                <li class="breadcrumb-item active">Inbound Request</li>
             </ol>
         </nav>
     </div>
@@ -22,25 +22,25 @@
     <section class="section">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">등록된 제품 리스트</h5>
+                <h5 class="card-title">Registered Products</h5>
 
 
                 <form th:action="@{/member/inbound-request}" method="post">
 
-                    <!-- ✅ 테이블 -->
+                    <!-- ✅ Table -->
                     <table class="table table-bordered text-center align-middle">
                         <thead>
                         <tr>
-                            <th>제품명</th>
-                            <th>크기(m²)</th>
-                            <th>보관온도(℃)</th>
-                            <th>유통기한</th>
-                            <th>체크박스</th>
+                            <th>Product Name</th>
+                            <th>Size (m²)</th>
+                            <th>Storage Temperature (℃)</th>
+                            <th>Expiration Date</th>
+                            <th>Select</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="product : ${myProducts}">
-                            <td th:text="${product.productName}">제품명</td>
+                            <td th:text="${product.productName}">Product Name</td>
                             <td th:text="${product.productSize}">2</td>
                             <td th:text="${product.storageTemperature}">10</td>
                             <td th:text="${#temporals.format(product.expirationDate, 'yyyy-MM-dd')}"></td>
@@ -52,32 +52,32 @@
                     </table>
 
                     <div class="d-flex justify-content-end">
-                        <label for="amount" class="me-2 align-self-center">수량입력:</label>
+                        <label for="amount" class="me-2 align-self-center">Enter Quantity:</label>
                         <input type="number" id="amount" name="amount" class="form-control w-auto me-2" min="1" required>
-                        <button type="submit" class="btn btn-primary">입고요청</button>
+                        <button type="submit" class="btn btn-primary">Submit Request</button>
                     </div>
 
                 </form>
-                <!-- ✅ 폼 끝 -->
+                <!-- ✅ End of form -->
 
-                <!-- ✅ 페이지네이션 -->
+                <!-- ✅ Pagination -->
                 <nav>
                     <ul class="pagination justify-content-center mt-4">
-                        <!-- 이전 버튼 -->
+                        <!-- Previous button -->
                         <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                            <a class="page-link" th:href="@{/member/inbound-request(page=${currentPage - 1})}">이전</a>
+                            <a class="page-link" th:href="@{/member/inbound-request(page=${currentPage - 1})}">Previous</a>
                         </li>
 
-                        <!-- 페이지 번호 반복 -->
+                        <!-- Page number iteration -->
                         <li class="page-item"
                             th:each="i : ${#numbers.sequence(1, totalPages)}"
                             th:classappend="${i == currentPage} ? 'active'">
                             <a class="page-link" th:href="@{/member/inbound-request(page=${i})}" th:text="${i}">1</a>
                         </li>
 
-                        <!-- 다음 버튼 -->
+                        <!-- Next button -->
                         <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                            <a class="page-link" th:href="@{/member/inbound-request(page=${currentPage + 1})}">다음</a>
+                            <a class="page-link" th:href="@{/member/inbound-request(page=${currentPage + 1})}">Next</a>
                         </li>
                     </ul>
                 </nav>
@@ -91,9 +91,9 @@
             const alert = document.getElementById("successAlert");
             if (alert) {
                 setTimeout(function () {
-                    alert.classList.remove("show"); // 트랜지션 시작
-                    setTimeout(() => alert.remove(), 500); // 서서히 사라진 후 완전 제거
-                }, 3000); // 3초 후 시작
+                    alert.classList.remove("show"); // Start transition
+                    setTimeout(() => alert.remove(), 500); // Complete removal after gradually fading
+                }, 3000); // Start after 3 seconds
             }
         });
     </script>

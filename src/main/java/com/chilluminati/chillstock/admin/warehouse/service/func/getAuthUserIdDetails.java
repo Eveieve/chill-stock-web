@@ -18,6 +18,6 @@ public class getAuthUserIdDetails implements Supplier<Integer> {
                 .filter(EmailUserDetails.class::isInstance)
                 .map(EmailUserDetails.class::cast)
                 .map(EmailUserDetails::getUserId)
-                .orElseThrow(() -> new IllegalStateException("인증된 사용자 정보 없음"));
+                .orElseThrow(() -> new IllegalStateException("No authenticated user information available"));
     }
 }

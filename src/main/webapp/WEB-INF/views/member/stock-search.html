@@ -4,41 +4,39 @@
 <body>
 
 <main id="main" class="main">
-
-
     <div class="pagetitle">
-        <h1>메인보드</h1>
+        <h1>Dashboard</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">재고현황</li>
+                <li class="breadcrumb-item active">Stock Status</li>
             </ol>
         </nav>
     </div>
 
     <section class="section dashboard">
         <div class="row">
-            <h1>재고 목록</h1>
+            <h1>Stock List</h1>
             <form th:action="@{/member/stock/search}" method="get">
                 <div class="input-group mb-3" style="max-width: 300px;">
-                    <input type="text" class="form-control" name="productName" placeholder="상품명 검색" th:value="${productName}">
-                    <button class="btn btn-primary" type="submit">검색</button>
+                    <input type="text" class="form-control" name="productName" placeholder="Search product name" th:value="${productName}">
+                    <button class="btn btn-primary" type="submit">Search</button>
                 </div>
             </form>
             <form>
                 <table border="1" class="table table-bordered table-hover align-middle text-center">
                     <thead class="table-light">
                     <tr>
-                        <th>재고 ID</th>
-                        <th>상품 ID</th>
-                        <th>상품명</th>
-                        <th>유통기한</th>
-                        <th>재고량</th>
-                        <th>입고일</th>
+                        <th>Stock ID</th>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Expiration Date</th>
+                        <th>Stock Quantity</th>
+                        <th>Inbound Date</th>
                     </tr>
                     </thead>
                     <tr th:if="${#lists.isEmpty(stockList)}">
-                        <td colspan="7">검색 결과가 없습니다.</td>
+                        <td colspan="7">No results found.</td>
                     </tr>
                     <tbody>
                     <tr th:each="stock : ${stockList}">
@@ -54,12 +52,12 @@
             </form>
             <nav th:if="${totalPages > 0}">
                 <ul class="pagination justify-content-center mt-4">
-                    <!-- 이전 버튼 -->
+                    <!-- Previous button -->
                     <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
-                        <a class="page-link" th:href="@{/member/stock/search(productName=${productName}, page=${currentPage - 1})}">이전</a>
+                        <a class="page-link" th:href="@{/member/stock/search(productName=${productName}, page=${currentPage - 1})}">Previous</a>
                     </li>
 
-                    <!-- 페이지 번호 -->
+                    <!-- Page numbers -->
                     <th:block th:with="startPage=${((currentPage - 1) / 10) * 10 + 1}, 
                            endPage=${(startPage + 9) > totalPages ? totalPages : (startPage + 9)}">
                         <li class="page-item" th:each="i : ${#numbers.sequence(startPage, endPage)}"
@@ -68,9 +66,9 @@
                         </li>
                     </th:block>
 
-                    <!-- 다음 버튼 -->
+                    <!-- Next button -->
                     <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
-                        <a class="page-link" th:href="@{/member/stock/search(productName=${productName}, page=${currentPage + 1})}">다음</a>
+                        <a class="page-link" th:href="@{/member/stock/search(productName=${productName}, page=${currentPage + 1})}">Next</a>
                     </li>
                 </ul>
             </nav>

@@ -4,30 +4,30 @@
 <body>
 <main id="main" class="main">
   <div class="pagetitle">
-    <h1>메인보드</h1>
+    <h1>Dashboard</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item active">입출고 이력</li>
+        <li class="breadcrumb-item active">Transaction History</li>
       </ol>
     </nav>
   </div>
 
   <section class="section dashboard">
-    <!-- 입고 리스트 구역 -->
+    <!-- Inbound Requests Section -->
     <div style="margin-bottom: 30px;">
-      <h2>입고 요청</h2>
+      <h2>Inbound Requests</h2>
       <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;" class="border-primary">
         <table border="1" class="table table-bordered table-hover align-middle text-center" style="width: 100%;">
           <thead class="table-light">
           <tr>
-            <th>입고 ID</th>
-            <th>입고일</th>
-            <th>입고 요청일</th>
-            <th>입고 상태</th>
-            <th>입고 수량</th>
-            <th>제품명</th>
-            <th>반려사유</th>
+            <th>Inbound ID</th>
+            <th>Inbound Date</th>
+            <th>Request Date</th>
+            <th>Status</th>
+            <th>Quantity</th>
+            <th>Product Name</th>
+            <th>Rejection Reason</th>
           </tr>
           </thead>
           <tbody>
@@ -35,7 +35,7 @@
             <td th:text="${inbound.inbound_id}"></td>
             <td th:text="${inbound.inbound_date}"></td>
             <td th:text="${inbound.inbound_request_date}"></td>
-            <td th:text="${inbound.inbound_status}"></td>
+            <td th:text="${inbound.inbound_status == '대기' ? 'Pending' : (inbound.inbound_status == '승인' ? 'Approved' : (inbound.inbound_status == '반려' ? 'Rejected' : inbound.inbound_status))}"></td>
             <td th:text="${inbound.inbound_amount}"></td>
             <td th:text="${inbound.product_name}"></td>
             <td th:text="${inbound.reject_reason_message}"></td>
@@ -45,20 +45,20 @@
       </div>
     </div>
 
-    <!-- 출고 리스트 구역 -->
+    <!-- Outbound Requests Section -->
     <div>
-      <h2>출고 요청</h2>
+      <h2>Outbound Requests</h2>
       <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;" class="border-primary">
         <table border="1" class="table table-bordered table-hover align-middle text-center" style="width: 100%;">
           <thead class="table-light">
           <tr>
-            <th>출고 ID</th>
-            <th>출고일</th>
-            <th>출고 요청일</th>
-            <th>출고 상태</th>
-            <th>출고 수량</th>
-            <th>제품명</th>
-            <th>반려사유</th>
+            <th>Outbound ID</th>
+            <th>Outbound Date</th>
+            <th>Request Date</th>
+            <th>Status</th>
+            <th>Quantity</th>
+            <th>Product Name</th>
+            <th>Rejection Reason</th>
           </tr>
           </thead>
           <tbody>
@@ -66,7 +66,7 @@
             <td th:text="${outbound.outbound_id}"></td>
             <td th:text="${outbound.outbound_date}"></td>
             <td th:text="${outbound.outbound_request_date}"></td>
-            <td th:text="${outbound.outbound_status}"></td>
+            <td th:text="${outbound.outbound_status == '대기' ? 'Pending' : (outbound.outbound_status == '승인' ? 'Approved' : (outbound.outbound_status == '반려' ? 'Rejected' : outbound.outbound_status))}"></td>
             <td th:text="${outbound.outbound_amount}"></td>
             <td th:text="${outbound.product_name}"></td>
             <td th:text="${outbound.reject_reason_message}"></td>
